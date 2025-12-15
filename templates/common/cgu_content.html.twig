@@ -1,0 +1,35 @@
+<div
+	class="w-full h-full">
+	<!-- Header Section -->
+	<header class="bg-neutral-200 shadow-sm py-6 md:py-10">
+		<div
+			class="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-8">
+			<!-- Date -->
+			<div class="text-center mb-4 md:mb-6">
+				<p class="text-xs md:text-sm lg:text-base font-semibold text-gray-600">
+					{{ 'conditionsGenerales.update'|trans }}
+					{% if app.request.locale == 'ar' %}
+						<br>
+					{% endif %}
+					{{ cgu.updatedAt|date("d M Y H:i") }}
+				</p>
+			</div>
+
+			<!-- Title -->
+			<div class="text-center mb-2">
+				<h1 class="text-2xl md:text-4xl lg:text-4xl font-semibold text-dark-600 mb-3 md:mb-4">
+					{{ cgu.title }}
+				</h1>
+				<p class="text-dark-600 text-base md:text-lg lg:text-xl max-w-2xl mt-4 md:mt-5 mx-auto leading-relaxed">
+					{{ cgu.shortDescription }}
+				</p>
+			</div>
+		</div>
+	</header>
+	<!-- Content Section -->
+	<article class="px-4 md:px-6 lg:px-0 max-w-7xl mx-auto py-8 md:py-12 mt-4 md:mt-5 mb-4 md:mb-5">
+		<div class="text-editor-content lg:text-lg">
+			{{ cgu.content|raw }}
+		</div>
+	</article>
+</div>

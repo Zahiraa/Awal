@@ -1,0 +1,214 @@
+{# Custom Form Theme for Sfifa App #}
+
+{# Form Row #}
+{% block form_row -%}
+    <div class="space-y-2">
+        {{- form_label(form) }}
+        {{- form_widget(form) }}
+        {{- form_errors(form) }}
+    </div>
+{%- endblock form_row %}
+
+{# Text Input Widget #}
+{% block form_widget_simple -%}
+    {% set has_errors = form.parent.vars.errors|length > 0 or (form.vars.errors is defined and form.vars.errors|length > 0) %}
+    <div class="relative">
+        <input type="{{ type|default('text') }}"
+                {{ block('widget_attributes') }}
+                {% if value is not empty %}value="{{ value }}" {% endif %}
+               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-sm md:text-base placeholder-gray-500 h-[44px] {{ has_errors ? 'border-red-500 focus:ring-red-500 pr-10' : 'border-gray-300 focus:ring-primary-600' }}"
+                {% if has_errors %}style="border-color: #ef4444 !important;"{% endif %}
+        />
+        {% if has_errors %}
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_620_18979)">
+                        <path d="M8.00065 5.33301V7.99967M8.00065 10.6663H8.00732M14.6673 7.99967C14.6673 11.6816 11.6826 14.6663 8.00065 14.6663C4.31875 14.6663 1.33398 11.6816 1.33398 7.99967C1.33398 4.31778 4.31875 1.33301 8.00065 1.33301C11.6826 1.33301 14.6673 4.31778 14.6673 7.99967Z" stroke="#F04438" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_620_18979">
+                            <rect width="16" height="16" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+
+            </div>
+        {% endif %}
+    </div>
+{%- endblock form_widget_simple %}
+
+
+{# Email Input Widget #}
+{% block email_widget -%}
+    {% set has_errors = form.parent.vars.errors|length > 0 or (form.vars.errors is defined and form.vars.errors|length > 0) %}
+    <div class="relative">
+        <input type="email"
+                {{ block('widget_attributes') }}
+                {% if value is not empty %}value="{{ value }}" {% endif %}
+               class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-sm md:text-base placeholder-gray-500 h-[44px] {{ has_errors ? 'border-red-500 focus:ring-red-500 pr-10' : 'border-gray-300 focus:ring-primary-600' }}"
+                {% if has_errors %}style="border-color: #ef4444 !important;"{% endif %}
+        />
+        {% if has_errors %}
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_620_18979)">
+                        <path d="M8.00065 5.33301V7.99967M8.00065 10.6663H8.00732M14.6673 7.99967C14.6673 11.6816 11.6826 14.6663 8.00065 14.6663C4.31875 14.6663 1.33398 11.6816 1.33398 7.99967C1.33398 4.31778 4.31875 1.33301 8.00065 1.33301C11.6826 1.33301 14.6673 4.31778 14.6673 7.99967Z" stroke="#F04438" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_620_18979">
+                            <rect width="16" height="16" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+        {% endif %}
+    </div>
+{%- endblock email_widget %}
+
+{# Password Input Widget #}
+{% block password_widget -%}
+    {% set has_errors = form.parent.vars.errors|length > 0 or (form.vars.errors is defined and form.vars.errors|length > 0) %}
+    <div class="relative">
+        <input type="password"
+                {{ block('widget_attributes') }}
+                {% if value is not empty %}value="{{ value }}" {% endif %}
+               class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-sm md:text-base placeholder-gray-500 h-[44px] {{ has_errors ? 'border-red-500 focus:ring-red-500 pr-10' : 'border-gray-300 focus:ring-primary-600' }}"
+                {% if has_errors %}style="border-color: #ef4444 !important;"{% endif %}
+        />
+        {% if has_errors %}
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_620_18979)">
+                        <path d="M8.00065 5.33301V7.99967M8.00065 10.6663H8.00732M14.6673 7.99967C14.6673 11.6816 11.6826 14.6663 8.00065 14.6663C4.31875 14.6663 1.33398 11.6816 1.33398 7.99967C1.33398 4.31778 4.31875 1.33301 8.00065 1.33301C11.6826 1.33301 14.6673 4.31778 14.6673 7.99967Z" stroke="#F04438" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_620_18979">
+                            <rect width="16" height="16" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+
+            </div>
+        {% endif %}
+    </div>
+{%- endblock password_widget %}
+
+{# Textarea Widget #}
+{% block textarea_widget -%}
+    {% set has_errors = form.parent.vars.errors|length > 0 or (form.vars.errors is defined and form.vars.errors|length > 0) %}
+    <div class="relative">
+        <textarea {{ block('widget_attributes') }}
+                  class="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-sm md:text-base placeholder-gray-500 resize-none {{ has_errors ? 'border-red-500 focus:ring-red-500 pr-10' : 'border-gray-300 focus:ring-primary-600' }}"
+                  {% if has_errors %}style="border-color: #ef4444 !important;"{% endif %}
+        >{{ value }}</textarea>
+        {% if has_errors %}
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <!-- même icône SVG que pour input -->
+            </div>
+        {% endif %}
+    </div>
+{%- endblock textarea_widget %}
+
+
+{# Submit Button Widget #}
+{% block submit_widget -%}
+    <button type="{{ type|default('submit') }}"
+            {{ block('button_attributes') }}
+            class="w-full bg-primary-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-primary-700 active:bg-primary-700 transition duration-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+    >
+        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+    </button>
+{%- endblock submit_widget %}
+
+{# Button Widget #}
+{% block button_widget -%}
+    <button type="{{ type|default('button') }}"
+            {{ block('button_attributes') }}
+            class="w-full bg-gray-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-gray-700 active:bg-gray-700 transition duration-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2"
+    >
+        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+    </button>
+{%- endblock button_widget %}
+
+{# Form Label #}
+{% block form_label -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('block text-sm text-gray-700') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}
+                class="block text-gray-700 text-sm font-medium  {{ errors|length > 0 ? 'text-error-700' : ' block' }}"
+        >
+            {{ translation_domain is same as(false) ? label|default('') : label|trans({}, translation_domain) }}
+            {% if required %}
+                <span class="text-error-500 ml-1 ">*</span>
+            {% endif %}
+        </label>
+    {%- endif -%}
+{%- endblock form_label %}
+
+{# Form Errors #}
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        <div class="mt-1">
+            {% for error in errors -%}
+                <p class="text-error-500 font-light text-xs md:text-sm">{{ error.message }}</p>
+            {%- endfor %}
+        </div>
+    {%- endif -%}
+{%- endblock form_errors %}
+
+{# Choice Widget (Select) #}
+{% block choice_widget_collapsed -%}
+    {% set has_errors = form.parent.vars.errors|length > 0 or (form.vars.errors is defined and form.vars.errors|length > 0) %}
+    <select {{ block('widget_attributes') }}
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-sm md:text-base h-[44px] {{ multiple ? 'h-auto min-h-[120px]' : '' }} {{ has_errors ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-primary-600' }}"
+            {% if multiple %} multiple="multiple"{% endif %}
+            {% if has_errors %}style="border-color: #ef4444 !important;"{% endif %}
+    >
+        {% if placeholder is not empty -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+        {%- endif %}
+        {% if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {% if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif %}
+        {%- endif %}
+        {% set options = choices -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{%- endblock choice_widget_collapsed %}
+
+{# Checkbox Widget #}
+{% block checkbox_widget -%}
+    {% set has_errors = form.parent.vars.errors|length > 0 or (form.vars.errors is defined and form.vars.errors|length > 0) %}
+    <div class="flex items-center">
+        <input type="checkbox"
+                {{ block('widget_attributes') }}
+               class="h-4 w-4 text-primary-600 border rounded {{ has_errors ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-primary-600' }}"
+                {% if value is defined %}value="{{ value }}"{% endif %}
+                {% if checked %}checked="checked"{% endif %}
+                {% if has_errors %}style="border-color: #ef4444 !important;"{% endif %}
+        />
+        {% if label is not empty %}
+            <label for="{{ id }}" class="ml-2 text-sm text-gray-700">
+                {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+            </label>
+        {% endif %}
+    </div>
+{%- endblock checkbox_widget %}

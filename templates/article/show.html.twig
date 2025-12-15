@@ -1,0 +1,23 @@
+{% extends 'public.html.twig' %}
+
+{% block ogTags %}
+    {% set imageUrl = 'build/images/default/placeholder.jpg' %}
+    {% if article.image %}
+        {% set imageUrl = '/uploads/' ~ article.image.name %}
+    {% endif %}
+
+    {% include 'common/_ogBalises.html.twig' with {
+        'title': article.titre,
+        'url': absolute_url(path('article_show', {'id': article.id})),
+        'imageUrl': absolute_url(asset(imageUrl)),
+        'imageExtension': imageUrl and article.image.extension is defined ? article.image.extension : 'jpg',
+    } %}
+{% endblock %}
+
+{% block title %}{{ article.titre }}{% endblock %}
+
+{% block page_content %}
+    <div class="py-2 mt-2">
+        {% include 'common/article_content.html.twig' with {'article': article} %}
+    </div>
+{% endblock %}

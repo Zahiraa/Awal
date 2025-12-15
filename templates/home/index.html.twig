@@ -1,0 +1,22 @@
+{% extends 'public.html.twig' %}
+{% block title %} {{ 'Navbar.accueil'|trans }}{% endblock %}
+
+{% block content %}
+
+{% include 'home/hero-section.html.twig' %}
+
+{% include 'home/about-section.html.twig' %}
+
+{% include 'home/features-section.html.twig' %}
+
+{% include 'home/blog-section.html.twig' %}
+
+{% include 'home/stats-section.html.twig' %}
+
+{% include 'home/cta-section.html.twig' %}
+
+{% endblock %}
+
+{% block head_scripts %}
+{% include 'home/_search_script.html.twig' %}
+{% endblock %}

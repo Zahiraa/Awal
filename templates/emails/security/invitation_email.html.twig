@@ -1,0 +1,14 @@
+    <p>Bienvenue sur notre plateforme !</p>
+
+    <p>Vous avez été invité(e) à rejoindre notre plateforme avec le rôle : <b> {{ role }}</b>.</p>
+
+    <p>Pour finaliser votre compte, veuillez cliquer sur le lien ci-dessous :</p>
+
+    <p><a href="{{ url('app_complete_registration', {'token': token}) }}">Compléter mon inscription</a></p>
+
+    <p>Vous avez 7 jours pour utiliser ce lien. Si vous ne souhaitez pas créer de compte, vous pouvez ignorer cet email.</p>
+
+    <p>
+        Cordialement,<br>
+        L'équipe Sfifa.
+    </p>

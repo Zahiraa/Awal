@@ -1,0 +1,39 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    default_locale: fr
+    secret: "%env(APP_SECRET)%"
+    annotations: false
+    http_method_override: false
+    handle_all_throwables: true
+    error_controller: App\Controller\ErrorController::show
+    # Allow all hosts in development - for ngrok and mobile testing
+    trusted_hosts: [".*"]
+    # Configure trusted proxies for ngrok HTTPS support
+    trusted_proxies: "127.0.0.1,REMOTE_ADDR"
+    trusted_headers:
+      [
+          "x-forwarded-for",
+          "x-forwarded-host",
+          "x-forwarded-proto",
+          "x-forwarded-port",
+      ]
+    # Enables session support. Note that the session will ONLY be started if you read or write from it.
+    # Remove or comment this section to explicitly disable session support.
+    session:
+        cookie_lifetime: 864000 #10 jours
+        handler_id: null
+        cookie_secure: true
+        cookie_samesite: lax
+        cookie_httponly: true
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+    #esi: true
+    #fragments: true
+    php_errors:
+        log: true
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

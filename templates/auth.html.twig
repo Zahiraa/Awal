@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="min-h-screen flex mobile-stack">
+        <div class="w-full min-h-screen md:w-1/2 bg-white flex flex-col justify-center px-4 sm:px-8  py-8">
+            <div class="mb-8 md:mb-12 flex justify-between items-center">
+                <a href="{{ path('app_home') }}">
+                    <img src="{{ asset('build/images/logo.svg') }}" alt="Monarkit" class=" h-auto">
+                </a>
+                {# TRANSLATION DROPDOWN AUTH #}
+                <div class="relative inline-block cursor-pointer text-sm">
+                    <div class="inline-block ml-4">
+                        <div
+                                class="relative inline-block text-left">
+                            <!-- Bouton -->
+                            <button id="langDropdownButtonMobile" type="button" class="px-3 py-2 rounded-md bg-gray-100 flex items-center gap-2 hover:bg-gray-200 transition-colors cursor-pointer">
+                                {% if app.request.locale == 'fr' %}
+                                    <img src="{{ asset('build/images/icons/france.svg') }}" class="w-5 h-5" alt="Français"/>
+                                    <span>Français</span>
+                                {% elseif app.request.locale == 'ar' %}
+                                    <img src="{{ asset('build/images/icons/arabic.svg') }}" class="w-5 h-5" alt="العربية"/>
+                                    <span>العربية</span>
+                                {% endif %}
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+
+                            <!-- Menu -->
+                            <div id="langDropdownMenuMobile" class="hidden absolute right-0 mt-2 w-40 bg-white  rounded-md shadow-lg z-50">
+                                <a href="{{ path('change_locale', {'locale': 'fr'}) }}" class="flex items-center px-3 py-2 hover:bg-gray-100 rounded-t-md transition-colors cursor-pointer">
+                                    <img src="{{ asset('build/images/icons/france.svg') }}" class="w-5 h-5 mr-2" alt="Français"/>
+                                    Français
+                                </a>
+
+                                <a href="{{ path('change_locale', {'locale': 'ar'}) }}" class="flex items-center px-3 py-2 hover:bg-gray-100 rounded-b-md transition-colors cursor-pointer">
+                                    <img src="{{ asset('build/images/icons/arabic.svg') }}" class="w-5 h-5 mr-2" alt="العربية"/>
+                                    العربية
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <script>
+                            (function () {
+                                const langBtn = document.getElementById("langDropdownButtonMobile");
+                                const langMenu = document.getElementById("langDropdownMenuMobile");
+
+                                if (langBtn && langMenu) {
+                                    langBtn.addEventListener("click", function (e) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        langMenu.classList.toggle("hidden");
+                                    });
+
+                                    // Fermer si on clique ailleurs
+                                    document.addEventListener("click", function (e) {
+                                        if (! langBtn.contains(e.target) && ! langMenu.contains(e.target)) {
+                                            langMenu.classList.add("hidden");
+                                        }
+                                    });
+
+                                    // Fermer le menu après sélection d'une langue
+                                    langMenu.querySelectorAll("a").forEach(function (link) {
+                                        link.addEventListener("click", function () {
+                                            langMenu.classList.add("hidden");
+                                        });
+                                    });
+                                }
+                            })();
+                        </script>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="flex-1 flex flex-col justify-center">
+                {% block content %}
+                {% endblock %}
+            </div>
+
+            <div class="mt-8 md:mt-12 text-xs md:text-sm text-steel text-center md:text-left">
+                © Monarkit
+            </div>
+        </div>
+        <div class="hidden md:block w-1/2 bg-pattern relative overflow-hidden min-h-screen bg-cover bg-center" style="background-image: url('{{ asset('build/images/auth/auth-bg.svg') }}');">
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,198 @@
+<script>
+    document.addEventListener('turbo:load', function() {
+        const searchInput = document.getElementById("searchInput");
+        const searchResults = document.getElementById("searchResults");
+        const emptyState = document.getElementById("emptyState");
+        const searchTerm = document.getElementById("searchTerm");
+
+        // Search API endpoint
+        const searchApiUrl = '/api/search';
+
+        let searchTimeout;
+        let isLoading = false;
+
+        // Debounced search function
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function updateSearchResults(results) {
+            const searchResults = document.getElementById("searchResults");
+            const resultsContainer = searchResults.querySelector("ul");
+            resultsContainer.innerHTML = "";
+            const translations = {
+                arabe: "{{ 'langues.arabe'|trans }}",
+                darija: "{{ 'langues.darija'|trans }}"
+            };
+            results.forEach((result) => {
+                const resultItem = document.createElement("li");
+                resultItem.className =
+                    "hover:bg-gray-50 px-3 py-2 rounded cursor-pointer grid grid-cols-1 md:grid-cols-3 items-center transition-colors gap-2 md:gap-0 border-b md:border-b-0 border-gray-300 last:border-b-0";
+                resultItem.innerHTML = `
+          <div class="font-semibold text-md text-primary-600">${result.french}</div>
+          <div class="flex flex-col md:flex-row md:space-x-4 text-sm md:justify-center gap-1 md:gap-0">
+            <div class="flex flex-row-reverse md:flex-row items-center gap-2 md:flex-col md:items-start">
+              <span class="text-primary-600">${result.arabic.length > 15 ? result.arabic.substring(0, 15) + '...' : result.arabic}</span>
+              <span class="bg-light-gray-500 px-[10px] py-[2px] rounded-full text-gray-700 w-fit capitalize">${translations.arabe}</span>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row md:space-x-4 text-sm md:justify-end gap-1 md:gap-0">
+            <div class="flex flex-row-reverse md:flex-row items-center gap-2 md:flex-col md:items-end">
+              <span class="text-primary-600">${result.darija.length > 15 ? result.darija.substring(0, 15) + '...' : result.darija}</span>
+              <span class="bg-light-gray-500 px-[10px] py-[2px] rounded-full text-gray-700 w-fit capitalize">${translations.darija}</span>
+            </div>
+          </div>
+        `;
+
+                resultItem.addEventListener("click", () => {
+                    // Hide dropdown
+                    searchResults.classList.add("hidden");
+
+                    // Navigate to the term page
+                    window.location.href = result.url;
+                });
+
+                resultsContainer.appendChild(resultItem);
+            });
+        }
+
+        // Fetch search results from API
+        async function fetchSearchResults(query) {
+            try {
+                const response = await fetch(`${searchApiUrl}?q=${encodeURIComponent(query)}`);
+                if (!response.ok) {
+                    throw new Error('Search failed');
+                }
+                const results = await response.json();
+                return results;
+            } catch (error) {
+                console.error('Search API error:', error);
+                throw error;
+            }
+        }
+
+        // Search function with loading state
+        async function performSearch(query) {
+            isLoading = true;
+            showLoadingState();
+
+            try {
+                const results = await fetchSearchResults(query);
+
+                if (results.length > 0) {
+                    updateSearchResults(results);
+                  if(searchResults)  searchResults.classList.remove("hidden");
+                    emptyState.classList.add("hidden");
+                } else {
+                    searchTerm.textContent = query;
+                    if(searchResults)  searchResults.classList.add("hidden");
+                    emptyState.classList.remove("hidden");
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                if(searchResults) {
+                    searchResults.classList.add("hidden");
+                }
+                emptyState.classList.add("hidden");
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        // Show loading state
+        function showLoadingState() {
+            const resultsContainer = searchResults.querySelector("ul");
+            resultsContainer.innerHTML = `
+        <li class="px-3 py-4 text-center">
+          <div class="flex items-center justify-center space-x-2">
+            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-teal-600"></div>
+            <span class="text-gray-600">Recherche en cours...</span>
+          </div>
+        </li>
+      `;
+            if(searchResults){
+                searchResults.classList.remove("hidden");
+                emptyState.classList.add("hidden");
+            }
+
+        }
+        // Debounced search with 400ms delay
+        const debouncedSearch = debounce(performSearch, 400);
+
+        // Close dropdowns when clicking outside
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest(".relative") && searchResults) {
+                if(searchResults)  searchResults.classList.add("hidden");
+                emptyState.classList.add("hidden");
+            }
+        });
+
+        searchInput.addEventListener("focus", () => {
+            const query = searchInput.value.trim();
+
+            // On affiche les suggestions dès le focus, même si query < 2
+            if (!isLoading) {
+                performSearch(query);
+            }
+
+            // (Optionnel) Si tu veux toujours afficher quelque chose (par ex. les dernières recherches)
+            if(searchResults)  searchResults.classList.remove("hidden");
+            emptyState.classList.add("hidden");
+        });
+
+        // Handle Enter key press to redirect to search page
+        searchInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const query = searchInput.value.trim();
+                if (query) {
+                    // Redirect to search page with query parameter
+                    window.location.href = `/search?terme=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+
+        // Handle search button click to redirect to search page
+        const searchButton = document.getElementById("searchButton");
+        if (searchButton) {
+            searchButton.addEventListener("click", (e) => {
+                e.preventDefault();
+                const query = searchInput.value.trim();
+                if (query) {
+                    // Redirect to search page with query parameter
+                    window.location.href = `/search?terme=${encodeURIComponent(query)}`;
+                }
+            });
+        }
+
+        searchInput.addEventListener("input", function (e) {
+            const query = e.target.value.trim();
+
+
+
+            // Perform debounced search
+            debouncedSearch(query);
+        });
+
+        // Handle continuous delete/backspace
+        searchInput.addEventListener("keydown", function (e) {
+            if (e.key === "Backspace" ) {
+                if(searchResults)  searchResults.classList.add("hidden");
+                    emptyState.classList.add("hidden");
+            }
+        });
+    });
+
+    // Reset initialization flag on page unload
+    document.addEventListener('turbo:before-cache', function() {
+        window.termModalInitialized = false;
+    });
+</script>

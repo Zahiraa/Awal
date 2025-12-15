@@ -1,0 +1,27 @@
+contact:
+  message:
+    errors:
+      required: "Le message est requis"
+      maxLength: "Le message ne doit pas dépasser {{ limit }} caractères."
+
+register:
+  firstName:
+    required: "Le prénom est requis"
+  lastName:
+    required: "Le nom est requis"
+  email:
+    required: "L'email est requis"
+    email: "L'adresse email n'est pas valide"
+  password:
+    required: "Le mot de passe est requis"
+    min: "Le mot de passe doit contenir au moins %limit% caractères"
+  confirmPassword:
+    required: "La confirmation du mot de passe est requise"
+    error: "Les mots de passe doivent correspondre"
+    min: "Le mot de passe doit contenir au moins %limit% caractères"
+  termesRequired: "Vous devez accepter nos conditions"
+
+resetPassword:
+  password:
+    required: "Le mot de passe est requis"
+    min: "Le mot de passe doit contenir au moins {{ limit }} caractères"

@@ -1,0 +1,44 @@
+{# paramètres :
+    - class : la classe css à sur le container
+#}
+{% set termePath = path('app_proposition_new') %}
+{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN') %}
+	{% set termePath = path('app_admin_terme_new') %}
+{% endif %}
+{% set valueSearch = terme is defined ?  terme:'' %}
+
+<div class="relative mb-8 {{ class }}">
+	<div class="relative">
+		<input type="text" id="searchInput" autocomplete="off" value="{{ valueSearch }}" placeholder="{{ 'searchInput.placeholder'|trans }}" class="w-full px-4 py-3 pr-12 border border-gray-300 focus:border-gray-400 rounded-t-lg outline-none   bg-white"/>
+		<button id="searchButton" class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+			<svg class="w-5 h-5 text-gray-400 hover:text-gray-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+			</svg>
+		</button>
+	</div>
+	<div id="searchResults" class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-b-lg   search-dropdown hidden z-10">
+		<ul class="p-2"></ul>
+	</div>
+
+	<div id="emptyState" class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-b-lg  search-dropdown hidden z-10">
+		<div class="p-8 text-center">
+			<div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+				<img src="{{ asset('build/images/icons/search.svg') }}" alt="search" class="w-10 h-10">
+			</div>
+			<h3 class="text-lg font-semibold text-gray-900 mb-2">
+				{{ 'Glossaire.noResults.autocomplete.placeholder'|trans }}
+			</h3>
+			<p class="text-gray-600 mb-4">
+				{{ 'Glossaire.noResults.autocomplete.search'|trans }}
+				<span id="searchTerm" class="font-medium"></span>
+				{{ 'Glossaire.noResults.autocomplete.texte'|trans }}
+			</p>
+			<a href="{{ termePath }}" class="bg-teal-600 h-10 text-white px-4 py-2 rounded-lg hover:bg-teal-700 flex items-center mx-auto w-fit">
+				<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+				</svg>
+				{{ 'Glossaire.noResults.button'|trans }}
+			</a>
+		</div>
+	</div>
+</div>

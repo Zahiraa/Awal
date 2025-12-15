@@ -1,0 +1,80 @@
+{% extends 'auth.html.twig' %}
+
+{% block title %}Compléter votre inscription{% endblock %}
+
+{% block content %}
+    <div id="loginForm" class="form-container max-w-md mx-auto w-full">
+
+        <h1 class="text-center text-2xl md:text-3xl font-semibold text-midnight mb-4">
+            {{ 'complete.title'|trans }}
+        </h1>
+
+        <p class="text-center text-sm text-gray-600 mb-6">
+            {{ 'complete.texte'|trans }}
+        </p>
+
+        {% for message in app.flashes('verify_email_error') %}
+            {% include 'components/alert.html.twig' with {
+                'type': 'error',
+                'message': message
+            } %}
+        {% endfor %}
+
+        {{ form_errors(form) }}
+
+        {{ form_start(form, {'attr': {'class': 'space-y-4 md:space-y-5 __web-inspector-hide-shortcut__'}}) }}
+
+        <div class="space-y-2">
+            {{ form_label(form.email, null, {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
+            {{ form_widget(form.email, {
+                'attr': {
+                    'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'
+                }
+            }) }}
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="space-y-2">
+            {{ form_label(form.prenom, 'Prénom', {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
+            {{ form_widget(form.prenom, {
+                'attr': {
+                    'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'
+                }
+            }) }}
+            {{ form_errors(form.prenom) }}
+        </div>
+
+        <div class="space-y-2">
+            {{ form_label(form.nom, 'Nom', {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
+            {{ form_widget(form.nom, {
+                'attr': {
+                    'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'
+                }
+            }) }}
+            {{ form_errors(form.nom) }}
+        </div>
+
+
+        <div class="space-y-2">
+            {{ form_label(form.plainPassword.first, null, {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
+            {{ form_widget(form.plainPassword.first, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
+            {{ form_errors(form.plainPassword.first) }}
+            <p class=" text-[13px]  font-medium text-steel"> {{ 'complete.password'|trans }}</p>
+        </div>
+
+        <div class="space-y-2">
+            {{ form_label(form.plainPassword.second, null, {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
+            {{ form_widget(form.plainPassword.second, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
+            {{ form_errors(form.plainPassword.second) }}
+            <p class=" text-[13px]  font-medium text-steel"> {{ 'complete.password'|trans }}</p>
+        </div>
+
+        <button type="submit" class="w-full cursor-pointer bg-primary-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-primary-700 active:bg-primary-700 transition duration-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2">
+            {{ 'complete.button'|trans }}
+        </button>
+
+        {{ form_end(form) }}
+
+
+    </div>
+{% endblock %}

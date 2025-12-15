@@ -1,0 +1,33 @@
+<article class="bg-white rounded-lg overflow-hidden hover:shadow-lg hover:transition-shadow duration-300 relative">
+    <a href="{{ path('article_show', {'id': article.id}) }}" class="flex items-start justify-between group">
+        <img src="{{ article.image ? '/uploads/' ~ article.image.name : asset('build/images/default/placeholder.jpg') }}" alt="{{ article.titre }}" class="w-full h-48 object-cover">
+        <div class="p-5">
+            <p class="text-sm text-teal-600 mb-2">{{ article.createdBy }} • {{ article.createdAt|date('d M Y') }}</p>
+
+            <a href="{{ path('article_show', {'id': article.id}) }}" class="text-gray-600 mb-4 text-md flex items-center justify-between">
+                <h3 class="text-xl font-semibold text-gray-900 ">
+                    {{ article.titre|slice(0, 50) }}
+                    {% if article.titre|length > 50 %}
+                        <span class="text-black-600">...</span>
+                    {% endif %}
+                </h3>
+                <img src="{{ asset('build/images/icons/link-external.svg') }}" alt="Verified" width="24" height="24">
+            </a>
+            <a href="{{ path('article_show', {'id': article.id}) }}" class="text-gray-600 mb-4 text-md flex items-center justify-between">
+                <p class="text-gray-600 mb-4 text-md">
+                    {{ article.content|striptags|slice(0, 100)}}
+                    {% if article.content|length > 100 %}
+                        <span class="text-black-600">...</span>
+                    {% endif %}
+                </p>
+            </a>
+            <div class="flex flex-wrap gap-2">
+                {% for category in article.categories %}
+                    <span class="px-3 py-1 text-xs font-medium text-white rounded-full {{ category.bgClass }} {{ category.textClass }}">
+                                {{ category }}
+                            </span>
+                {% endfor %}
+            </div>
+        </div>
+    </a>
+</article>

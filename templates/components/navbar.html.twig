@@ -1,0 +1,274 @@
+<header class="bg-white ">
+
+	{% set dashboardPath = path('app_proposition_index') %}
+	{% set dashboardName = 'Navbar.myPropositions'|trans %}
+
+	{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN') %}
+		{% set dashboardPath = path('app_admin_terme_index') %}
+		{% set dashboardName = 'Navbar.dashboad'|trans %}
+	{% endif %}
+
+	<nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+
+		<div class="flex justify-between items-center h-16">
+			<div class="flex items-center">
+				<a href="/">
+					<img src="{{ asset('build/images/logo.svg') }}" alt="Logo" width="116" height="46">
+				</a>
+				<div class="hidden md:block">
+					<div class="ml-10 flex items-baseline space-x-4 md:space-x-6 lg:space-x-8">
+						<a href="{{ path('home') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">{{ 'Navbar.accueil'|trans }}</a>
+						<a href="{{ path('app_glossaire_index') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">{{ 'Navbar.glossaire'|trans }}</a>
+						<a href="{{ path('article_index') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">{{ 'Navbar.recitVie'|trans }}</a>
+						<a href="{{ path('contact') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">{{ 'Navbar.contact'|trans }}</a>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="hidden md:flex items-center space-x-2 md:space-x-3 lg:space-x-4">
+				{% if app.user %}
+					<!-- User Dropdown Menu -->
+					<div class="relative">
+						<button id="user-menu-button" class="flex items-center space-x-2 text-gray-600 hover:text-teal-600 focus:outline-none focus:text-teal-600 cursor-pointer hover:cursor-pointer">
+							<img src="{{ asset('build/images/icons/user.svg') }}" alt="User" width="40" height="40" class="rounded-full m-w-">
+
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+							</svg>
+						</button>
+
+						<div id="user-dropdown" class="absolute right-0 mt-2 w-max min-w-48 bg-white rounded-md shadow-lg pt-1 z-50 hidden">
+							<div class="flex items-center gap-3 px-4 py-3">
+								<img src="{{ asset('build/images/icons/user.svg') }}" alt="User" width="40" height="40" class="rounded-full m-w-">
+								<div class="flex flex-col">
+									<span class="text-sm font-semibold">{{ app.user.nom }}
+										{{ app.user.prenom }}</span>
+									<span class="text-sm text-gray-500">{{ app.user.email }}</span>
+								</div>
+							</div>
+
+							<a href="{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN') %} {{ path('app_admin_user_show',{'id':app.user.id}) }} {% else %}{{ path('app_user_show',{'id':app.user.id}) }}{% endif %}" class="flex items-center gap-2 block px-4 border-b border-gray-200 py-4 text-gray-700 text-sm hover:text-teal-700 hover:bg-gray-100">
+								<img src="{{ asset('build/images/icons/profile.svg') }}" alt="User" width="16" height="16" class="rounded-full m-w-">
+								{{ 'Navbar.myProfile'|trans }}
+							</a>
+							<a href="{{ dashboardPath }}" class="flex items-center gap-2 block px-4 py-4 border-b border-gray-200 text-gray-700 text-sm hover:text-teal-700 hover:bg-gray-100">
+								<img src="{{ asset('build/images/icons/settings.svg') }}" alt="User" width="16" height="16" class="rounded-full m-w-">
+								{{ dashboardName }}
+							</a>
+
+
+							<form method="post" action="{{ path('app_logout') }}" class="w-full">
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+								<button type="submit" class="flex items-center gap-2 px-4 py-4 text-gray-700 text-sm hover:text-teal-700 hover:bg-gray-100 w-full text-left hover:cursor-pointer">
+									<img src="{{ asset('build/images/icons/logout.svg') }}" alt="User" width="16" height="16" class="rounded-full m-w-">
+									{{ 'Navbar.logout'|trans }}
+								</button>
+							</form>
+						</div>
+					</div>
+				{% else %}
+					<a href="{{ path('app_login') }}" class="text-xs md:text-xs lg:text-sm text-gray-600 font-semibold">
+						{{ 'Navbar.seConnecter'|trans }}
+					</a>
+					<a href="{{ path('app_register') }}" class="bg-teal-600 text-white px-3 md:px-3 lg:px-4 py-2 rounded-md text-xs md:text-xs lg:text-sm font-semibold hover:bg-teal-700">
+						{{ 'Navbar.inscrire'|trans }}
+					</a>
+				{% endif %}
+
+				{# TRANSLATION DROPDOWN DESKTOP #}
+				<div class="relative inline-block cursor-pointer text-sm">
+					<div class="inline-block ml-4">
+						<div
+							class="relative inline-block text-left">
+							<!-- Bouton -->
+							<button id="langDropdownButton" type="button" class="px-3 py-2  rounded-md bg-gray-100 flex items-center gap-2 hover:bg-gray-200 transition-colors cursor-pointer">
+								{% if app.request.locale == 'fr' %}
+									<img src="{{ asset('build/images/icons/france.svg') }}" class="w-5 h-5" alt="Français"/>
+									<span>Français</span>
+								{% elseif app.request.locale == 'ar' %}
+									<img src="{{ asset('build/images/icons/arabic.svg') }}" class="w-5 h-5" alt="العربية"/>
+									<span>العربية</span>
+								{% endif %}
+								<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+								</svg>
+							</button>
+
+
+							<!-- Menu -->
+							<div id="langDropdownMenu" class="hidden absolute right-0 mt-2 w-40 bg-white  rounded-md shadow-lg z-50">
+								<a href="{{ path('change_locale', {'locale': 'fr'}) }}" class="flex items-center px-3 py-2 hover:bg-gray-100 rounded-t-md transition-colors cursor-pointer">
+									<img src="{{ asset('build/images/icons/france.svg') }}" class="w-5 h-5 mr-2" alt="Français"/>
+									Français
+								</a>
+
+								<a href="{{ path('change_locale', {'locale': 'ar'}) }}" class="flex items-center px-3 py-2 hover:bg-gray-100 rounded-b-md transition-colors cursor-pointer">
+									<img src="{{ asset('build/images/icons/arabic.svg') }}" class="w-5 h-5 mr-2" alt="العربية"/>
+									العربية
+								</a>
+							</div>
+
+						</div>
+
+						<script>
+                               (function () {
+                                    const langBtn = document.getElementById("langDropdownButton");
+                                    const langMenu = document.getElementById("langDropdownMenu");
+
+                                    if (langBtn && langMenu) {
+                                        langBtn.addEventListener("click", function (e) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        langMenu.classList.toggle("hidden");
+                                    });
+
+                                    // Fermer si on clique ailleurs
+                                    document.addEventListener("click", function (e) {
+                                    if (! langBtn.contains(e.target) && ! langMenu.contains(e.target)) {
+                                         langMenu.classList.add("hidden");
+                                    }
+                                    });
+
+                                    // Fermer le menu après sélection d'une langue
+                                    langMenu.querySelectorAll("a").forEach(function (link) {
+                                        link.addEventListener("click", function () {
+                                            langMenu.classList.add("hidden");
+                                        });
+                                        });
+                                    }
+                                })();
+						</script>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="md:hidden">
+				<button id="mobile-menu-button" class="text-gray-600 hover:text-teal-600 focus:outline-none focus:text-teal-600 cursor-pointer">
+					<svg class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+
+		<!-- Mobile Navigation Menu -->
+		<div id="mobile-menu" class="md:hidden hidden absolute top-full left-0 right-0 z-50 bg-white shadow-lg border-t border-gray-200">
+			<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+				<a href="{{ path('home') }}" class="text-gray-900 hover:text-teal-600 block px-3 py-2 text-base font-medium">{{ 'Navbar.accueil'|trans }}</a>
+				<a href="{{ path('app_glossaire_index') }}" class="text-gray-900 hover:text-teal-600 block px-3 py-2 text-base font-medium">{{ 'Navbar.glossaire'|trans }}</a>
+				<a href="{{ path('article_index') }}" class="text-gray-900 hover:text-teal-600 block px-3 py-2 text-base font-medium">{{ 'Navbar.recitVie'|trans }}</a>
+				<a href="{{ path('contact') }}" class="text-gray-900 hover:text-teal-600 block px-3 py-2 text-base font-medium">{{ 'Navbar.contact'|trans }}</a>
+
+				{% if app.user %}
+					<!-- Mobile User Menu -->
+					<div class="border-t border-gray-200 pt-4 pb-3">
+						<div class="space-y-1">
+							<a href="{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN') %} {{ path('app_admin_user_show',{'id':app.user.id}) }}" {% else %} {{ path('app_user_show',{'id':app.user.id} ) }} {% endif %} "
+								                            class=" text-gray-700 text-sm hover:text-teal-700 block px-3 py-2"
+								                            >
+								                            {{ 'Navbar.myProfile'|trans }}
+								                            </a>
+								
+								                            <a
+								                                    href=" {{ dashboardPath }} "
+								                                    class=" text-gray-700 text-sm hover:text-teal-700 block px-3 py-2"
+								                            >
+								                                {{ dashboardName }}
+								                            </a>
+								                            <form method=" post" action=" {{ path('app_logout') }} " class=" w-full">
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+								<button type="submit" class="text-gray-700 text-sm hover:text-teal-700 block px-3 py-2 w-full text-left hover:cursor-pointer">
+									{{ 'Navbar.logout'|trans }}
+								</button>
+							</form>
+						</div>
+					</div>
+				{% else %}
+					<!-- Mobile Login/Register for guests -->
+					<div class="border-t border-gray-200 pt-4 pb-3">
+						<div class="flex  px-3 space-y-2 flex-col">
+							<a href="{{ path('app_login') }}" class="text-gray-600 hover:text-teal-600 w-full text-left py-2">
+								{{ 'Navbar.seConnecter'|trans }}
+							</a>
+							<a href="{{ path('app_register') }}" class="bg-teal-600 w-fit text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-teal-700 ">
+								{{ 'Navbar.inscrire'|trans }}
+							</a>
+						</div>
+					</div>
+				{% endif %}
+				{#
+				                {# TRANSLATION DROPDOWN MOBILE #}
+				<div class="relative inline-block cursor-pointer">
+					<div class="inline-block ml-4">
+						<div
+							class="relative inline-block text-left">
+							<!-- Bouton -->
+							<button id="langDropdownButtonMobile" type="button" class="text-sm px-3 py-2 border border-gray-100 rounded-md bg-gray-100 flex items-center gap-2 hover:bg-gray-200 transition-colors cursor-pointer">
+								{% if app.request.locale == 'fr' %}
+									<img src="{{ asset('build/images/icons/france.svg') }}" class="w-5 h-5" alt="Français"/>
+									<span>Français</span>
+								{% elseif app.request.locale == 'ar' %}
+									<img src="{{ asset('build/images/icons/arabic.svg') }}" class="w-5 h-5" alt="العربية"/>
+									<span>العربية</span>
+								{% endif %}
+								<svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+								</svg>
+							</button>
+
+
+							<!-- Menu -->
+							<div id="langDropdownMenuMobile" class="hidden absolute left-0 mt-2 w-40 bg-white border border-gray-100 rounded-md text-sm shadow-lg z-50">
+								<a href="{{ path('change_locale', {'locale': 'fr'}) }}" class="flex items-center px-3 py-2 hover:bg-gray-100 rounded-t-md transition-colors cursor-pointer">
+									<img src="{{ asset('build/images/icons/france.svg') }}" class="w-5 h-5 mr-2" alt="Français"/>
+									Français
+								</a>
+
+								<a href="{{ path('change_locale', {'locale': 'ar'}) }}" class="flex items-center px-3 py-2 hover:bg-gray-100 rounded-b-md transition-colors cursor-pointer">
+									<img src="{{ asset('build/images/icons/arabic.svg') }}" class="w-5 h-5 mr-2" alt="العربية"/>
+									العربية
+								</a>
+							</div>
+
+						</div>
+
+						<script>
+							(function () {
+                                    const langBtn = document.getElementById("langDropdownButtonMobile");
+                                    const langMenu = document.getElementById("langDropdownMenuMobile");
+
+                                    if (langBtn && langMenu) {
+                                        langBtn.addEventListener("click", function (e) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        langMenu.classList.toggle("hidden");
+                                    });
+
+                                    // Fermer si on clique ailleurs
+                                    document.addEventListener("click", function (e) {
+                                        if (! langBtn.contains(e.target) && ! langMenu.contains(e.target)) {
+                                        langMenu.classList.add("hidden");
+                                        }
+                                    });
+
+                                    // Fermer le menu après sélection d'une langue
+                                    langMenu.querySelectorAll("a").forEach(function (link) {
+                                        link.addEventListener("click", function () {
+                                            langMenu.classList.add("hidden");
+                                            });
+                                        });
+                                    }
+                                    })();
+						</script>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+</header>

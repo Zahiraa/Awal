@@ -1,0 +1,60 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Modifier les informations{% endblock %}
+
+{% block content %}
+    <div class="min-h-screen bg-gray-50 flex">
+        <!-- Main Content Area -->
+        <div class="max-w-7xl mx-auto px-4 py-16 flex-1">
+                <!-- Header -->
+                <div class="mb-8">
+                    <h1 class="text-2xl font-semibold text-gray-900 mb-2">Informations personnelles</h1>
+                    <p class="text-gray-600">Vous pouvez modifier les informations ci-dessous</p>
+                </div>
+                <hr class="mt-3 mb-5 border-b border-gray-200" style="border-color: #EAECF0;">
+                <!-- Form Card -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-full max-w-full mx-auto">
+                    {{ form_start(form, {'attr': {'class': 'space-y-4 md:space-y-5 __web-inspector-hide-shortcut__'}}) }}
+                    <!-- Name Fields Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="prenom" class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
+                            {{ form_widget(form.prenom) }}
+                        </div>
+                        <div>
+                            <label for="nom" class="block text-sm font-medium text-gray-700 mb-2">Nom de famille</label>
+                            {{ form_widget(form.nom) }}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% if is_granted('ROLE_ADMIN') and form.roles is defined %}
+                        <div>
+                            <label for="nom" class="block text-sm font-medium text-gray-700 mb-2">Rôle</label>
+                            {{ form_widget(form.roles) }}
+                        </div>
+                        {% endif %}
+                        <div class="{% if not is_granted('ROLE_ADMIN') or form.roles is not defined %}md:col-span-2{% endif %}">
+                            <label for="prenom" class="block text-sm font-medium text-gray-700 mb-2">Adresse e-mail</label>
+                            <input type="email" id="email" name="email" value="{{ user.email }}" disabled
+                                   class="w-full pl-3 pr-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"/>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex md:justify-end space-x-3 pt-4 gap-4 flex-wrap">
+                        <a href="{% if is_granted('ROLE_ADMIN') %}{{ path('app_admin_user_index') }}{% else %}{{ path('app_admin_user_show',{'id':user.id}) }}{% endif %}">
+                            <button type="button" class="px-4 py-2 border hover:cursor-pointer border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                                Annuler
+                            </button>
+                        </a>
+                        <button type="submit" class="hover:bg-teal-700 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            Enregistrer les modifications
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+        </div>
+    </div>
+{% endblock %}

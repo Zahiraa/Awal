@@ -1,0 +1,74 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Informations personnelles{% endblock %}
+
+{% block content %}
+
+    <div class="min-h-screen bg-gray-50 flex">
+        <!-- Main Content Area -->
+        <div class="max-w-7xl mx-auto px-4 py-16 flex-1">
+                <!-- Header -->
+                <div class="mb-8">
+                    <h1 class="text-2xl font-semibold text-gray-900 mb-2">Informations personnelles</h1>
+                    <p class="text-gray-600">Détails du profil personnel</p>
+                </div>
+                {% for message in app.flashes('success') %}
+                    {% include 'components/alert.html.twig' with {
+                        'type': 'success',
+                        'message':  message
+                    } %}
+                {% endfor %}
+                <hr class="mt-3 mb-5 border-b border-gray-200" style="border-color: #EAECF0;">
+                <!-- Form Card -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 w-full max-w-full mx-auto">
+
+                    <div class="space-y-6">
+                        <!-- Name Fields Row -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="prenom" class="block text-sm text-gray-700 font-bold mb-2">Prénom</label>
+                                <p id="prenom"
+                                       class="text-gray-800 text-base">
+                                    {{ user.prenom }}</p>
+                            </div>
+                            <div>
+                                <label for="nom" class="block text-sm font-bold text-gray-700 mb-2">Nom de famille</label>
+                                <p  id="nom" class="text-gray-800 text-base">{{ user.nom }}</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <div>
+                                <label for="roles" class="block text-sm font-bold text-gray-700 mb-2">Rôle</label>
+                                <div class="relative">
+
+                                    {% set roleLabels = {
+                                        'ROLE_ADMIN': 'Admin',
+                                        'ROLE_MANAGER': 'Manager',
+                                        'ROLE_USER': 'Utilisateur'
+                                    } %}
+                                    <p id="roles" class=" text-gray-800 text-base">{% for role in user.roles %}{% if role != 'ROLE_USER' or user.roles|length == 1 %}{{ roleLabels[role] ?? role }}{% endif %}{% endfor %}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="{% if not is_granted('ROLE_ADMIN') %}md:col-span-2{% endif %}">
+                                <label for="email" class="block text-sm font-bold text-gray-700 mb-2">Adresse e-mail</label>
+                                <div class="relative">
+                                    <p id="email" class="text-gray-800 text-base">{{ user.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex justify-end space-x-3 pt-4">
+                            <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                                Modifier
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+{% endblock %}

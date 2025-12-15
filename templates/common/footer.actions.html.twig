@@ -1,0 +1,35 @@
+{# paramètres :
+    - class : la classe css à sur le container
+    - title : le titre de l'article ou du terme à partager
+    - url : l'url de la page à partager
+    - status : le statut de l'article ou du terme (pour vérifier s'il est publié)
+#}
+{% set twitter="" %}
+{% set facebook="" %}
+{% set linkedIn="" %}
+
+{% if title is defined and title is not empty and url is defined and url is not empty and status is defined and status == "published" %}
+	{% set twitter = "https://twitter.com/share?text=" ~ title|url_encode~"&url=" ~ app.request.uri|url_encode %}
+	{% set facebook = "https://www.facebook.com/sharer/sharer.php?u=" ~ url|url_encode %}
+	{% set linkedIn = "https://www.linkedin.com/sharing/share-offsite/?url=" ~ url|url_encode %}
+{% endif %}
+
+<div class="flex justify-center gap-1 items-center  bg-white {{ class }}">
+	<button id="copy-link" data-lang="{{ app.request.locale }}" data-success-message="{{ 'common.copiedLink'|trans }}" data-error-message="{{ 'common.copyError'|trans }}" class="flex items-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+		<img src="{{ asset('build/images/icons/copy-link.svg') }}" alt="Copy link" class="w-4 h-4 mr-2">
+		{{ 'common.copyLink'|trans }}
+	</button>
+	{% if app.user %}
+		<a {% if twitter %} href="{{ twitter}}" target="_blank" {% endif %} rel="noopener noreferrer" class="h-[40px] w-[40px] flex cursor-pointer items-center justify-center bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+			<img src="{{ asset('build/images/icons/twitter.svg') }}" alt="Partager sur Twitter" class="w-6 h-6">
+		</a>
+
+		<a {% if facebook %} href="{{ facebook}}" target="_blank" {% endif %} rel="noopener noreferrer" class="h-[40px] w-[40px] flex cursor-pointer items-center justify-center bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+			<img src="{{ asset('build/images/icons/facebook.svg') }}" alt="Partager sur Facebook" class="w-6 h-6">
+		</a>
+
+		<a {% if linkedIn %} href="{{ linkedIn}}" target="_blank" {% endif %} rel="noopener noreferrer" class="h-[40px] w-[40px] flex cursor-pointer items-center justify-center bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+			<img src="{{ asset('build/images/icons/linkedin.svg') }}" alt="Partager sur LinkedIn" class="w-6 h-6">
+		</a>
+	{% endif %}
+</div>

@@ -1,0 +1,16 @@
+{% macro get_status(status) %}
+	{% set status = status|lower %}
+	{% if status == 'draft' %}
+		{% include 'components/badge.html.twig' with {'type': 'draft', 'text': 'common.status.draft' | trans, 'size': 'md'} %}
+	{% elseif status == 'waiting_approval' %}
+		{% include 'components/badge.html.twig' with {'type': 'waiting_approval', 'text': 'common.status.waiting_approval' | trans, 'size': 'md'} %}
+	{% elseif status == 'approved' %}
+		{% include 'components/badge.html.twig' with {'type': 'published', 'text': 'common.status.approved' | trans, 'size': 'md'} %}
+	{% elseif status == 'published' %}
+		{% include 'components/badge.html.twig' with {'type': 'published', 'text': 'common.status.published' | trans, 'size': 'md'} %}
+	{% elseif status == 'rejected' %}
+		{% include 'components/badge.html.twig' with {'type': 'rejected', 'text': 'common.status.rejected' | trans, 'size': 'md'} %}
+	{% else %}
+		{% include 'components/badge.html.twig' with {'type': 'info', 'text': status|replace({'_': ' '})|title} %}
+	{% endif %}
+{% endmacro %}

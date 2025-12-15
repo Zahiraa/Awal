@@ -1,0 +1,11 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}New Proposition{% endblock %}
+
+{% block content %}
+    <h1>Create new Proposition</h1>
+
+    {{ include('admin_proposition/_add_terme_form.html.twig') }}
+
+    <a href="{{ path('app_admin_proposition_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,224 @@
+{# Component for displaying term content with image and multilingual content #}
+{# Parameters: image (string), contents (array of Content entities) #}
+
+	<div class="flex-1 overflow-auto bg-white pt-8 pb-4"> <div class="mb-8">
+		{% if image is not empty %}
+			<img src="{{ '/uploads/'~image }}" alt="Term Image" class="w-full aspect-16/6 object-cover object-[center_15%] rounded-xl"/>
+		{% endif %}
+	</div>
+
+	<div
+		class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+		<!-- French -->
+		<div class="space-y-4 bg-light-gray-300 rounded-xl py-12 px-8 relative">
+			<div class="absolute top-0 left-0 px-3 py-1 bg-primary-400 text-primary-700 text-sm rounded-tl-xl rounded-br-xl">
+				{{ 'langues.francais'|trans }}
+			</div>
+			{% for content in contents %}
+				{% if loop.first %}
+					<h2 class="text-4xl font-bold {{ isAdmin ? 'text-primary-600' : 'text-warning-400' }}">{{ content.titreFr }}</h2>
+					<div class="space-y-4 text-dark">
+						<p>{{ content.descriptionFr }}</p>
+					</div>
+					<div class="space-y-4 text-dark break-words">
+						{% if content.synonymeFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Synonyme</h4>
+							<p>{{ content.synonymeFr }}</p>
+						{% endif %}
+						{% if content.domaineApplicationsFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Domaine d'applications</h4>
+							<p>{{ content.domaineApplicationsFr }}</p>
+						{% endif %}
+						{% if content.categorieFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Catégorie</h4>
+							<p>{{ content.categorieFr }}</p>
+						{% endif %}
+						{% if content.sourceFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Source</h4>
+							<p>{{ content.sourceFr }}</p>
+						{% endif %}
+						{% if content.categorieGrammaticaleFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Categorie grammaticale</h4>
+							<p>{{ content.categorieGrammaticaleFr }}</p>
+						{% endif %}
+						{% if content.relationTerminologiqueFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Relation Terminologique</h4>
+							<p>{{ content.relationTerminologiqueFr }}</p>
+						{% endif %}
+						{% if content.equivalentAnglaisFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Equivalent Anglais</h4>
+							<p>{{ content.equivalentAnglaisFr }}</p>
+						{% endif %}
+						{% if content.equivalentEspagnolFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Equivalent Espagnol</h4>
+							<p>{{ content.equivalentEspagnolFr }}</p>
+						{% endif %}
+						{% if content.idiomeFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Idiome</h4>
+							<p>{{ content.idiomeFr }}</p>
+						{% endif %}
+						{% if content.usageMetaphoriqueFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Usage Metaphorique</h4>
+							<p>{{ content.usageMetaphoriqueFr }}</p>
+						{% endif %}
+						{% if content.recitVieFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Récit Vie</h4>
+							<p>{{ content.recitVieFr }}</p>
+						{% endif %}
+						{% if content.liensHypertexteFr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">Liens Hypertexte</h4>
+							<a href="{{ content.liensHypertexteFr }}" target="_blank" class="text-primary-700">{{ content.liensHypertexteFr }}</a>
+						{% endif %}
+					</div>
+				{% else %}
+					<div class="mt-6">
+						<h3 class="font-semibold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }} text-lg mb-2">{{ content.titreFr }}</h3>
+						<p>{{ content.descriptionFr }}</p>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<!-- Arabic -->
+		<div class="space-y-4 bg-light-gray-300 rounded-xl py-12 px-8 relative" dir="rtl">
+			<div class="absolute top-0 left-0 px-3 py-1 bg-primary-400 text-primary-700 text-sm rounded-tl-xl rounded-br-xl">
+				{{ 'langues.arabe'|trans }}
+			</div>
+			{% for content in contents %}
+				{% if loop.first %}
+					<h2 class="text-4xl font-bold {{ isAdmin ? 'text-primary-600' : 'text-warning-400' }}">{{ content.titreAr }}</h2>
+					<div class="space-y-4 text-gray-600 text-xl">
+						<p>{{ content.descriptionAr }}</p>
+					</div>
+					<div class="space-y-4 text-dark break-words">
+						{% if content.synonymeAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">المرادف</h4>
+							<p>{{ content.synonymeAr }}</p>
+						{% endif %}
+						{% if content.domaineApplicationsAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">مجال التطبيق</h4>
+							<p>{{ content.domaineApplicationsAr }}</p>
+						{% endif %}
+						{% if content.categorieAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">الفئة</h4>
+							<p>{{ content.categorieAr }}</p>
+						{% endif %}
+						{% if content.sourceAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">المصدر</h4>
+							<p>{{ content.sourceAr }}</p>
+						{% endif %}
+						{% if content.categorieGrammaticaleAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">الفئة النحوية</h4>
+							<p>{{ content.categorieGrammaticaleAr }}</p>
+						{% endif %}
+						{% if content.relationTerminologiqueAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">العلاقة المصطلحية</h4>
+							<p>{{ content.relationTerminologiqueAr }}</p>
+						{% endif %}
+						{% if content.equivalentAnglaisAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">المرادف بالإنجليزية</h4>
+							<p>{{ content.equivalentAnglaisAr }}</p>
+						{% endif %}
+						{% if content.equivalentEspagnolAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">المرادف بالإسبانية</h4>
+							<p>{{ content.equivalentEspagnolAr }}</p>
+						{% endif %}
+						{% if content.idiomeAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">قول مأثور</h4>
+							<p>{{ content.idiomeAr }}</p>
+						{% endif %}
+						{% if content.usageMetaphoriqueAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">التعبير المجازي</h4>
+							<p>{{ content.usageMetaphoriqueAr }}</p>
+						{% endif %}
+						{% if content.recitVieAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">قصة حياة</h4>
+							<p>{{ content.recitVieAr }}</p>
+						{% endif %}
+						{% if content.liensHypertexteAr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">روابط الويب</h4>
+							<a href="{{ content.liensHypertexteAr }}" target="_blank" class="text-primary-700">{{ content.liensHypertexteAr }}</a>
+						{% endif %}
+					</div>
+				{% else %}
+					<div class="mt-6">
+						<h3 class="font-semibold text-xl mb-2 {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">{{ content.titreAr }}</h3>
+						<p>{{ content.descriptionAr }}</p>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+
+		<!-- Darija -->
+		<div class="space-y-4 bg-light-gray-300 rounded-xl py-12 px-8 relative" dir="rtl">
+			<div class="absolute top-0 left-0 px-3 py-1 bg-primary-400 text-primary-700 text-sm rounded-tl-xl rounded-br-xl">
+				{{ 'langues.darija'|trans }}
+			</div>
+
+			{% for content in contents %}
+				{% if loop.first %}
+					<h2 class="text-4xl font-bold {{ isAdmin ? 'text-primary-600' : 'text-warning-400' }}">{{ content.titreDr }}</h2>
+					<div class="space-y-4 text-gray-600 text-xl">
+						<p>{{ content.descriptionDr }}</p>
+					</div>
+					<div class="space-y-4 text-dark break-words">
+						{% if content.synonymeDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">المرادف</h4>
+							<p>{{ content.synonymeDr }}</p>
+						{% endif %}
+						{% if content.domaineApplicationsDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">مجال التطبيق</h4>
+							<p>{{ content.domaineApplicationsDr }}</p>
+						{% endif %}
+						{% if content.categorieDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">الفئة</h4>
+							<p>{{ content.categorieDr }}</p>
+						{% endif %}
+						{% if content.sourceDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">المصدر</h4>
+							<p>{{ content.sourceDr }}</p>
+						{% endif %}
+						{% if content.categorieGrammaticaleDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">الفئة النحوية</h4>
+							<p>{{ content.categorieGrammaticaleDr }}</p>
+						{% endif %}
+						{% if content.relationTerminologiqueDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">العلاقة المصطلحية</h4>
+							<p>{{ content.relationTerminologiqueDr }}</p>
+						{% endif %}
+						{% if content.equivalentAnglaisDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">المرادف بالإنجليزية</h4>
+							<p>{{ content.equivalentAnglaisDr }}</p>
+						{% endif %}
+						{% if content.equivalentEspagnolDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">المرادف بالإسبانية</h4>
+							<p>{{ content.equivalentEspagnolDr }}</p>
+						{% endif %}
+						{% if content.idiomeDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">قول مأثور</h4>
+							<p>{{ content.idiomeDr }}</p>
+						{% endif %}
+						{% if content.usageMetaphoriqueDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">التعبير المجازي</h4>
+							<p>{{ content.usageMetaphoriqueDr }}</p>
+						{% endif %}
+						{% if content.recitVieDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">قصة حياة</h4>
+							<p>{{ content.recitVieDr }}</p>
+						{% endif %}
+						{% if content.liensHypertexteDr %}
+							<h4 class="text-lg font-bold {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">روابط الويب</h4>
+							<a href="{{ content.liensHypertexteDr }}" target="_blank" class="text-primary-700">{{ content.liensHypertexteDr }}</a>
+						{% endif %}
+
+					</div>
+				{% else %}
+					<div class="mt-6">
+						<h3 class="font-semibold text-xl mb-2 {{ isAdmin ? 'text-warning-500' : 'text-primary-300' }}">{{ content.titreDr }}</h3>
+						<p>{{ content.descriptionDr }}</p>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+</div>

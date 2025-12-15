@@ -1,0 +1,320 @@
+{% extends 'admin.html.twig' %}
+{% set isAdmin = is_granted('ROLE_ADMIN') %}
+{% block title %}
+	Proposition
+{% endblock %}
+
+{% block content %}
+	<div id="term-view" class="h-full flex flex-col">
+		<div class="bg-white px-8 py-6 border-b border-light-gray-100  text-gray-700 flex justify-between items-center flex-wrap">
+			<div>
+				<h1 class="text-2xl font-semibold text-gray-900">
+					Afficher la proposition
+				</h1>
+			</div>
+			<div class="flex items-center space-x-3 flex-wrap">
+
+				{% if proposition.statut == 'rejected' or proposition.statut == 'approved'  %}
+					{% set text = proposition.statut =='rejected' ? 'Rejetée' : 'Approuvée'  %}
+					{% include 'components/badge.html.twig' with {'type': proposition.statut , 'text': text, 'size': 'lg'} %}
+				{% endif %}
+
+				<a href="{{ path('app_admin_proposition_index') }}" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+					Retour
+				</a>
+
+				{% if proposition.statut == "waiting_approval" %}
+					<a href="{{ path('app_admin_proposition_edit', {'id': proposition.id}) }}" class="px-4 py-2 text-primary-700 border border-primary-700 rounded-lg hover:bg-primary-600/20 cursor-pointer">
+						Modifier
+					</a>
+					<button class="px-4 py-2 text-error-700 border border-error-700 rounded-lg hover:bg-error-50 cursor-pointer action-button" data-action-type="rejected" data-proposition-id="{{ proposition.id }}" data-csrf-token="{{ csrf_token('post' ~ proposition.id) }}">
+						Rejetée
+					</button>
+
+					<button class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 cursor-pointer action-button" data-action-type="approved" data-proposition-id="{{ proposition.id }}" data-csrf-token="{{ csrf_token('post' ~ proposition.id) }}">
+						Approuvée
+					</button>
+				{% endif %}
+
+
+			</div>
+		</div>
+
+		{% include 'common/term_content.html.twig' with {
+      'image': proposition.image ? proposition.image.name : null,
+      'contents': proposition.contents,
+      'isAdmin': isAdmin
+    } %}
+
+		{% include 'common/footer.actions.html.twig' with {
+          'class': 'w-full mt-6 pt-8 border-t border-light-gray-100',
+          'title':  null,
+          'url': null,
+            'status': proposition.statut
+      } %}
+	</div>
+
+
+	<!-- Action Modal -->
+	<div id="actionModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+		<div id="modalContent" class="relative top-1/4 mx-auto p-5 modal-box-shadow w-96 rounded-md bg-white modal-content">
+			<div class="flex justify-between items-start">
+				<img src="{{ asset('build/images/icons/confirm.svg') }}" id="img-modal" class="w-12 h-12">
+				<button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+					<svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+			</div>
+			<div class="mt-3">
+				<h3 class="text-lg font-medium text-gray-900">Confirmation</h3>
+				<p id="content-body" class="text-sm text-gray-600 mb-6"></p>
+				<div class="flex space-x-4">
+					<button id="cancel-modal-btn" class="cursor-pointer px-4 py-2 flex-1 border border-light-gray-100 text-gray-800 text-base font-medium rounded-md hover:bg-gray-50 transition duration-150">
+						Annuler
+					</button>
+					<button id="btn-confirm" class="cursor-pointer px-4 py-2 flex-1 bg-primary-600 text-white text-base font-medium rounded-md hover:bg-primary-700 transition duration-150">
+						Confirmer
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block head_scripts %}
+	<script>
+		function initializeActionModal() {
+console.log('Initializing action modal script');
+
+// Ensure we don't add multiple event listeners
+if (window.actionModalInitialized) {
+console.log('Action modal already initialized, skipping');
+return;
+}
+window.actionModalInitialized = true;
+console.log('Action modal initialization starting');
+
+let propositionToAction = null;
+let csrfTokenForAction = null;
+let isModalAnimating = false;
+let actionType = null;
+
+// Function to show action modal
+function showActionModal(button) {
+console.log('showActionModal called', button);
+if (isModalAnimating) 
+return;
+
+
+
+propositionToAction = button.getAttribute('data-proposition-id');
+csrfTokenForAction = button.getAttribute('data-csrf-token');
+actionType = button.getAttribute('data-action-type');
+
+console.log('Modal data:', {propositionToAction, csrfTokenForAction, actionType});
+
+const modal = document.getElementById('actionModal');
+const modalContent = document.getElementById('modalContent');
+const bodyContent = document.getElementById('content-body');
+const btnConfirm = document.getElementById('btn-confirm');
+const imgModal = document.getElementById('img-modal');
+
+if (! modal) {
+console.error('Modal not found');
+return;
+}
+
+// Show modal and start animation
+modal.classList.remove('hidden');
+modal.classList.add('modal-entering');
+modalContent.classList.add('modal-entering');
+
+imgModal.src = actionType === 'approved' ? "{{ asset('build/images/icons/confirm.svg') }}" : "{{ asset('build/images/icons/delete.svg') }}";
+
+isModalAnimating = true;
+if (actionType === 'approved') {
+bodyContent.textContent = "Veuillez confirmer votre approbation pour l'inclusion de cette proposition dans le glossaire.";
+btnConfirm.style.backgroundColor = '#008780';
+} else {
+bodyContent.textContent = "Êtes-vous sûr (e) de vouloir rejeter cette proposition ?";
+btnConfirm.style.backgroundColor = '#E7000BFF';
+}
+
+// After a small delay, transition to entered state
+requestAnimationFrame(() => {
+modal.classList.remove('modal-entering');
+modal.classList.add('modal-entered');
+modalContent.classList.remove('modal-entering');
+modalContent.classList.add('modal-entered');
+
+setTimeout(() => {
+isModalAnimating = false;
+}, 300);
+});
+}
+
+function hideActionModal() {
+console.log('hideActionModal called');
+if (isModalAnimating) 
+return;
+
+
+
+const modal = document.getElementById('actionModal');
+const modalContent = document.getElementById('modalContent');
+
+isModalAnimating = true;
+
+// Start exit animation
+modal.classList.remove('modal-entered');
+modal.classList.add('modal-exiting');
+modalContent.classList.remove('modal-entered');
+modalContent.classList.add('modal-exiting');
+
+// Use requestAnimationFrame to ensure the exiting state is applied, then transition to exited
+requestAnimationFrame(() => {
+modal.classList.remove('modal-exiting');
+modal.classList.add('modal-exited');
+modalContent.classList.remove('modal-exiting');
+modalContent.classList.add('modal-exited');
+
+// After animation completes, hide modal
+setTimeout(() => {
+modal.classList.add('hidden');
+modal.classList.remove('modal-exited');
+modalContent.classList.remove('modal-exited');
+
+propositionToAction = null;
+csrfTokenForAction = null;
+isModalAnimating = false;
+}, 300);
+});
+}
+
+function actionItem() {
+console.log('actionItem called');
+if (propositionToAction && csrfTokenForAction) {
+fetch (`/admin/proposition/${propositionToAction}/action`, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'X-CSRF-TOKEN': csrfTokenForAction
+},
+body: JSON.stringify(
+{_method: 'POST', action: actionType}
+)
+}).then(response => {
+if (response.ok) {
+window.location.href = response.url;
+} else {
+console.error('Action failed:', response.status);
+// Handle error case
+hideActionModal();
+}
+}).catch(error => {
+console.error('Error performing action:', error);
+hideActionModal();
+});
+} else {
+console.log('Missing data for action:', {propositionToAction, csrfTokenForAction});
+hideActionModal();
+}
+}
+
+// Attach event listeners to action buttons
+const actionButtons = document.querySelectorAll('.action-button');
+console.log('Found action buttons:', actionButtons.length);
+actionButtons.forEach(button => {
+button.addEventListener('click', function (e) {
+console.log('Action button clicked');
+e.preventDefault();
+showActionModal(this);
+});
+});
+
+// Attach event listener to confirm button
+const confirmButton = document.getElementById('btn-confirm');
+if (confirmButton) {
+console.log('Confirm button found, adding listener');
+confirmButton.addEventListener('click', function (e) {
+console.log('Confirm button clicked');
+e.preventDefault();
+actionItem();
+});
+}
+
+// Attach event listener to close modal button (X button)
+const closeModalButton = document.getElementById('close-modal-btn');
+if (closeModalButton) {
+console.log('Close button found, adding listener');
+closeModalButton.addEventListener('click', function (e) {
+console.log('Close button clicked');
+e.preventDefault();
+hideActionModal();
+});
+}
+
+// Attach event listener to cancel button
+const cancelModalButton = document.getElementById('cancel-modal-btn');
+if (cancelModalButton) {
+console.log('Cancel button found, adding listener');
+cancelModalButton.addEventListener('click', function (e) {
+console.log('Cancel button clicked');
+e.preventDefault();
+hideActionModal();
+});
+}
+
+// Close modal when clicking outside
+const actionModal = document.getElementById('actionModal');
+if (actionModal) {
+actionModal.addEventListener('click', function (e) {
+if (e.target === this && ! isModalAnimating) {
+hideActionModal();
+}
+});
+}
+
+// Escape key to close modal
+document.addEventListener('keydown', function (e) {
+if (e.key === 'Escape' && ! isModalAnimating) {
+const modal = document.getElementById('actionModal');
+if (modal && ! modal.classList.contains('hidden')) {
+hideActionModal();
+}
+}
+});
+}
+
+// Listen for both Turbo load and DOM content loaded
+document.addEventListener('turbo:load', function () {
+console.log('Turbo loaded - Action modal script starting');
+initializeActionModal();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+console.log('DOM Content Loaded - Action modal script starting');
+initializeActionModal();
+});
+
+// Listen for page show event (for back/forward navigation)
+window.addEventListener('pageshow', function (event) {
+console.log('Page show event - Action modal script starting');
+// Reset the flag on pageshow to allow re-initialization
+window.actionModalInitialized = false;
+initializeActionModal();
+});
+
+// Reset initialization flag on page unload
+document.addEventListener('turbo:before-cache', function () {
+console.log('Turbo before cache - resetting flag');
+window.actionModalInitialized = false;
+});
+
+window.addEventListener('beforeunload', function () {
+console.log('Before unload - resetting flag');
+window.actionModalInitialized = false;
+});
+	</script>
+{% endblock %}

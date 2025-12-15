@@ -1,0 +1,307 @@
+{% extends 'admin.html.twig' %}
+{% set isAdmin = 'ROLE_ADMIN' in app.user.roles %}
+{% block title %}Afficher le terme{% endblock %}
+
+{% block content %}
+    <div id="term-view" class="h-full flex flex-col">
+        <div
+                class="bg-white px-8 py-6 border-b border-light-gray-100  text-gray-700 flex justify-between items-center flex-wrap"
+        >
+            <div>
+                <h1 class="text-2xl font-semibold text-gray-900">
+                    Afficher le terme
+                </h1>
+            </div>
+            <div class="flex items-center space-x-3 flex-wrap">
+                <a href="{{ path('app_admin_terme_index') }}"
+                        class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    Retour
+                </a>
+
+                {%  if isAdmin and terme.statut != 'published' %}
+                    <button type="button"
+                            class="publish-button px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 cursor-pointer"
+                            data-confirm-message="Veuillez confirmer si vous approuvez publier ce terme."
+                            data-terme-id="{{ terme.id }}"
+                            data-csrf-token="{{ csrf_token('post' ~ terme.id) }}">
+                            Valider et publier
+                        <img src="{{ asset('build/images/icons/full-external-link.svg') }}" alt="Check Icon" class="inline-block ml-2 w-4 h-4">
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+
+        {% include 'common/term_content.html.twig' with {
+            'image': terme.image ? terme.image.name : null,
+            'contents': terme.contents,
+            'isAdmin': isAdmin
+        } %}
+
+        {% include 'common/footer.actions.html.twig' with {
+            'class': 'w-full mt-6 pt-8 border-t border-light-gray-100',
+            'title': terme.contents and terme.contents.first.titreFr ? terme.contents.first.titreFr : "Glossaire Sfifa",
+            'url': url('show_terme', {'id': terme.id}),
+            'status': terme.statut
+        } %}
+    </div>
+
+    <!-- Action Modal -->
+    <div id="publishedModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+        <div id="modalContent" class="relative top-1/4 mx-auto p-5 modal-box-shadow w-96 rounded-md bg-white modal-content">
+            <div class="flex justify-between items-start">
+                <img  src="{{ asset('build/images/icons/confirm.svg') }}" id="img-modal" class="w-12 h-12">
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900">Confirmation</h3>
+                <p class="text-sm text-gray-600 mb-6">Veuillez confirmer si vous approuvez la publication de ce terme.</p>
+                <div class="flex space-x-4">
+                    <button id="cancel-publish-btn" class="cursor-pointer px-4 py-2 flex-1 border border-light-gray-100 text-gray-800 text-base font-medium rounded-md hover:bg-gray-50 transition duration-150">
+                        Annuler
+                    </button>
+                    <button id="confirm-publish-btn" class="cursor-pointer px-4 py-2 flex-1 bg-primary-600 text-white text-base font-medium rounded-md hover:bg-primary-700 transition duration-150">
+                        Confirmer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initializeTermePublishModal() {
+            console.log('Initializing terme publish modal script');
+            
+            // Ensure we don't add multiple event listeners
+            if (window.termePublishModalInitialized) {
+                console.log('Terme publish modal already initialized, skipping');
+                return;
+            }
+            window.termePublishModalInitialized = true;
+            console.log('Terme publish modal initialization starting');
+
+            let termeToPublish = null;
+            let csrfTokenForPublish = null;
+            let isModalAnimating = false;
+
+            function showPublishModal(termeId, csrfToken) {
+                console.log('showPublishModal called', { termeId, csrfToken });
+                if (isModalAnimating) return;
+
+                termeToPublish = termeId;
+                csrfTokenForPublish = csrfToken;
+
+                const modal = document.getElementById('publishedModal');
+                const modalContent = document.getElementById('modalContent');
+
+                if (!modal || !modalContent) {
+                    console.error('Modal elements not found');
+                    return;
+                }
+
+                // Show modal and start animation
+                modal.classList.remove('hidden');
+                modal.classList.add('modal-entering');
+                modalContent.classList.add('modal-entering');
+
+                isModalAnimating = true;
+
+                // After a small delay, transition to entered state
+                requestAnimationFrame(() => {
+                    modal.classList.remove('modal-entering');
+                    modal.classList.add('modal-entered');
+                    modalContent.classList.remove('modal-entering');
+                    modalContent.classList.add('modal-entered');
+
+                    setTimeout(() => {
+                        isModalAnimating = false;
+                    }, 300);
+                });
+            }
+
+            function hidePublishModal() {
+                console.log('hidePublishModal called');
+                if (isModalAnimating) return;
+
+                const modal = document.getElementById('publishedModal');
+                const modalContent = document.getElementById('modalContent');
+
+                if (!modal || !modalContent) return;
+
+                isModalAnimating = true;
+
+                // Start exit animation
+                modal.classList.remove('modal-entered');
+                modal.classList.add('modal-exiting');
+                modalContent.classList.remove('modal-entered');
+                modalContent.classList.add('modal-exiting');
+
+                // Use requestAnimationFrame to ensure the exiting state is applied, then transition to exited
+                requestAnimationFrame(() => {
+                    modal.classList.remove('modal-exiting');
+                    modal.classList.add('modal-exited');
+                    modalContent.classList.remove('modal-exiting');
+                    modalContent.classList.add('modal-exited');
+
+                    // After animation completes, hide modal
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        modal.classList.remove('modal-exited');
+                        modalContent.classList.remove('modal-exited');
+
+                        termeToPublish = null;
+                        csrfTokenForPublish = null;
+                        isModalAnimating = false;
+                    }, 300);
+                });
+            }
+
+            function publishItem() {
+                console.log('publishItem called');
+                if (termeToPublish && csrfTokenForPublish) {
+                    fetch(`/admin/terme/${termeToPublish}/action`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfTokenForPublish
+                        },
+                        body: JSON.stringify({
+                            _method: 'POST',
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Handle success - maybe reload the page or show success message
+                            window.location.href = response.url;
+                        } else {
+                            console.error('Publish failed:', response.status);
+                            // Handle error case
+                            hidePublishModal();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error publishing item:', error);
+                        hidePublishModal();
+                    });
+                } else {
+                    console.log('Missing data for publish:', { termeToPublish, csrfTokenForPublish });
+                    hidePublishModal();
+                }
+            }
+
+            // Attach event listeners to publish buttons
+            const publishButtons = document.querySelectorAll('.publish-button');
+            console.log('Found publish buttons:', publishButtons.length);
+            publishButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    console.log('Publish button clicked');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const termeId = this.dataset.termeId;
+                    const csrfToken = this.dataset.csrfToken;
+                    console.log('Button data:', { termeId, csrfToken });
+                    showPublishModal(termeId, csrfToken);
+                });
+            });
+
+            // Attach event listener to close button (X button)
+            const closeBtn = document.getElementById('close-modal-btn');
+            if (closeBtn) {
+                console.log('Close button found, adding listener');
+                closeBtn.addEventListener('click', function(e) {
+                    console.log('Close button clicked');
+                    e.preventDefault();
+                    hidePublishModal();
+                });
+            }
+
+            // Attach event listener to cancel button
+            const cancelBtn = document.getElementById('cancel-publish-btn');
+            if (cancelBtn) {
+                console.log('Cancel button found, adding listener');
+                cancelBtn.addEventListener('click', function(e) {
+                    console.log('Cancel button clicked');
+                    e.preventDefault();
+                    hidePublishModal();
+                });
+            }
+
+            // Attach event listener to confirm button
+            const confirmBtn = document.getElementById('confirm-publish-btn');
+            if (confirmBtn) {
+                console.log('Confirm button found, adding listener');
+                confirmBtn.addEventListener('click', function(e) {
+                    console.log('Confirm button clicked');
+                    e.preventDefault();
+                    publishItem();
+                });
+            }
+
+            // Close modal when clicking outside
+            const modal = document.getElementById('publishedModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this && !isModalAnimating) {
+                        hidePublishModal();
+                    }
+                });
+            }
+
+            // Escape key to close modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !isModalAnimating) {
+                    const modal = document.getElementById('publishedModal');
+                    if (modal && !modal.classList.contains('hidden')) {
+                        hidePublishModal();
+                    }
+                }
+            });
+
+            console.log('Terme publish modal initialization completed');
+        }
+
+        // Initialize immediately when script loads
+        console.log('Script loading - attempting immediate initialization');
+        
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM Content Loaded - Terme publish modal script starting');
+                initializeTermePublishModal();
+            });
+        } else {
+            console.log('DOM already ready - initializing immediately');
+            initializeTermePublishModal();
+        }
+
+        // Listen for Turbo load events
+        document.addEventListener('turbo:load', function() {
+            console.log('Turbo loaded - Terme publish modal script starting');
+            // Reset flag for Turbo navigation
+            window.termePublishModalInitialized = false;
+            initializeTermePublishModal();
+        });
+
+        // Listen for page show event (for back/forward navigation)
+        window.addEventListener('pageshow', function(event) {
+            console.log('Page show event - Terme publish modal script starting');
+            // Reset the flag on pageshow to allow re-initialization
+            window.termePublishModalInitialized = false;
+            initializeTermePublishModal();
+        });
+
+        // Reset initialization flag on page unload
+        document.addEventListener('turbo:before-cache', function() {
+            console.log('Turbo before cache - resetting flag');
+            window.termePublishModalInitialized = false;
+        });
+
+        window.addEventListener('beforeunload', function() {
+            console.log('Before unload - resetting flag');
+            window.termePublishModalInitialized = false;
+        });
+    </script>
+{% endblock %}

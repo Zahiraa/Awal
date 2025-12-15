@@ -1,0 +1,17 @@
+<p>Bonjour,</p>
+
+<p>
+    Vous avez demandé à réinitialiser votre mot de passe.<br><br>
+    Cliquez sur le lien ci-dessous pour choisir un nouveau mot de passe : <br><br>
+    <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">Réinitialiser mon mot de passe</a>.<br>
+    Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+</p>
+
+<p>
+    Si vous n'avez pas demandé cette réinitialisation, vous pouvez ignorer cet email.
+</p>
+
+<p>
+    Cordialement,<br>
+    L'équipe Sfifa
+</p>

@@ -1,0 +1,294 @@
+common:
+  copyLink: "Copier le lien"
+  copiedLink: "Lien copié !"
+  copyError: "Erreur"
+  backToHome: "Retour à l'accueil"
+  load: "Recherche en cours..."
+  roles:
+    admin: "Administrateur"
+    manager: "Manager"
+    guest: "Invité"
+  status:
+    approved: "Approuvée"
+    rejected: "Rejetée"
+    waiting_approval: "En attente"
+    draft: "Brouillon"
+    published: "Publiée"
+  delete: "Supprimer"
+  flash:
+    success:
+      updateProfile: "Votre profil a été mis à jour avec succès."
+      addProposition: "Votre proposition a bien été ajoutée."
+      updateProposition: "Votre proposition a bien été modifiée."
+      deleteProposition:
+        title: "Supprimer la proposition"
+        message: "Êtes-vous sûr de vouloir supprimer cette proposition ? Cette action ne peut pas être annulée."
+        cancel: "Annuler"
+        confirm: "Supprimer"
+        succes: "La proposition a bien été supprimée."
+      resetPassword: "Votre mot de passe a bien été changé. vous pouvez maintenant vous connecter."
+      contact: "Message envoyé avec succès, nous vous répondrons dans les plus brefs délais."
+    error:
+      contact: "Une erreur s'est produite lors de l'envoi de l'email , veuillez réessayer plus tard."
+
+heroSection:
+  title: "Découvrez la richesse de l'artisanat"
+  subTitle: "Marocain"
+  description: "Découvrez un glossaire unique des termes de la mode traditionnelle marocaine et du textile, en français, en arabe classique et en darija. Apprenez la signification, l’histoire et le savoir-faire associés à chaque mot"
+
+searchInput:
+  placeholder: "Rechercher un terme..."
+
+aboutSection:
+  tag: "À propos de nous"
+  title: "Nous ne faisons que commencer notre voyage"
+  description: ""
+  expertise:
+    first:
+    second:
+    third:
+
+FonctionnalitesSection:
+  tag: "Fonctionnalités"
+  title:
+  description:
+  fonctionnalite:
+    first:
+      title:
+      description:
+    second:
+      title:
+      description:
+    third:
+      title: ""
+      description: ""
+    fourth:
+      title: ""
+      description: ""
+    fifth:
+      title: ""
+      description: ""
+    sixth:
+      title: ""
+      description: ""
+
+RecitVie:
+  tag: "Notre Récit de vie"
+  title: "Explorez nos dernières publications"
+  subTitle: "Découvrez des articles inspirants et informatifs sur divers sujets."
+  button: "Voir tous les articles"
+  page:
+    mainTitle: "Page des Récits de vie"
+    subTitle: "Bienvenue sur notre Récit de vie ! Explorez nos dernières publications et découvrez des <br> contenus qui vous inspireront et vous informeront."
+    title: "Tous les articles de Récits de vie"
+    published: "Publié le"
+    admin: "Administrateur"
+    noResults:
+      title: "Aucun article trouvé"
+      texte: "Il n'y a pas d'articles à afficher pour le moment. Veuillez revenir plus tard ou contactez l'administrateur."
+      backToHome: "Retour à l'accueil"
+      admin: "Veuillez créer un article pour commencer à partager du contenu sur le Recit de vie."
+      create: "Créer un article"
+
+Statistiques:
+  title:
+  subTitle:
+  firstItem:
+  secondItem:
+  thirdItem:
+
+ContactSection:
+  title: "Vous avez encore des questions ?"
+  "description": "N'hésitez pas à nous contacter pour toute question ou information supplémentaire.<br>Notre équipe est là pour vous aider et vous fournir les réponses dont vous avez besoin."
+  button: "Contactez-nous"
+  page:
+    mainTitle: "Contactez-nous"
+    subTitle: "Si vous avez des questions, des commentaires ou des préoccupations, n'hésitez <br> pas à nous contacter. Nous sommes là pour vous aider et nous nous engageons <br> à répondre à vos demandes dans les plus brefs délais."
+    form:
+      prenom:
+        label: "Prénom"
+        placeholder: "Prénom"
+      nom:
+        label: "Nom de famille"
+        placeholder: "Nom de famille"
+      email:
+        label: "Email"
+        placeholder: "you@example.com"
+      subject:
+        label: "Sujet"
+        placeholder: "Sujet"
+      message:
+        label: "Message"
+        placeholder: "Laissez nous un message"
+        errors:
+          required: "Le message est requis."
+          maxLength: "Le message ne peut pas dépasser {{ limit }} caractères."
+      politiques:
+        label: "Vous acceptez notre politique de confidentialité."
+      conditions:
+        label: "Conditions générales."
+      recaptcha:
+        error: "Veuillez confirmer que vous n'êtes pas un robot."
+      button: "Envoyer le message"
+
+Navbar:
+  accueil: "Accueil"
+  glossaire: "Glossaire"
+  recitVie: "Récit de vie"
+  contact: "Contact"
+  seConnecter: "se connecter"
+  inscrire: "S' inscrire"
+  myProfile: "Mon Profil"
+  logout: "Se déconnecter"
+  myPropositions: "mes propositions"
+  dashboad: "dashboad"
+
+Footer:
+  description: "Glossaire trilingue des termes de la mode <br>et du textile marocains, entre sens, histoire <br>et artisanat."
+  copyright: "Tous droits réservés."
+  company: "MonarkIT"
+  conditionsGenerales: "Conditions générales"
+
+Glossaire:
+  noResults:
+    tile: "Aucun résultat trouvé"
+    description: "Il n'existe actuellement aucun terme commençant par la lettre "
+    button: "Proposer un nouveau terme"
+    autocomplete:
+      placeholder: "Aucun mot trouvé"
+      search: "Votre recherche"
+      texte: " n'a correspondu à aucun terme. Veuillez réessayer."
+      proposition: "Aucune proposition"
+      noProposition: "	Aucune proposition ne correspond à"
+      start: "Commencez par créer une nouvelle proposition."
+
+login:
+  title: "Se connecter"
+  subtitle: "Content de vous revoir ! Veuillez entrer vos informations."
+  email:
+    label: "Email"
+  password:
+    label: "Mot de passe"
+  forgotPassword: "Mot de passe oublié ?"
+  button: "Se connecter"
+  noAccount: "Vous n'avez pas de compte ?"
+  register: "S'inscrire"
+
+resetPassword:
+  title: "Mot de passe oublié ?"
+  subtitle: "Pas de souci, nous vous enverrons des instructions de <br> réinitialisation."
+  email:
+    label: "Email"
+  button: "Réinitialiser le mot de passe"
+  backToLogin: "Retour à la connexion"
+  messageAfterSubmit:
+    title: "Vérifiez votre e-mail"
+    message: " Si un compte correspondant à votre email existe, alors un email vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe."
+    expirationLink: "Ce lien expirera dans"
+    form:
+      title: "Définir un nouveau mot de passe"
+      message: "Votre nouveau mot de passe doit être différent des mots de <br> passe précédemment utilisés."
+      password:
+        label: "Nouveau mot de passe"
+        remarque: "Doit comporter au moins 8 caractères."
+      confirmPassword:
+        label: "Confirmer le mot de passe"
+        error: "Les deux mots de passe doivent correspondre."
+      button: "Réinitialiser le mot de passe"
+  messageAfterReset:
+    title: "Réinitialisation du mot de passe"
+    message: "Votre mot de passe a été réinitialisé avec succès. Cliquez ci-dessous pour vous connecter."
+    button: "Continuer"
+
+register:
+  title: "Créer un compte"
+  firstName:
+    label: "Prénom"
+    placeholder: "Entrez votre prénom"
+  lastName:
+    label: "Nom"
+    placeholder: "Entrez votre nom"
+  email:
+    label: "Email"
+    placeholder: "Entrez votre email"
+    email: "L'email doit être valide"
+  password:
+    label: "Mot de passe"
+    placeholder: "Entrez votre mot de passe"
+    remarque: "Doit comporter au moins 8 caractères"
+  confirmPassword:
+    label: "Confirmer le mot de passe"
+    placeholder: "Répétez le mot de passe"
+  termes: "J'accepte les termes et conditions"
+  button: "commencer"
+  haveAccount: "Vous avez déjà un compte ?"
+  login: "Se connecter"
+  verify:
+    title: "Vérifiez votre e-mail"
+    message: "Nous avons envoyé un lien de confirmation du compte à"
+    backToLogin: "Retour à la connexion"
+    successMessage: "Votre adresse email a été confirmée avec succès."
+  complete:
+    title: " Compléter votre inscription"
+    texte: "Veuillez remplir les informations suivantes pour finaliser votre compte."
+    password: "Doit comporter au moins 8 caractères."
+    button: "Finaliser l'inscription"
+
+langues:
+  arabe: "arabe"
+  francais: "français"
+  darija: "darija"
+
+myPropositions:
+  title: "Gestion des propositions"
+  edit: "Modifier une propositions"
+  description: "Vous pouvez gérer vos propositions ici, les soumettre pour approbation ou les supprimer."
+  button: "Nouvelle proposition"
+  search:
+    placeholder: "Rechercher"
+  table:
+    image: "Image"
+    francais: "Français"
+    arabe: "Arabe"
+    darija: "Darija"
+    addDate: "Ajouté le"
+    statut: "Statut"
+    actions: "Actions"
+  newProposition:
+    title: "Nouvelle proposition"
+    formTitle: "d'ajout"
+    form: "Formulaire"
+    description: "Complétez les informations ci-dessous en français, arabe et darija."
+    cancel: "Annuler"
+    submit: "Publier"
+  editProposition:
+    title: "Modification d'une proposition"
+    formTitle: " de modification"
+    description: "Complétez les informations ci-dessous en français, arabe et darija."
+    cancel: "Annuler"
+    submit: "Publier"
+  common:
+    image: "Cliquez pour télécharger"
+    subTitle: "ou faites glisser et déposez <br> SVG, PNG, JPG or GIF (max. 800x400px) <br> La taille de l'image ne doit pas dépasser"
+    noFile: "Aucun fichier sélectionné"
+    noSize: "Size: 0 KB"
+    limit:
+      tilte: "L'image dépasse la taille limite de"
+      texte: "L'image que vous avez choisie est trop grande. Veuillez choisir une image plus petite."
+
+myProfile:
+  title: "Informations personnelles"
+  description: "Détails de votre profil personnel"
+  prenom: "Prénom"
+  nom: "Nom de famille"
+  email: "Adresse e-mail"
+  edit:
+    label: "Modifier"
+    title: "Modifier les informations personnelles"
+    description: "Vous pouvez modifier vos informations personnelles ci-dessous."
+    cancel: "Annuler"
+    submit: "Enregistrer les modifications"
+
+conditionsGenerales:
+  title: "Conditions générales"
+  update: "À jour au"

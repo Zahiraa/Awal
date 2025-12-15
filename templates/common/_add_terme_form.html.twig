@@ -1,0 +1,734 @@
+{{ form_start(form, {'attr': {'class': 'mx-auto p-6 bg-white rounded-lg shadow-sm'}}) }}
+{% set isManager = 'ROLE_MANAGER' in app.user.roles %}
+
+{% set maxTaille = "20Mo" %}
+
+{% if notProposition is not defined %}
+	{% set notProposition = true %}
+{% endif %}
+
+<div class="mb-6">
+	<h1 class="text-2xl font-bold text-gray-800">
+		{{ 'myPropositions.newProposition.form'|trans }}
+		{{ title }}</h1>
+	<p class="text-gray-600 mb-4">{{ 'myPropositions.newProposition.description'|trans }}</p>
+
+	<hr class="text-gray-300 my-2">
+</div>
+
+
+<label class="flex-col mb-8 mt-4 flex items-center justify-center cursor-pointer pb-3 pt-3" style="border: 1px solid #E3EDF2">
+	<img
+	src="{{ asset('build/images/icons/upload.svg') }}" alt="User" width="40" height="40" class="rounded-full m-w-">
+	<!-- Icône upload -->
+	<p class="text-gray-600 text-center mt-2 font-bold text-sm md:text-lg">
+		<span class="text-primary-600">{{ 'myPropositions.common.image'|trans }}</span>
+		{{ 'myPropositions.common.subTitle'|trans|raw }}
+		<br>
+		{{ maxTaille }}
+	</p>
+
+	{{ form_row(form.image) }}
+
+</label>
+{% if image is defined and image is not empty %}
+	<div class="flex justify-center md:justify-start mb-8">
+		<div class="rounded-2xl flex gap-4 justify-between p-2 w-72 md:min-w-80 md:max-w-80" style=" border: 1px solid {%if isManager %} #DEDC00 {% else %} #008780 {% endif %}">
+			<img id="image-preview" src="{{ '/uploads/' ~ image.name }}" class="w-20 h-20 max-w-20 max-h-20 rounded-xl object-contain" alt="Preview">
+			<div class="flex flex-col items-start justify-center flex-1">
+				<p id="file-name" class="text-gray-600 font-bold text-xs">{{ image.name }}</p>
+				<p id="file-size" class="text-gray-600 font-bold text-xs">Size:
+					{{ image.size ?? 'Unknown' }}</p>
+			</div>
+			{% if isManager %}
+				<img src="{{ asset('build/images/icons/valid-yellow.svg') }}" class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover" alt="Valid">
+			{% else %}
+				<img src="{{ asset('build/images/icons/valid.svg') }}" class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover" alt="Valid">
+			{% endif %}
+		</div>
+	</div>
+
+{% else %}
+	<div class="flex justify-center md:justify-start mb-8">
+		<div class="rounded-2xl flex gap-4 justify-between p-2 w-72 md:min-w-80 md:max-w-80 mb-8" style=" border: 1px solid {%if isManager %}#DEDC00 {% else %} #008780 {% endif %}">
+			<img id="image-preview" src="{{ asset('build/images/icons/upload.svg') }}" class="w-20 h-20 min-w-20 min-h-20 rounded-xl object-contain" alt="Preview">
+			<div class="flex flex-col items-start justify-center flex-1">
+				<p id="file-name" class="text-gray-600 font-bold text-xs">{{ 'myPropositions.common.noFile'|trans }}</p>
+				<p id="file-size" class="text-gray-600 font-bold text-xs">{{ 'myPropositions.common.noSize'|trans }}</p>
+			</div>
+			{% if isManager %}
+				<img data-user="{{ isManager }}" id="img-valid" src="" class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover" style="display: none" alt="Valid">
+			{% else %}
+				<img data-user="{{ isManager }}" id="img-valid" style="display: none" src="" class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover" alt="Valid">
+			{% endif %}
+		</div>
+	</div>
+{% endif %}
+
+<div class="mb-8">
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-4">
+		<div class="flex flex-col gap-4 border-b border-gray-300 pb-4 md:border-b-0 md:pb-0">
+			<h2 class="text-lg font-medium">{{ 'langues.francais'|trans }}</h2>
+			<ul class="contents-list-fr space-y-6">
+				{% for contentForm in form.contents %}
+					<li class="content-item-fr" data-index="{{ loop.index0 }}">
+						<div class="space-y-4" id="fr-content-{{ loop.index0 }}">
+							{{ form_row(contentForm.titreFr) }}
+							{{ form_row(contentForm.descriptionFr) }}
+							{% if loop.first %}
+								{{ form_row(contentForm.synonymeFr) }}
+								{{ form_row(contentForm.domaine_applicationsFr) }}
+								{{ form_row(contentForm.categorieFr) }}
+								{{ form_row(contentForm.sourceFr) }}
+								{{ form_row(contentForm.categorie_grammaticaleFr) }}
+								{{ form_row(contentForm.relation_terminologiqueFr) }}
+								{{ form_row(contentForm.equivalent_anglaisFr) }}
+								{{ form_row(contentForm.equivalent_espagnolFr) }}
+								{{ form_row(contentForm.idiomeFr) }}
+								{{ form_row(contentForm.usage_metaphoriqueFr) }}
+								{{ form_row(contentForm.recit_vieFr) }}
+								{{ form_row(contentForm.liens_hypertexteFr) }}
+							{% endif %}
+						</div>
+						{#                        {% if not loop.first %}#}
+						{#                            <button type="button" class="delete-item-btn mt-2 text-red-500 hover:text-red-700 cursor-pointer">#}
+						{#                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">#}
+						{#                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>#}
+						{#                                </svg>#}
+						{#                            </button>#}
+						{#                        {% endif %}#}
+							{% if not loop.last %}
+						<hr class="text-gray-200 my-4"> {% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="flex flex-col gap-4 border-b border-gray-300 pb-4 md:border-b-0 md:pb-0">
+			<h2 class="text-lg font-medium">{{ 'langues.arabe'|trans }}</h2>
+			<ul class="contents-list-ar space-y-6">
+				{% for contentForm in form.contents %}
+					<li class="content-item-ar" data-index="{{ loop.index0 }}">
+						<div class="space-y-4" id="ar-content-{{ loop.index0 }}">
+							{{ form_row(contentForm.titreAr) }}
+							{{ form_row(contentForm.descriptionAr) }}
+							{% if loop.first %}
+								{{ form_row(contentForm.synonymeAr) }}
+								{{ form_row(contentForm.domaine_applicationsAr) }}
+								{{ form_row(contentForm.categorieAr) }}
+								{{ form_row(contentForm.sourceAr) }}
+								{{ form_row(contentForm.categorie_grammaticaleAr) }}
+								{{ form_row(contentForm.relation_terminologiqueAr) }}
+								{{ form_row(contentForm.equivalent_anglaisAr) }}
+								{{ form_row(contentForm.equivalent_espagnolAr) }}
+								{{ form_row(contentForm.idiomeAr) }}
+								{{ form_row(contentForm.usage_metaphoriqueAr) }}
+								{{ form_row(contentForm.recit_vieAr) }}
+								{{ form_row(contentForm.liens_hypertexteAr) }}
+							{% endif %}
+						</div>
+						{% if not loop.first %}
+							<div class="mb-2"></div>
+							{# Spacer for alignment #}
+						{% endif %}
+						{% if not loop.last %}<hr class="text-gray-200 my-4">
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="flex flex-col gap-4 ">
+			<h2 class="text-lg font-medium">{{ 'langues.darija'|trans }}</h2>
+			<ul class="contents-list-dr space-y-6">
+				{% for contentForm in form.contents %}
+					<li class="content-item-dr" data-index="{{ loop.index0 }}">
+						<div class="space-y-4" id="dr-content-{{ loop.index0 }}">
+							{{ form_row(contentForm.titreDr) }}
+							{{ form_row(contentForm.descriptionDr) }}
+							{% if loop.first %}
+								{{ form_row(contentForm.synonymeDr) }}
+								{{ form_row(contentForm.domaine_applicationsDr) }}
+								{{ form_row(contentForm.categorieDr) }}
+								{{ form_row(contentForm.sourceDr) }}
+								{{ form_row(contentForm.categorie_grammaticaleDr) }}
+								{{ form_row(contentForm.relation_terminologiqueDr) }}
+								{{ form_row(contentForm.equivalent_anglaisDr) }}
+								{{ form_row(contentForm.equivalent_espagnolDr) }}
+								{{ form_row(contentForm.idiomeDr) }}
+								{{ form_row(contentForm.usage_metaphoriqueDr) }}
+								{{ form_row(contentForm.recit_vieDr) }}
+								{{ form_row(contentForm.liens_hypertexteDr) }}
+							{% endif %}
+						</div>
+						{% if not loop.first %}
+							<div class="mb-2"></div>
+							{# Spacer for alignment #}
+						{% endif %}
+						{% if not loop.last %}<hr class="text-gray-200 my-4">
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<!-- Hidden prototype storage for JavaScript -->
+	<div style="display: none;">
+		<ul class="contents-list" data-index="{{ form.contents|length > 0 ? form.contents|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(form.contents.vars.prototype)|e('html_attr') }}"></ul>
+	</div>
+
+	{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN') %}
+		<button type="button" class="w-full flex items-center justify-center gap-2 border border-dashed border-[#E3EDF2] rounded-2xl py-3 mt-3 bg-white text-[#6A7682] font-semibold text-base add-content-btn hover:bg-gray-50 transition cursor-pointer">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 20 20">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 5v10m5-5H5"/>
+			</svg>
+			Ajouter un champ
+		</button>
+	{% endif %}
+
+	<div class="flex flex-col md:flex-row items-start md:items-center mt-6 border-t pt-4 gap-4 md:gap-0">
+		<div class="flex flex-col md:flex-row w-full md:w-auto md:ml-auto space-y-3 md:space-y-0 md:space-x-3 gap-1">
+			{% set cancelUrl = path('app_proposition_index') %}
+
+			{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_ADMIN') %}
+				{% set cancelUrl = path('app_admin_terme_index') %}
+			{% endif %}
+
+			<a href="{{ cancelUrl }}" type="button" class="w-full md:w-auto bg-white border border-gray-300 px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2 text-lg text-gray-700 hover:bg-gray-50">
+				{{ 'myPropositions.newProposition.cancel'|trans }}
+			</a>
+
+			{% if is_granted('ROLE_MANAGER') and notProposition %}
+				<button type="submit" name="{{ form.draft_button.vars.full_name }}" class="w-full md:w-auto {{ form.draft_button.vars.attr.class }} flex items-center justify-center">
+					{{ form.draft_button.vars.label }}
+					<!-- Icône disquette (save) -->
+					<svg width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M4.83333 1.5V4.33333C4.83333 4.80004 4.83333 5.0334 4.92416 5.21166C5.00406 5.36846 5.13154 5.49594 5.28834 5.57584C5.4666 5.66667 5.69996 5.66667 6.16667 5.66667H11.8333C12.3 5.66667 12.5334 5.66667 12.7117 5.57584C12.8685 5.49594 12.9959 5.36846 13.0758 5.21166C13.1667 5.0334 13.1667 4.80004 13.1667 4.33333V2.33333M13.1667 16.5V11.1667C13.1667 10.7 13.1667 10.4666 13.0758 10.2883C12.9959 10.1315 12.8685 10.0041 12.7117 9.92416C12.5334 9.83333 12.3 9.83333 11.8333 9.83333H6.16667C5.69996 9.83333 5.4666 9.83333 5.28834 9.92416C5.13154 10.0041 5.00406 10.1315 4.92416 10.2883C4.83333 10.4666 4.83333 10.7 4.83333 11.1667V16.5M16.5 6.77124V12.5C16.5 13.9001 16.5 14.6002 16.2275 15.135C15.9878 15.6054 15.6054 15.9878 15.135 16.2275C14.6002 16.5 13.9001 16.5 12.5 16.5H5.5C4.09987 16.5 3.3998 16.5 2.86502 16.2275C2.39462 15.9878 2.01217 15.6054 1.77248 15.135C1.5 14.6002 1.5 13.9001 1.5 12.5V5.5C1.5 4.09987 1.5 3.3998 1.77248 2.86502C2.01217 2.39462 2.39462 2.01217 2.86502 1.77248C3.3998 1.5 4.09987 1.5 5.5 1.5H11.2288C11.6364 1.5 11.8402 1.5 12.0321 1.54605C12.2021 1.58688 12.3647 1.65422 12.5138 1.7456C12.682 1.84867 12.8261 1.9928 13.1144 2.28105L15.719 4.88562C16.0072 5.17387 16.1513 5.318 16.2544 5.48619C16.3458 5.63531 16.4131 5.79789 16.4539 5.96795C16.5 6.15976 16.5 6.36358 16.5 6.77124Z" stroke="#008780" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"></path>
+					</svg>
+				</button>
+			{% endif %}
+
+			<button type="submit" name="{{ form.publish_button.vars.full_name }}" class="w-full md:w-auto {{ form.publish_button.vars.attr.class }} flex items-center justify-center">
+				{{ form.publish_button.vars.label|trans }}
+				<!-- Icône export (external link) -->
+				<svg width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M16.5 6.50001L16.5 1.50001M16.5 1.50001H11.5M16.5 1.50001L9 9M7.33333 1.5H5.5C4.09987 1.5 3.3998 1.5 2.86502 1.77248C2.39462 2.01217 2.01217 2.39462 1.77248 2.86502C1.5 3.3998 1.5 4.09987 1.5 5.5V12.5C1.5 13.9001 1.5 14.6002 1.77248 15.135C2.01217 15.6054 2.39462 15.9878 2.86502 16.2275C3.3998 16.5 4.09987 16.5 5.5 16.5H12.5C13.9001 16.5 14.6002 16.5 15.135 16.2275C15.6054 15.9878 15.9878 15.6054 16.2275 15.135C16.5 14.6002 16.5 13.9001 16.5 12.5V10.6667" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"></path>
+				</svg>
+			</button>
+		</div>
+	</div>
+</div>
+
+{{ form_row(form._token ) }}
+{{ form_end(form, {'render_rest': false}) }}
+<!-- Taille image Modal -->
+<div id="imageModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+	<div id="modalContent" class="relative top-1/4 mx-auto p-4 md:p-5 modal-box-shadow w-11/12 max-w-sm md:w-96 rounded-md bg-white modal-content">
+		<div class="flex justify-between items-start">
+			<img src="{{ asset('build/images/icons/danger.svg') }}" alt="Supprimer" class="w-10 h-10 md:w-12 md:h-12">
+			<button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+				<svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewbox="0 0 20 20">
+					<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+				</svg>
+			</button>
+		</div>
+		<div class="mt-3">
+			<h3 class="text-base md:text-lg font-medium text-gray-900">{{ 'myPropositions.common.limit.tilte'|trans }}
+				{{ maxTaille }}</h3>
+			<p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">{{ 'myPropositions.common.limit.texte'|trans }}</p>
+			<div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4"></div>
+		</div>
+	</div>
+</div>
+<script>
+
+	(function () {
+const fileInput = document.getElementById('{{ form.image.vars.id }}');
+const preview = document.getElementById('image-preview');
+const imageModal = document.getElementById('imageModal');
+const closeBtn = document.getElementById('close-modal-btn');
+if (closeBtn) {
+closeBtn.addEventListener('click', function (e) {
+const modalContent = document.getElementById('modalContent');
+if (! imageModal || ! modalContent) 
+return;
+
+
+
+imageModal.classList.remove('modal-entered');
+imageModal.classList.add('modal-exiting');
+modalContent.classList.remove('modal-entered');
+modalContent.classList.add('modal-exiting');
+
+setTimeout(() => {
+imageModal.style.display = 'none';
+imageModal.classList.remove('modal-exiting');
+modalContent.classList.remove('modal-exiting');
+}, 300);
+});
+}
+
+fileInput.addEventListener('change', function (event) {
+const file = event.target.files[0];
+
+if (file && file.type.startsWith('image/')) {
+
+const fileName = file.name;
+const fileSizeKB = (file.size / 1024).toFixed(2);
+const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+const limit = 20;
+// afficher popup si file est trop gros
+if (fileSizeMB >= limit) {
+const imgValid = document.getElementById('img-valid');
+imgValid.style.display = 'none';
+imageModal.style.display = 'block';
+return;
+} else {
+const reader = new FileReader();
+reader.onload = function (e) {
+preview.src = e.target.result;
+preview.style.display = 'block';
+};
+reader.readAsDataURL(file);
+
+document.getElementById('file-name').textContent = fileName;
+document.getElementById('file-size').textContent = `Size: ${fileSizeKB} KB - ${fileSizeMB} MB`;
+const imgValid = document.getElementById('img-valid');
+imgValid.style.display = 'block';
+if (imgValid.getAttribute('data-user')) {
+imgValid.src = '{{ asset('build/images/icons/valid-yellow.svg') }}';
+} else {
+imgValid.src = '{{ asset('build/images/icons/valid.svg') }}';
+}
+}
+
+
+}
+});
+
+
+// Variable pour suivre si l'initialisation a été effectuée
+let initialized = false;
+
+// Fonction qui sera tentée plusieurs fois jusqu'à ce qu'elle réussisse
+function attemptInitialization() { // Si déjà initialisé, ne rien faire
+if (initialized) {
+return true;
+}
+
+const contentsList = document.querySelector('.contents-list');
+const addButton = document.querySelector('.add-content-btn');
+const contentsListFr = document.querySelector('.contents-list-fr');
+const contentsListAr = document.querySelector('.contents-list-ar');
+const contentsListDr = document.querySelector('.contents-list-dr');
+
+// Si les éléments ne sont pas trouvés, on réessaie plus tard
+if (! contentsList || ! contentsListFr || ! contentsListAr || ! contentsListDr) {
+setTimeout(attemptInitialization, 200);
+return false;
+}
+
+// Initialiser les boutons de suppression existants
+document.querySelectorAll('.delete-item-btn').forEach(function (btn) {
+btn.addEventListener('click', function () {
+const index = this.closest('[data-index]').getAttribute('data-index');
+
+// Supprimer les éléments correspondants dans toutes les colonnes
+const frItem = contentsListFr.querySelector(`[data-index="${index}"]`);
+const arItem = contentsListAr.querySelector(`[data-index="${index}"]`);
+const drItem = contentsListDr.querySelector(`[data-index="${index}"]`);
+
+// if (frItem) frItem.remove();
+// if (arItem) arItem.remove();
+// if (drItem) drItem.remove();
+});
+});
+
+// Fonction pour ajouter un nouveau contenu
+function addContentForm() { // Récupère l'index actuel
+const index = contentsList.dataset.index || "0";
+
+// Récupère le prototype et remplace __name__ par l'index
+const prototype = contentsList.dataset.prototype || "";
+if (! prototype) {
+console.error("Prototype non trouvé");
+return;
+}
+
+const newForm = prototype.replace(/__name__/g, index);
+
+// Crée une div temporaire pour manipuler le prototype
+const tempDiv = document.createElement('div');
+tempDiv.innerHTML = newForm;
+
+// // Créer les éléments pour chaque colonne
+const newItemFr = document.createElement('li');
+newItemFr.classList.add('content-item-fr');
+newItemFr.dataset.index = index;
+
+const newItemAr = document.createElement('li');
+newItemAr.classList.add('content-item-ar');
+newItemAr.dataset.index = index;
+
+const newItemDr = document.createElement('li');
+newItemDr.classList.add('content-item-dr');
+newItemDr.dataset.index = index;
+
+// Structure pour la colonne française (avec le bouton supprimer)
+if (parseInt(index) > 0) {
+newItemFr.innerHTML = `
+                        <div class="space-y-4" id="fr-content-${index}"></div>
+                        <button type="button" class="delete-item-btn mt-2 text-red-500 hover:text-red-700 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                        <hr class="text-gray-200 my-4">
+                    `;
+} else {
+newItemFr.innerHTML = `
+                        <div class="space-y-4" id="fr-content-${index}"></div>
+                        <hr class="text-gray-200 my-4">
+                    `;
+}
+
+// Structure pour les autres colonnes (avec spacer d'alignement)
+if (parseInt(index) > 0) {
+newItemAr.innerHTML = `
+                        <div class="space-y-4" id="ar-content-${index}"></div>
+                        <div class="mb-2 pb-[20px]"></div>
+                        <hr class="text-gray-200 my-4">
+                    `;
+newItemDr.innerHTML = `
+                        <div class="space-y-4" id="dr-content-${index}"></div>
+                        <div class="mb-2 pb-[20px]"></div>
+                        <hr class="text-gray-200 my-4">
+                    `;
+} else {
+newItemAr.innerHTML = `
+                        <div class="space-y-4" id="ar-content-${index}"></div>
+                        <hr class="text-gray-200 my-4">
+                    `;
+newItemDr.innerHTML = `
+                        <div class="space-y-4" id="dr-content-${index}"></div>
+                        <hr class="text-gray-200 my-4">
+                    `;
+}
+
+// Ajouter les éléments aux listes
+contentsListFr.appendChild(newItemFr);
+contentsListAr.appendChild(newItemAr);
+contentsListDr.appendChild(newItemDr);
+
+// Distribuer les champs du formulaire
+distributeFormFields(tempDiv, index);
+
+// Ajouter l'écouteur d'événement pour la suppression
+const deleteBtn = newItemFr.querySelector('.delete-item-btn');
+if (deleteBtn) {
+deleteBtn.addEventListener('click', function () {
+newItemFr.remove();
+newItemAr.remove();
+newItemDr.remove();
+});
+}
+
+// Incrémente l'index pour le prochain ajout
+contentsList.dataset.index = parseInt(index) + 1;
+}
+
+// Distribue les champs du formulaire dans les bons containers
+function distributeFormFields(sourceDiv, index) { // Trouver tous les éléments du formulaire avec leurs labels
+const allDivs = sourceDiv.querySelectorAll('div');
+const isInitialRender = parseInt(index) === 0;
+
+allDivs.forEach(div => {
+const divId = div.getAttribute('id') || '';
+
+// Ignorer spécifiquement les wrappers Symfony vides comme terme_form_contents_X ou proposition_form_contents_X
+if (divId.match(/^(terme_form_contents_\d+|proposition_form_contents_\d+)$/)) {
+return;
+}
+
+// On cherche les inputs pour identifier les champs
+const input = div.querySelector('input, textarea');
+const label = div.querySelector('label');
+
+// Ignorer les divs vides ou qui ne contiennent ni input/textarea ni label
+if (! input && ! label) 
+return;
+
+
+
+const name = input ? input.getAttribute('name') || '' : '';
+const id = input ? input.getAttribute('id') || '' : '';
+const labelFor = label ? label.getAttribute('for') || '' : '';
+
+// helper
+const moveTo = (lang) => document.getElementById(`${lang}-content-${index}`) ?. appendChild(div);
+
+// Placer chaque champ dans le bon container
+if (name.includes('[titreFr]') || id.includes('titreFr') || labelFor.includes('titreFr')) {
+return moveTo('fr');
+} else if (name.includes('[titreAr]') || id.includes('titreAr') || labelFor.includes('titreAr')) {
+return moveTo('ar');
+} else if (name.includes('[titreDr]') || id.includes('titreDr') || labelFor.includes('titreDr')) {
+return moveTo('dr');
+} else if (name.includes('[descriptionFr]') || id.includes('descriptionFr') || labelFor.includes('descriptionFr')) {
+return moveTo('fr');
+} else if (name.includes('[descriptionAr]') || id.includes('descriptionAr') || labelFor.includes('descriptionAr')) {
+return moveTo('ar');
+} else if (name.includes('[descriptionDr]') || id.includes('descriptionDr') || labelFor.includes('descriptionDr')) {
+return moveTo('dr');
+}
+
+// === TOUS les autres champs uniquement au premier rendu ===
+if (isInitialRender) {
+if (name.includes('[synonymeFr]') || id.includes('synonymeFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[synonymeAr]') || id.includes('synonymeAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[synonymeDr]') || id.includes('synonymeDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[domaine_applicationsFr]') || id.includes('domaine_applicationsFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[domaine_applicationsAr]') || id.includes('domaine_applicationsAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[domaine_applicationsDr]') || id.includes('domaine_applicationsDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[categorieFr]') || id.includes('categorieFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[categorieAr]') || id.includes('categorieAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[categorieDr]') || id.includes('categorieDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[sourceFr]') || id.includes('sourceFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[sourceAr]') || id.includes('sourceAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[sourceDr]') || id.includes('sourceDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[categorie_grammaticaleFr]') || id.includes('categorie_grammaticaleFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[categorie_grammaticaleAr]') || id.includes('categorie_grammaticaleAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[categorie_grammaticaleDr]') || id.includes('categorie_grammaticaleDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[relation_terminologiqueFr]') || id.includes('relation_terminologiqueFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[relation_terminologiqueAr]') || id.includes('relation_terminologiqueAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[relation_terminologiqueDr]') || id.includes('relation_terminologiqueDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[equivalent_anglaisFr]') || id.includes('equivalent_anglaisFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[equivalent_anglaisAr]') || id.includes('equivalent_anglaisAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[equivalent_anglaisDr]') || id.includes('equivalent_anglaisDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[equivalent_espagnolFr]') || id.includes('equivalent_espagnolFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[equivalent_espagnolAr]') || id.includes('equivalent_espagnolAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[equivalent_espagnolDr]') || id.includes('equivalent_espagnolDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[idiomeFr]') || id.includes('idiomeFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[idiomeAr]') || id.includes('idiomeAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[idiomeDr]') || id.includes('idiomeDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[usage_metaphoriqueFr]') || id.includes('usage_metaphoriqueFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[usage_metaphoriqueAr]') || id.includes('usage_metaphoriqueAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[usage_metaphoriqueDr]') || id.includes('usage_metaphoriqueDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[recit_vieFr]') || id.includes('recit_vieFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[recit_vieAr]') || id.includes('recit_vieAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[recit_vieDr]') || id.includes('recit_vieDr')) 
+return moveTo('dr');
+
+
+
+if (name.includes('[liens_hypertexteFr]') || id.includes('liens_hypertexteFr')) 
+return moveTo('fr');
+
+
+
+if (name.includes('[liens_hypertexteAr]') || id.includes('liens_hypertexteAr')) 
+return moveTo('ar');
+
+
+
+if (name.includes('[liens_hypertexteDr]') || id.includes('liens_hypertexteDr')) 
+return moveTo('dr');
+
+
+
+}
+});
+}
+
+// Fonction de gestion du clic
+function addContentHandler() {
+addContentForm();
+}
+
+// Ajoute un gestionnaire d'événements pour le bouton d'ajout
+if (addButton) {
+addButton.removeEventListener('click', addContentHandler); // Supprime les gestionnaires existants
+addButton.addEventListener('click', addContentHandler);
+}
+
+console.log('Liste des contenus FR:', contentsListFr.children.length);
+
+// Ajoute un contenu si les listes sont vides
+if (contentsListFr.children.length === 0) {
+addContentForm();
+} else { // Initialiser les boutons de suppression pour les éléments existants
+document.querySelectorAll('.delete-item-btn').forEach(function (btn) {
+btn.addEventListener('click', function () {
+const index = this.closest('[data-index]').getAttribute('data-index');
+
+// Supprimer les éléments correspondants dans toutes les colonnes
+const frItem = contentsListFr.querySelector(`[data-index="${index}"]`);
+const arItem = contentsListAr.querySelector(`[data-index="${index}"]`);
+const drItem = contentsListDr.querySelector(`[data-index="${index}"]`);
+
+if (frItem) 
+frItem.remove();
+
+
+
+if (arItem) 
+arItem.remove();
+
+
+
+if (drItem) 
+drItem.remove();
+
+
+
+});
+});
+}
+
+// Marquer comme initialisé pour éviter les initialisations multiples
+initialized = true;
+return true;
+}
+
+// Vérifie si la page est déjà chargée
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+setTimeout(attemptInitialization, 0);
+} else { // Sinon, attendre que la page soit chargée
+document.addEventListener('DOMContentLoaded', function () {
+setTimeout(attemptInitialization, 0);
+});
+}
+
+// Tentative de secours après 500ms si tout échoue
+setTimeout(function () {
+attemptInitialization();
+}, 500);
+})();
+</script>

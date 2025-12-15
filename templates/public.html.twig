@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<main class="min-h-screen bg-white">
+
+    {% include 'components/navbar.html.twig' %}
+        {% block content %}
+            <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6">
+                {% block page_content %}
+
+                {% endblock %}
+            </div>
+        {% endblock %}
+    {% include 'components/footer.html.twig' %}
+</main>
+{% endblock %}

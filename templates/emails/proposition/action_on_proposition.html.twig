@@ -1,0 +1,45 @@
+<p>Bonjour, {{ nom_prenom }}</p>
+
+{% if status == 'approved' %}{% set action = 'validée' %}{% else %}{% set action = 'refusée' %}{% endif %}
+
+<p>
+    Votre proposition fait le {{ date }}, a été {{ action }} par l'administration.
+</p>
+
+<p>
+    Proposition :
+</p>
+
+<br>
+
+<ul>
+    <li>
+        <strong>Titre Fr</strong> : {{ titre_fr }}
+    </li>
+    <li>
+        <strong>Titre Ar</strong> : {{ titre_ar }}
+    </li>
+    <li>
+        <strong>Titre Dr</strong> : {{ titre_dr }}
+    </li>
+</ul>
+
+<br>
+
+{% if status == 'approved' %}
+    <p>
+        Merci pour votre contribution. Votre proposition a été validée et sera prochainement traitée par notre équipe pour être publiée sur notre site.    </p>
+{% else %}
+    <p>
+        Malheureusement, votre proposition n’a pas été retenue. Ce refus peut être lié à différents critères. <br>
+        Nous vous invitons à contacter l’administration si vous souhaitez obtenir plus d’informations. <br>
+        Vous avez bien sûr la possibilité de soumettre une nouvelle proposition. Merci pour votre participation. <br>
+    </p>
+{% endif %}
+
+<br>
+
+<p>
+    Cordialement,<br>
+    L’equipe SFIFA
+</p>

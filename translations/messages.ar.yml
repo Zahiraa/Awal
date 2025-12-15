@@ -1,0 +1,301 @@
+common:
+  copyLink: "نسخ الرابط"
+  copiedLink: "تم نسخ الرابط"
+  copyError: "خطأ"
+  backToHome: "العودة إلى الصفحة الرئيسية"
+  load: "جاري البحث…"
+  roles:
+    admin: "الإدارة"
+    manager: "الإدارة"
+    guest: "زائر"
+  status:
+    approved: "مقبول"
+    rejected: "مرفوض"
+    waiting_approval: "قيد المراجعة"
+    draft: "مسودة"
+    published: "منشور"
+  delete: "مسح"
+  flash:
+    success:
+      updateProfile: "تم تحديث الملف الشخصي بنجاح"
+      addProposition: "تم إضافة المقترح بنجاح"
+      updateProposition: "تم تحديث المقترح بنجاح"
+      deleteProposition:
+        title: "حذف المقترح"
+        message: "هل أنت متأكد أنك تريد حذف هذا المقترح؟ لا يمكن التراجع عن هذا الإجراء."
+        cancel: "إلغاء"
+        confirm: "حذف"
+        succes: "تم حذف المقترح بنجاح."
+      resetPassword: "تم تغيير كلمة المرور الخاصة بك بنجاح. يمكنك الآن تسجيل الدخول"
+      contact: "تم إرسال الرسالة بنجاح، وسنرد عليك في أقرب وقت ممكن"
+    error:
+      contact: "حدث خطأ أثناء إرسال البريد الإلكتروني، يرجى المحاولة مرة أخرى لاحقًا."
+
+heroSection:
+  title: "اكتشف ثراء الصناعة اليدوية"
+  subTitle: "المغربية"
+  description: "اكتشف معجماً فريداً لمصطلحات الأزياء المغربية التقليدية والنسيج، بالفرنسية <br> والعربية الفصحى والدارجة. تعلّم المعاني والتاريخ والحِرفية المرتبطة بكل كلمة"
+
+searchInput:
+  placeholder: "البحث عن مصطلح..."
+
+aboutSection:
+  tag: "من نحن"
+  title: "بدأنا للتو رحلتنا"
+  description: ""
+  expertise:
+    first:
+    second:
+    third:
+
+FonctionnalitesSection:
+  tag: "الميزات"
+  title:
+  description:
+  fonctionnalite:
+    first:
+      title:
+      description:
+    second:
+      title:
+      description:
+    third:
+      title: ""
+      description: ""
+    fourth:
+      title: ""
+      description: ""
+    fifth:
+      title: ""
+      description: ""
+    sixth:
+      title: ""
+      description: ""
+
+RecitVie:
+  tag: "قصتنا"
+  title: " أحدث منشوراتنا"
+  subTitle: "اكتشف مقالات ملهمة ومليئة بالمعلومات حول مجموعة متنوعة من المواضيع"
+  button: "عرض جميع المقالات"
+  page:
+    mainTitle: "صفحة قصتنا"
+    subTitle: "أهلاً بكم في قصتنا , تصفحوا أحدث منشوراتنا واستمتعوا بمحتوى يثري معرفتكم ويلهمكم"
+    title: "جميع المقالات"
+    published: "تم النشر بتاريخ"
+    admin: "الإدارة"
+    noResults:
+      title: "لم يتم العثور على أي مقال"
+      texte: "لا توجد مقالات لعرضها في الوقت الحالي. يرجى العودة لاحقًا أو الاتصال بالمسؤول."
+      backToHome: "العودة إلى الصفحة الرئيسية"
+      admin: "يرجى إنشاء مقال للبدء في مشاركة المحتوى ."
+      create: "إنشاء مقال"
+
+Statistiques:
+  title:
+  subTitle:
+  firstItem:
+  secondItem:
+  thirdItem:
+
+ContactSection:
+  title: "هل لديك أي أسئلة أخرى؟"
+  description: "للمزيد من المعلومات أو أي استفسار، يمكن التواصل مع فريقنا <br> نحن هنا لتقديم المساعدة والإجابات اللازمة"
+  button: "تواصل معنا"
+
+  page:
+    mainTitle: "اتصل بنا"
+    subTitle: "إذا كان لديك أي أسئلة أو تعليقات أو استفسارات، فلا تتردد في الاتصال بنا.<br> نحن هنا لمساعدتك وملتزمون بالرد على استفساراتك في أقرب وقت ممكن "
+
+    form:
+      prenom:
+        label: "الاسم الشخصي"
+        placeholder: "الاسم الشخصي"
+
+      nom:
+        label: "الاسم العائلي"
+        placeholder: "الاسم العائلي"
+
+      email:
+        label: "البريد الإلكتروني"
+        placeholder: "you@example.com"
+
+      subject:
+        label: "الموضوع"
+        placeholder: "الموضوع"
+
+      message:
+        label: "الرسالة"
+        placeholder: "اترك لنا رسالة"
+
+        errors:
+          required: "الرسالة مطلوبة"
+          maxLength: "يجب ألا تزيد الرسالة عن {{ limit }} أحرف."
+
+      politiques:
+        label: "أنت توافق على سياسة الخصوصية الخاصة بنا."
+
+      conditions:
+        label: "الشروط والأحكام."
+
+      recaptcha:
+        error: "يرجى التأكد من أنك لست روبوتًا."
+
+      button: "إرسال الرسالة"
+
+Navbar:
+  accueil: "الرئيسية"
+  glossaire: "المعجم"
+  recitVie: "قصتنا"
+  contact: "اتصل بنا"
+  seConnecter: "تسجيل الدخول"
+  inscrire: "إنشاء حساب"
+  myProfile: "ملفي الشخصي"
+  logout: "تسجيل الخروج"
+  myPropositions: "مقترحاتي"
+  dashboad: "لوحة التحكم"
+
+Footer:
+  description: "معجم ثلاثي اللغات لمصطلحات  الأزياء والنسيج<br>  المغربية،  بما في ذلك المعنى والتاريخ والحرفية"
+  copyright: "جميع الحقوق محفوظة"
+  company: "MonarkIT"
+  conditionsGenerales: "الشروط والأحكام"
+
+Glossaire:
+  noResults:
+    tile: "لم يتم العثور على نتائج"
+    description: "لا توجد حالياً أي مصطلحات تبدأ بالحرف "
+    button: "اقترح مصطلحًا جديدًا"
+    autocomplete:
+      placeholder: "لم يتم العثور على نتائج"
+      search: "لم يتطابق مع أي مصطلح, يرجى المحاولة مرة أخرى"
+      texte: "بحثك"
+      proposition: "لا يوجد مقترح"
+      noProposition: "لا يوجد أي مقترح يتطابق مع"
+      start: "ابدأ بإنشاء مقترح جديد."
+
+login:
+  title: "تسجيل الدخول"
+  subtitle: "سعداء برؤيتك مجددًا! الرجاء إدخال بياناتك."
+  email:
+    label: "البريد الإلكتروني"
+  password:
+    label: "كلمة المرور"
+  forgotPassword: "هل نسيت كلمة المرور؟"
+  button: "تسجيل الدخول"
+  noAccount: "ليس لديك حساب؟"
+  register: "إنشاء حساب"
+
+resetPassword:
+  title: "هل نسيت كلمة المرور؟"
+  subtitle: "لا تقلق، سنرسل لك تعليمات إعادة تعيين كلمة المرور"
+  email:
+    label: "البريد الإلكتروني"
+  button: "إعادة تعيين كلمة المرور"
+  backToLogin: "العودة لتسجيل الدخول"
+  messageAfterSubmit:
+    title: "التحقق من بريدك الإلكتروني "
+    message: "إذا كان هناك حساب مرتبط ببريدك الإلكتروني، فقد تم إرسال رسالة تحتوي على رابط يمكنك استخدامه لإعادة تعيين كلمة المرور."
+    expirationLink: "سينتهي صلاحية هذا الرابط خلال"
+    form:
+      title: "تعيين كلمة مرور جديدة"
+      message: "يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمات المرور المستخدمة سابقًا."
+      password:
+        label: "كلمة المرور الجديدة"
+        remarque: "يجب أن تحتوي على 8 أحرف على الأقل."
+      confirmPassword:
+        label: "تأكيد كلمة المرور"
+        error: "يجب أن تتطابق كلمتا المرور."
+      button: "إعادة تعيين كلمة المرور"
+  messageAfterReset:
+    title: "إعادة تعيين كلمة المرور"
+    message: "تمت إعادة تعيين كلمة المرور بنجاح. اضغط أدناه لتسجيل الدخول."
+    button: " التالي"
+
+register:
+  title: "إنشاء حساب"
+  firstName:
+    label: "الاسم الشخصي"
+    placeholder: "أدخل اسمك الشخصي"
+  lastName:
+    label: "الاسم العائلي"
+    placeholder: "أدخل اسم العائلة"
+  email:
+    label: "البريد الإلكتروني"
+    placeholder: "أدخل بريدك الإلكتروني"
+  password:
+    label: "كلمة المرور"
+    placeholder: "أدخل كلمة المرور"
+    remarque: "يجب أن تحتوي على 8 أحرف على الأقل"
+  confirmPassword:
+    label: "تأكيد كلمة المرور"
+    placeholder: "أعد إدخال كلمة المرور"
+  termes: "أوافق على الشروط والأحكام"
+  button: "ابدأ"
+  haveAccount: "هل لديك حساب بالفعل؟"
+  login: "تسجيل الدخول"
+  verify:
+    title: "تحقق من بريدك الإلكتروني"
+    message: "لقد أرسلنا رابط تأكيد الحساب إلى"
+    backToLogin: "العودة لتسجيل الدخول"
+    successMessage: "لقد تم تأكيد عنوان بريدك الإلكتروني بنجاح"
+  complete:
+    title: "أكمل تسجيلك"
+    texte: "يرجى ملء المعلومات التالية لإتمام حسابك."
+    password: "يجب أن تحتوي على 8 أحرف على الأقل."
+    button: "إتمام التسجيل"
+
+langues:
+  arabe: "العربية"
+  francais: "الفرنسية"
+  darija: "الدارجة"
+
+myPropositions:
+  title: "إدارة المقترحات"
+  edit: "تعديل اقتراح"
+  description: "يمكنك إدارة مقترحاتك هنا، تقديمها للموافقة أو حذفها."
+  button: "مقترح جديد"
+  search:
+    placeholder: "بحث"
+  table:
+    image: "صورة"
+    francais: "الفرنسية"
+    arabe: "العربية"
+    darija: "الدارجة"
+    addDate: "أضيف في"
+    statut: "الحالة"
+    actions: "إجراءات"
+  newProposition:
+    title: "إضافة مقترح جديد"
+    formTitle: "الإضافة"
+    form: "نموذج"
+    description: "أدخل المعلومات التالية باللغة العربية، الفرنسية، والدارجة."
+    cancel: "إلغاء"
+    submit: "نشر"
+  editProposition:
+    title: "تعديل اقتراح"
+    formTitle: "للتعديل"
+    description: "أكمل المعلومات أدناه بالفرنسية والعربية والدارجة."
+    cancel: "إلغاء"
+    submit: "نشر"
+  common:
+    image: "انقر للتنزيل"
+    subTitle: "أو اسحب وأفلت <br> SVG، PNG، JPG أو GIF (الحد الأقصى 800x400 px) <br>  يجب ألا يتجاوز حجم الصورة"
+    noFile: "لم يتم اختيار أي صورة"
+    noSize: "الحجم: 0 KB"
+
+myProfile:
+  title: "معلوماتي الشخصية"
+  description: "تفاصيل معلوماتي الشخصية"
+  prenom: "الاسم الشخصي"
+  nom: "الاسم العائلي"
+  email: "البريد الإلكتروني"
+  edit:
+    label: "تعديل"
+    title: "تعديل معلوماتي الشخصية"
+    description: "يمكنك تعديل معلوماتك الشخصية هنا."
+    cancel: "إلغاء"
+    submit: "حفظ التغييرات"
+
+conditionsGenerales:
+  title: "الشروط والأحكام"
+  update: "أحدث تحديث"

@@ -1,0 +1,359 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Inviter des utilisateurs{% endblock %}
+
+{% block content %}
+    <div class="flex-1 flex flex-col bg-gray-50">
+        <!-- Flash Messages -->
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="p-4 mb-4 {% if label == 'success' %}bg-green-100 text-green-700{% elseif label == 'error' %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %} rounded">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Header -->
+        <header class="bg-white py-6 border-b border-gray-200">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 px-4 md:px-0">
+                <div>
+                    <h1 class="text-2xl font-semibold text-gray-900">
+                        Inviter
+                    </h1>
+                    <p class="text-gray-600 mt-1">
+                        Utilisez le formulaire ci-dessous pour inviter de nouveaux utilisateurs à rejoindre votre plateforme.
+                    </p>
+                </div>
+                <a href="{{ path('app_admin_user_index') }}" class="w-full md:w-auto flex items-center justify-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+                    Retour
+                </a>
+            </div>
+        </header>
+    </div>
+
+    <div class="mx-auto pt-8 border-t border-light-gray-200 px-4 md:px-6 lg:px-0">
+        <div class="flex flex-col md:flex-col lg:flex-row gap-6 md:gap-8 lg:gap-8 items-start">
+            <!-- Left side text -->
+            <div class="w-full md:w-full lg:max-w-[30%]">
+                <h4 class="font-semibold text-gray-900 mb-3 text-base md:text-lg lg:text-base">Inviter des utilisateurs</h4>
+                <p class="text-gray-600 leading-relaxed text-sm md:text-base lg:text-sm">
+                    Accélérez le démarrage de vos projets en invitant votre équipe à collaborer.
+                </p>
+            </div>
+
+            <!-- Right side form -->
+            <div class="w-full md:w-full lg:grow-1">
+                {{ form_start(form, {
+                    'attr': {
+                        'class': 'space-y-6',
+                        'data-turbo': 'true',
+                        'data-turbo-frame': '_top'
+                    }
+                }) }}
+                <div class="invitations-list space-y-4"
+                     data-prototype="{{ form_widget(form.invitations.vars.prototype)|e('html_attr') }}"
+                     data-index="{{ form.invitations|length > 0 ? form.invitations|length : 0 }}">
+
+                    {% if form.invitations|length > 0 %}
+                        {% for invitation in form.invitations %}
+                            <div class="invitation-row flex flex-col md:flex-row items-start md:items-center gap-4">
+                                {% if not loop.first %}
+                                    <button type="button" class="delete-invitation-btn hover:cursor-pointer w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                {% else %}
+                                    <div class="w-6 h-6"></div>
+                                {% endif %}
+                                <div class="w-full md:flex-1">
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1.6665 5.83398L8.4706 10.5969C9.02158 10.9825 9.29707 11.1754 9.59672 11.2501C9.86142 11.3161 10.1383 11.3161 10.403 11.2501C10.7026 11.1754 10.9781 10.9825 11.5291 10.5969L18.3332 5.83398M5.6665 16.6673H14.3332C15.7333 16.6673 16.4334 16.6673 16.9681 16.3948C17.4386 16.1552 17.821 15.7727 18.0607 15.3023C18.3332 14.7675 18.3332 14.0674 18.3332 12.6673V7.33398C18.3332 5.93385 18.3332 5.23379 18.0607 4.69901C17.821 4.2286 17.4386 3.84615 16.9681 3.60647C16.4334 3.33398 15.7333 3.33398 14.3332 3.33398H5.6665C4.26637 3.33398 3.56631 3.33398 3.03153 3.60647C2.56112 3.84615 2.17867 4.2286 1.93899 4.69901C1.6665 5.23379 1.6665 5.93385 1.6665 7.33398V12.6673C1.6665 14.0674 1.6665 14.7675 1.93899 15.3023C2.17867 15.7727 2.56112 16.1552 3.03153 16.3948C3.56631 16.6673 4.26637 16.6673 5.6665 16.6673Z" stroke="#667085" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        {{ form_widget(invitation.email, {
+                                            'attr': {
+                                                'class': 'w-full md:w-[85%] lg:w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors',
+                                                'placeholder': 'you@example.com'
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                                <div class="w-full md:max-w-[150px] lg:max-w-[300px]">
+                                    {{ form_widget(invitation.role, {
+                                        'attr': {
+                                            'class': 'w-full px-4 py-3 border hover:cursor-pointer border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors'
+                                        }
+                                    }) }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-col md:flex-row items-start md:items-center mt-6 gap-4 md:gap-0">
+                    <div class="flex items-center gap-4 w-full md:w-auto">
+                        <button type="button" class="w-full md:w-auto hover:cursor-pointer add-invitation-btn flex items-center justify-center gap-2 text-teal-600 hover:text-teal-700 font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 20 20">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 5v10m5-5H5"/>
+                            </svg>
+                            Ajouter un autre
+                        </button>
+                    </div>
+                    <div class="flex flex-row w-full md:w-auto md:ml-auto space-x-3">
+                        <button type="submit" class="w-full md:w-auto hover:cursor-pointer bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.6665 5.83398L8.4706 10.5969C9.02158 10.9825 9.29707 11.1754 9.59672 11.2501C9.86142 11.3161 10.1383 11.3161 10.403 11.2501C10.7026 11.1754 10.9781 10.9825 11.5291 10.5969L18.3332 5.83398M5.6665 16.6673H14.3332C15.7333 16.6673 16.4334 16.6673 16.9681 16.3948C17.4386 16.1552 17.821 15.7727 18.0607 15.3023C18.3332 14.7675 18.3332 14.0674 18.3332 12.6673V7.33398C18.3332 5.93385 18.3332 5.23379 18.0607 4.69901C17.821 4.2286 17.4386 3.84615 16.9681 3.60647C16.4334 3.33398 15.7333 3.33398 14.3332 3.33398H5.6665C4.26637 3.33398 3.56631 3.33398 3.03153 3.60647C2.56112 3.84615 2.17867 4.2286 1.93899 4.69901C1.6665 5.23379 1.6665 5.93385 1.6665 7.33398V12.6673C1.6665 14.0674 1.6665 14.7675 1.93899 15.3023C2.17867 15.7727 2.56112 16.1552 3.03153 16.3948C3.56631 16.6673 4.26637 16.6673 5.6665 16.6673Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Envoyer les invitations
+                        </button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    <script>
+        // Attendre que tout soit complètement chargé
+        (function() {
+            'use strict';
+
+            let isInitialized = false;
+
+            function waitForElements() {
+                return new Promise((resolve) => {
+                    const checkElements = () => {
+                        const invitationsList = document.querySelector('.invitations-list');
+                        const addButton = document.querySelector('.add-invitation-btn');
+
+                        if (invitationsList && addButton && invitationsList.dataset.prototype) {
+                            resolve({ invitationsList, addButton });
+                        } else {
+                            setTimeout(checkElements, 50);
+                        }
+                    };
+                    checkElements();
+                });
+            }
+
+            async function initializeInvitationForm() {
+                if (isInitialized) {
+                    console.log('Script déjà initialisé');
+                    return;
+                }
+
+                console.log('Début d\'initialisation...');
+
+                try {
+                    const { invitationsList, addButton } = await waitForElements();
+
+                    console.log('Éléments trouvés:', {
+                        invitationsList: !!invitationsList,
+                        addButton: !!addButton,
+                        prototype: !!invitationsList.dataset.prototype
+                    });
+
+                    function createEmailIcon() {
+                        return `
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.6665 5.83398L8.4706 10.5969C9.02158 10.9825 9.29707 11.1754 9.59672 11.2501C9.86142 11.3161 10.1383 11.3161 10.403 11.2501C10.7026 11.1754 10.9781 10.9825 11.5291 10.5969L18.3332 5.83398M5.6665 16.6673H14.3332C15.7333 16.6673 16.4334 16.6673 16.9681 16.3948C17.4386 16.1552 17.821 15.7727 18.0607 15.3023C18.3332 14.7675 18.3332 14.0674 18.3332 12.6673V7.33398C18.3332 5.93385 18.3332 5.23379 18.0607 4.69901C17.821 4.2286 17.4386 3.84615 16.9681 3.60647C16.4334 3.33398 15.7333 3.33398 14.3332 3.33398H5.6665C4.26637 3.33398 3.56631 3.33398 3.03153 3.60647C2.56112 3.84615 2.17867 4.2286 1.93899 4.69901C1.6665 5.23379 1.6665 5.93385 1.6665 7.33398V12.6673C1.6665 14.0674 1.6665 14.7675 1.93899 15.3023C2.17867 15.7727 2.56112 16.1552 3.03153 16.3948C3.56631 16.6673 4.26637 16.6673 5.6665 16.6673Z" stroke="#667085" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                `;
+                    }
+
+                    function updateDeleteButtons() {
+                        const rows = invitationsList.querySelectorAll('.invitation-row');
+                        console.log('Mise à jour des boutons pour', rows.length, 'lignes');
+
+                        rows.forEach((row, index) => {
+                            const deleteBtn = row.querySelector('.delete-invitation-btn');
+                            const spacer = row.querySelector('.delete-spacer');
+
+                            if (index === 0) {
+                                if (deleteBtn) deleteBtn.style.display = 'none';
+                                if (spacer) spacer.style.display = 'block';
+                            } else {
+                                if (deleteBtn) deleteBtn.style.display = 'flex';
+                                if (spacer) spacer.style.display = 'none';
+                            }
+                        });
+                    }
+
+                    function addInvitationForm() {
+                        console.log('=== DÉBUT AJOUT INVITATION ===');
+
+                        const prototype = invitationsList.dataset.prototype;
+                        let currentIndex = parseInt(invitationsList.dataset.index) || 0;
+
+                        console.log('Index actuel:', currentIndex);
+                        console.log('Prototype disponible:', !!prototype);
+
+                        if (!prototype) {
+                            console.error('Prototype manquant');
+                            return;
+                        }
+
+                        // Créer le conteneur principal
+                        const container = document.createElement('div');
+                        container.className = 'invitation-row flex flex-col md:flex-row items-start md:items-center gap-4';
+
+                        // Bouton de suppression
+                        const deleteButton = document.createElement('button');
+                        deleteButton.type = 'button';
+                        deleteButton.className = 'delete-invitation-btn hover:cursor-pointer w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors';
+                        deleteButton.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                `;
+
+                        // Spacer
+                        const spacer = document.createElement('div');
+                        spacer.className = 'delete-spacer w-6 h-6';
+
+                        container.appendChild(deleteButton);
+                        container.appendChild(spacer);
+
+                        // Traiter le prototype
+                        const processedPrototype = prototype.replace(/__name__/g, currentIndex);
+                        console.log('Prototype traité pour index', currentIndex);
+
+                        // Parser le HTML
+                        const tempContainer = document.createElement('div');
+                        tempContainer.innerHTML = processedPrototype;
+
+                        // Extraire les champs
+                        const emailField = tempContainer.querySelector('input[type="email"]');
+                        const roleField = tempContainer.querySelector('select');
+
+                        console.log('Champs extraits:', {
+                            email: !!emailField,
+                            role: !!roleField
+                        });
+
+                        if (!emailField || !roleField) {
+                            console.error('Impossible d\'extraire les champs du prototype');
+                            return;
+                        }
+
+                        // Container pour l'email
+                        const emailContainer = document.createElement('div');
+                        emailContainer.className = 'w-full md:flex-1';
+
+                        const emailWrapper = document.createElement('div');
+                        emailWrapper.className = 'relative';
+                        emailWrapper.innerHTML = createEmailIcon();
+
+                        // Configurer l'input email
+                        emailField.className = 'w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors';
+                        emailField.placeholder = 'you@example.com';
+
+                        emailWrapper.appendChild(emailField);
+                        emailContainer.appendChild(emailWrapper);
+                        container.appendChild(emailContainer);
+
+                        // Container pour le rôle
+                        const roleContainer = document.createElement('div');
+                        roleContainer.className = 'w-full md:max-w-[150px] lg:max-w-[300px]';
+
+                        roleField.className = 'w-full px-4 py-3 border hover:cursor-pointer border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors';
+
+                        roleContainer.appendChild(roleField);
+                        container.appendChild(roleContainer);
+
+                        // Ajouter à la liste
+                        invitationsList.appendChild(container);
+
+                        // Mettre à jour l'index
+                        invitationsList.dataset.index = (currentIndex + 1).toString();
+
+                        console.log('Nouvel index:', invitationsList.dataset.index);
+
+                        // Mettre à jour les boutons
+                        updateDeleteButtons();
+
+                        // Focus sur l'email
+                        setTimeout(() => {
+                            emailField.focus();
+                        }, 100);
+
+                        console.log('=== INVITATION AJOUTÉE AVEC SUCCÈS ===');
+                    }
+
+                    // Nettoyer les anciens event listeners
+                    const oldAddButton = addButton.cloneNode(true);
+                    addButton.parentNode.replaceChild(oldAddButton, addButton);
+
+                    // Event listener pour l'ajout
+                    oldAddButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('CLIC SUR AJOUTER');
+                        addInvitationForm();
+                    });
+
+                    // Event listener pour la suppression (délégation)
+                    invitationsList.addEventListener('click', function(e) {
+                        const deleteBtn = e.target.closest('.delete-invitation-btn');
+                        if (deleteBtn) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const row = deleteBtn.closest('.invitation-row');
+                            if (row) {
+                                console.log('Suppression d\'une ligne');
+                                row.remove();
+                                updateDeleteButtons();
+                            }
+                        }
+                    });
+
+                    // Mise à jour initiale si des lignes existent déjà
+                    const existingRows = invitationsList.querySelectorAll('.invitation-row');
+                    if (existingRows.length > 0) {
+                        console.log('Lignes existantes détectées:', existingRows.length);
+                        updateDeleteButtons();
+                    }
+
+                    isInitialized = true;
+                    console.log('✅ INITIALISATION TERMINÉE AVEC SUCCÈS');
+
+                } catch (error) {
+                    console.error('Erreur lors de l\'initialisation:', error);
+                }
+            }
+
+            // Multiples points d'entrée pour s'assurer que l'initialisation se fait
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeInvitationForm);
+            } else {
+                // DOM déjà chargé
+                setTimeout(initializeInvitationForm, 10);
+            }
+
+            // Backup au cas où
+            window.addEventListener('load', function() {
+                setTimeout(initializeInvitationForm, 100);
+            });
+
+            // Pour le debugging - fonction globale
+            window.debugInvitations = function() {
+                console.log('État actuel:', {
+                    isInitialized: isInitialized,
+                    invitationsList: !!document.querySelector('.invitations-list'),
+                    addButton: !!document.querySelector('.add-invitation-btn'),
+                    prototype: document.querySelector('.invitations-list')?.dataset?.prototype
+                });
+            };
+
+        })();
+    </script>
+{% endblock %}
+
+{#{% block scripts %}#}
+
+{#{% endblock %}#}
+

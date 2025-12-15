@@ -1,0 +1,13 @@
+{# paramètres :
+    - roles : les rôles de l'utilisateur
+#}
+
+{% if 'ROLE_ADMIN' in roles %}
+	{{ 'common.roles.admin'|trans }}
+{% elseif 'ROLE_MANAGER' in roles %}
+	{{ 'common.roles.manager'|trans }}
+{% elseif 'ROLE_USER' in roles %}
+	{{ 'common.roles.user'|trans }}
+{% else %}
+	Invité
+{% endif %}

@@ -1,0 +1,7 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}{{ 'myPropositions.edit'|trans }}{% endblock %}
+
+{% block page_content %}
+    {{ include('common/_add_terme_form.html.twig', {'title': 'myPropositions.editProposition.formTitle'|trans}) }}
+{% endblock %}

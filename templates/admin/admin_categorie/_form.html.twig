@@ -1,0 +1,20 @@
+<div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Formulaire {{ title }}</h1>
+    <hr class="text-gray-300 my-2">
+</div>
+
+{{ form_start(form, {'attr': {'class': 'mx-auto p-6 bg-white rounded-lg shadow-sm'}}) }}
+
+    {{ form_widget(form) }}
+
+    <div class="flex flex-row ml-auto space-x-3 gap-1 mt-6 justify-end">
+        <a href="{{ path('app_admin_categorie_index') }}" type="button" class="bg-white border border-gray-300 px-4 py-2 rounded-lg font-semibold items-center gap-2 text-lg text-gray-700 hover:bg-gray-50">
+            Annuler
+        </a>
+
+        <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-teal-700 transition duration-200 font-semibold cursor-pointer">
+            Enregistrer
+        </button>
+    </div>
+
+{{ form_end(form) }}

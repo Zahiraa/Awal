@@ -1,0 +1,7 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Modification d'une categorie{% endblock %}
+
+{% block content %}
+    {{ include('admin/admin_categorie/_form.html.twig', {'title': ' de modification d\'une categorie', button_label: 'Update'}) }}
+{% endblock %}

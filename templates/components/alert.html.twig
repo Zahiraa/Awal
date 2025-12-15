@@ -1,0 +1,43 @@
+{#
+    Alert Component
+    
+    Parameters:
+    - type: 'error', 'warning', or 'success'
+    - message: The alert message to display
+    - icon: Optional custom icon (defaults to type-based icon)
+#}
+
+{% set alertConfig = {
+    'error': {
+        'bgClass': 'bg-primary-100',
+        'textClass': 'text-coral',
+        'borderClass': 'border-coral',
+        'extraTextClass': 'text-error-700',
+        'icon': 'error.svg',
+        'alt': 'Error'
+    },
+    'warning': {
+        'bgClass': 'bg-primary-500',
+        'textClass': 'text-warning-700',
+        'borderClass': 'border-warning-300',
+        'extraTextClass': 'text-warning-700',
+        'icon': 'alert.svg',
+        'alt': 'Alert'
+    },
+    'success': {
+        'bgClass': 'bg-primary-200',
+        'textClass': 'text-success-700',
+        'borderClass': 'border-success-300',
+        'extraTextClass': 'text-success-700',
+        'icon': 'check.svg',
+        'alt': 'Success'
+    }
+} %}
+
+{% set config = alertConfig[type] %}
+{% set iconSrc = icon|default(config.icon) %}
+
+<div class="{{ config.bgClass }} {{ config.textClass }} flex items-center gap-3 font-semibold border {{ config.borderClass }} {{ config.extraTextClass }} p-4 rounded-lg mb-6">
+    <img src="{{ asset('build/images/icons/' ~ iconSrc) }}" alt="{{ config.alt }}" width="20" height="20">
+    <p class="text-sm font-semibold">{{ message }}</p>
+</div> 

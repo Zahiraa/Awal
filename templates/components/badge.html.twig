@@ -1,0 +1,82 @@
+{#
+    Badge Component
+    
+    Parameters:
+    - type: 'draft', 'waiting_approval', 'published', 'rejected', 'success', 'error', 'warning', 'info'
+    - text: The badge text to display
+    - size: Optional size ('sm', 'md', 'lg') - defaults to 'sm'
+#}
+
+{% set badgeConfig = {
+    'draft': {
+        'bgClass': 'bg-light-gray-400',
+        'textClass': 'text-gray-700',
+        'dotClass': 'text-gray-700'
+    },
+    'waiting_approval': {
+        'bgClass': 'bg-warning-50',
+        'textClass': 'text-warning-700',
+        'dotClass': 'text-warning-700'
+    },
+    'published': {
+        'bgClass': 'bg-success-50',
+        'textClass': 'text-success-700',
+        'dotClass': 'text-success-700'
+    },
+    'approved': {
+        'bgClass': 'bg-success-50',
+        'textClass': 'text-success-700',
+        'dotClass': 'text-success-700'
+    },
+    'rejected': {
+        'bgClass': 'bg-error-50',
+        'textClass': 'text-error-700',
+        'dotClass': 'text-error-700'
+    },
+    'success': {
+        'bgClass': 'bg-success-50',
+        'textClass': 'text-success-700',
+        'dotClass': 'text-success-400'
+    },
+    'error': {
+        'bgClass': 'bg-error-50',
+        'textClass': 'text-error-700',
+        'dotClass': 'text-error-700'
+    },
+    'warning': {
+        'bgClass': 'bg-warning-50',
+        'textClass': 'text-warning-700',
+        'dotClass': 'text-warning-700'
+    },
+    'info': {
+        'bgClass': 'bg-blue-50',
+        'textClass': 'text-blue-700',
+        'dotClass': 'text-blue-700'
+    }
+} %}
+
+{% set sizeConfig = {
+    'sm': {
+        'paddingClass': 'px-2.5 py-0.5',
+        'textSizeClass': 'text-xs',
+        'dotSizeClass': 'text-lg leading-[0.8]'
+    },
+    'md': {
+        'paddingClass': 'px-3 py-1',
+        'textSizeClass': 'text-sm',
+        'dotSizeClass': 'text-xl leading-[0.8]'
+    },
+    'lg': {
+        'paddingClass': 'px-4 py-1.5',
+        'textSizeClass': 'text-base',
+        'dotSizeClass': 'text-2xl leading-[0.8]'
+    }
+} %}
+
+{% set config = badgeConfig[type] ?? badgeConfig['info'] %}
+{% set sizeSettings = sizeConfig[size|default('sm')] %}
+
+<span class="inline-flex items-center {{ sizeSettings.paddingClass }} rounded-full {{ sizeSettings.textSizeClass }} font-medium {{ config.bgClass }} {{ config.textClass }}">
+    <span class="{{ config.dotClass }} {{ sizeSettings.dotSizeClass }} mr-1">•</span>
+    {{ text }}
+</span> 

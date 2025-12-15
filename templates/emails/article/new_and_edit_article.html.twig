@@ -1,0 +1,33 @@
+<p>Bonjour, {{ nom_prenom_admin }}</p>
+
+{% if isEdit %}
+    <p>
+        Des modifications ont été apportées sur un article, par <strong>{{ nom_prenom }}</strong>. Merci de bien vouloir le vérifier et le publier.
+    </p>
+
+    <i>
+        NB : En attendant l'article est remis en brouillon, le temps qu'un administrateur le valide et le publie à nouveau.
+    </i>
+{% else %}
+    <p>
+        Un nouvel article a été ajouté par <strong>{{ nom_prenom }}</strong>. Merci de bien vouloir le vérifier et le publier.
+    </p>
+{% endif %}
+
+<p>
+    Article {% if isEdit %}modifié{% else %}ajouté{% endif %} : <strong>{{ titre }}</strong>
+</p>
+
+{% if isEdit %}
+    <p>
+        Vous pouvez consulter les informations completes en cliquant sur le lien suivant : <a target="_blank" href="{{ url }}">Lien vers l'article</a>
+    </p>
+{% else %}
+    <p>
+        Vous pouvez voir la liste des articles en cliquant sur le lien suivant : <a target="_blank" href="{{ url }}">Lien vers la liste des articles</a>
+    </p>
+{% endif %}
+
+<p>
+    SFIFA
+</p>

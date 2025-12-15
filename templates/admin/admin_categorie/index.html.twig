@@ -1,0 +1,370 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Categorie index{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col bg-gray-50">
+        <!-- Header -->
+        <header class="bg-white py-6 border-b border-gray-200">
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <h1 class="text-2xl font-semibold text-gray-900">
+                        Gestion des categories
+                    </h1>
+                </div>
+                <a href="{{ path('app_admin_categorie_new') }}"
+                   class="bg-teal-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-teal-700 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    Ajouter une categorie
+                </a>
+            </div>
+            <hr class="text-gray-300 mt-4 mb-2">
+        </header>
+
+        <!-- Search Bar -->
+        <div class="pt-2 pb-4 rounded-t-lg flex justify-end bg-white mb-[-8px] container-table-box-shadow">
+            <div class="relative md:min-w-sm md:max-w-sm">
+                <form method="GET" action="{{ path('app_admin_categorie_index') }}" class="flex ">
+                    <div class="relative w-full">
+                        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                        </svg>
+                        <input type="text"
+                               name="search"
+                               value="{{ app.request.get('search') }}"
+                               placeholder="Rechercher"
+                               class="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"/>
+                        {% if app.request.get('search') %}
+                            <a href="{{ path('app_admin_categorie_index') }}" class="absolute hover:filter hover:brightness-125 right-3 top-1/2 transform -translate-y-1/2">
+                                <img src="{{ asset('build/images/icons/x-close.svg') }}" alt="Effacer" class="w-5 h-5">
+                            </a>
+                        {% endif %}
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="pb-8">
+            <div class="bg-white rounded-lg table-box-shadow overflow-hidden">
+                {% if categories|length > 0 %}
+                    <!-- Responsive Table with Horizontal Scroll -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[800px]">
+                            <thead class="bg-light-gray-300 border-b border-t border-light-gray-200 rounded-t-lg">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">#</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+                                    Nom
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+                                    Actions
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                            {% for index, categorie in categories %}
+                                <tr class="hover:bg-gray-50 transition duration-150 border-b border-light-gray-200">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ index + 1 }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="inline-block">
+                                            <span class="px-2 py-1 rounded-full text-sm font-medium {{ categorie.bgClass }} {{ categorie.textClass }}">
+                                                {{ categorie.nom }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <div class="flex  items-center space-x-4">
+                                            <!-- Edit Button -->
+                                            <a  href="{{ path('app_admin_categorie_edit', {'id': categorie.id}) }}"
+                                                class="text-gray-400 hover:text-gray-600 transition duration-150"
+                                                title="Modifier"
+                                            >
+                                                <img src="{{ asset('build/images/icons/edit.svg') }}" alt="Modifier" class="w-5 h-5 min-w-4 min-h-4">
+                                            </a>
+                                            <button type="button" 
+                                                    class="delete-btn text-gray-400 hover:text-red-600 transition duration-150 cursor-pointer"
+                                                    title="Supprimer"
+                                                    data-delete-url="{{ path('app_admin_categorie_delete', {'id': categorie.id}) }}"
+                                                    data-csrf-token="{{ csrf_token('delete' ~ categorie.id) }}">
+                                                <img src="{{ asset('build/images/icons/trash.svg') }}" alt="Supprimer" class="w-5 h-5  min-w-4 min-h-4">
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- KnpPaginatorBundle Pagination -->
+                    {% if categories.pageCount > 1 %}
+                        <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+                            {{ knp_pagination_render(categories, 'components/pagination.html.twig') }}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <!-- Empty State -->
+                    <div class="text-center py-12">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">
+                            {% if app.request.get('search') %}
+                                Aucun résultat trouvé
+                            {% else %}
+                                Aucun catégorie trouvée
+                            {% endif %}
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">
+                            {% if app.request.get('search') %}
+                                Aucun catégorie ne correspond à "{{ app.request.get('search') }}"
+                            {% else %}
+                                Créer une nouvelle catégorie.
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+        <div id="modalContent" class="relative top-1/4 mx-auto p-5 modal-box-shadow w-96 rounded-md bg-white modal-content">
+            <div class="flex justify-between items-start">
+                <img src="{{ asset('build/images/icons/delete.svg') }}" alt="Supprimer" class="w-12 h-12">
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900">Supprimer la catégorie</h3>
+                <p class="text-sm text-gray-600 mb-6">Êtes-vous sûr de vouloir supprimer cette catégorie ? Cette action ne peut pas être annulée.</p>
+                <div class="flex space-x-4">
+                    <button id="cancel-delete-btn" class="px-4 py-2 flex-1 border border-light-gray-100 text-gray-800 text-base font-medium rounded-md hover:bg-gray-50 transition duration-150 cursor-pointer">
+                        Annuler
+                    </button>
+                    <button id="confirm-delete-btn" class="px-4 py-2 flex-1 bg-red-600 text-white text-base font-medium rounded-md hover:bg-red-700 transition duration-150 cursor-pointer">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initializeDeleteCategorieModal() {
+            console.log('Initializing delete categorie modal script');
+            
+            // Ensure we don't add multiple event listeners
+            if (window.deleteCategorieModalInitialized) {
+                console.log('Delete categorie modal already initialized, skipping');
+                return;
+            }
+            window.deleteCategorieModalInitialized = true;
+            console.log('Delete categorie modal initialization starting');
+
+            let deleteUrl = '';
+            let csrfToken = '';
+            let isModalAnimating = false;
+
+            function showDeleteModal(url, token) {
+                console.log('showDeleteModal called', { url, token });
+                if (isModalAnimating) return;
+
+                deleteUrl = url;
+                csrfToken = token;
+
+                const modal = document.getElementById('deleteModal');
+                const modalContent = document.getElementById('modalContent');
+
+                if (!modal || !modalContent) {
+                    console.error('Modal elements not found');
+                    return;
+                }
+
+                // Show modal and start animation
+                modal.classList.remove('hidden');
+                modal.classList.add('modal-entering');
+                modalContent.classList.add('modal-entering');
+
+                isModalAnimating = true;
+
+                // After a small delay, transition to entered state
+                requestAnimationFrame(() => {
+                    modal.classList.remove('modal-entering');
+                    modal.classList.add('modal-entered');
+                    modalContent.classList.remove('modal-entering');
+                    modalContent.classList.add('modal-entered');
+
+                    setTimeout(() => {
+                        isModalAnimating = false;
+                    }, 300);
+                });
+            }
+
+            function hideDeleteModal() {
+                console.log('hideDeleteModal called');
+                if (isModalAnimating) return;
+
+                const modal = document.getElementById('deleteModal');
+                const modalContent = document.getElementById('modalContent');
+
+                if (!modal || !modalContent) return;
+
+                isModalAnimating = true;
+
+                // Start exit animation
+                modal.classList.remove('modal-entered');
+                modal.classList.add('modal-exiting');
+                modalContent.classList.remove('modal-entered');
+                modalContent.classList.add('modal-exiting');
+
+                // Use requestAnimationFrame to ensure the exiting state is applied, then transition to exited
+                requestAnimationFrame(() => {
+                    modal.classList.remove('modal-exiting');
+                    modal.classList.add('modal-exited');
+                    modalContent.classList.remove('modal-exiting');
+                    modalContent.classList.add('modal-exited');
+
+                    // After animation completes, hide modal
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        modal.classList.remove('modal-exited');
+                        modalContent.classList.remove('modal-exited');
+
+                        deleteUrl = '';
+                        csrfToken = '';
+                        isModalAnimating = false;
+                    }, 300);
+                });
+            }
+
+            function deleteItem() {
+                console.log('deleteItem called');
+                if (deleteUrl && csrfToken) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = deleteUrl;
+
+                    const tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = '_token';
+                    tokenInput.value = csrfToken;
+
+                    form.appendChild(tokenInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                } else {
+                    console.log('Missing data for delete:', { deleteUrl, csrfToken });
+                    hideDeleteModal();
+                }
+            }
+
+            // Attach event listeners to delete buttons
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            console.log('Found delete buttons:', deleteButtons.length);
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    console.log('Delete button clicked');
+                    e.preventDefault();
+                    const url = this.dataset.deleteUrl;
+                    const token = this.dataset.csrfToken;
+                    showDeleteModal(url, token);
+                });
+            });
+
+            // Attach event listener to close button (X button)
+            const closeBtn = document.getElementById('close-modal-btn');
+            if (closeBtn) {
+                console.log('Close button found, adding listener');
+                closeBtn.addEventListener('click', function(e) {
+                    console.log('Close button clicked');
+                    e.preventDefault();
+                    hideDeleteModal();
+                });
+            }
+
+            // Attach event listener to cancel button
+            const cancelBtn = document.getElementById('cancel-delete-btn');
+            if (cancelBtn) {
+                console.log('Cancel button found, adding listener');
+                cancelBtn.addEventListener('click', function(e) {
+                    console.log('Cancel button clicked');
+                    e.preventDefault();
+                    hideDeleteModal();
+                });
+            }
+
+            // Attach event listener to confirm button
+            const confirmBtn = document.getElementById('confirm-delete-btn');
+            if (confirmBtn) {
+                console.log('Confirm button found, adding listener');
+                confirmBtn.addEventListener('click', function(e) {
+                    console.log('Confirm button clicked');
+                    e.preventDefault();
+                    deleteItem();
+                });
+            }
+
+            // Close modal when clicking outside
+            const modal = document.getElementById('deleteModal');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this && !isModalAnimating) {
+                        hideDeleteModal();
+                    }
+                });
+            }
+
+            // Escape key to close modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !isModalAnimating) {
+                    const modal = document.getElementById('deleteModal');
+                    if (modal && !modal.classList.contains('hidden')) {
+                        hideDeleteModal();
+                    }
+                }
+            });
+        }
+
+        // Listen for both Turbo load and DOM content loaded
+        document.addEventListener('turbo:load', function() {
+            console.log('Turbo loaded - Delete categorie modal script starting');
+            initializeDeleteCategorieModal();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded - Delete categorie modal script starting');
+            initializeDeleteCategorieModal();
+        });
+
+        // Listen for page show event (for back/forward navigation)
+        window.addEventListener('pageshow', function(event) {
+            console.log('Page show event - Delete categorie modal script starting');
+            // Reset the flag on pageshow to allow re-initialization
+            window.deleteCategorieModalInitialized = false;
+            initializeDeleteCategorieModal();
+        });
+
+        // Reset initialization flag on page unload
+        document.addEventListener('turbo:before-cache', function() {
+            console.log('Turbo before cache - resetting flag');
+            window.deleteCategorieModalInitialized = false;
+        });
+
+        window.addEventListener('beforeunload', function() {
+            console.log('Before unload - resetting flag');
+            window.deleteCategorieModalInitialized = false;
+        });
+    </script>
+{% endblock %}

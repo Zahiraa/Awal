@@ -1,0 +1,16 @@
+
+<p style="margin-bottom: 20px;">Bonjour {{ admin }}! Vous avez un nouveau message :</p>
+
+<div >
+    <p><strong>De :</strong> {{ contact.prenom }} {{ contact.nom }} ({{ contact.email }})</p>
+    <p><strong>Sujet :</strong> {{ contact.subject }}</p>
+</div>
+
+<div style="background-color: #FFFFFF; padding: 20px; border: 1px solid #E2E8F0; border-radius: 8px;">
+    <h4 style="color: #4A5568; margin-top: 0;">Message :</h4>
+    <p style="white-space: pre-wrap;">{{ contact.message }}</p>
+</div>
+
+<div class="mt-5" style="color:#667085">
+    <p>Ce message a été envoyé via le formulaire de contact du site.</p>
+</div>
