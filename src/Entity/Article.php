@@ -58,6 +58,10 @@ class Article
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?File $image = null;
 
+    
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Author $author = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -177,6 +181,18 @@ class Article
     public function setImage(?File $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+      public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Author $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }
