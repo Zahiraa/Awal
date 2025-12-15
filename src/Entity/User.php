@@ -80,30 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $invitedAt = null;
 
-    /**
-     * @var Collection<int, Terme>
-     */
-    #[ORM\OneToMany(targetEntity: Terme::class, mappedBy: 'approuvedBy')]
-    private Collection $approvedTermes;
 
-    /**
-     * @var Collection<int, Terme>
-     */
-    #[ORM\OneToMany(targetEntity: Terme::class, mappedBy: 'createdBy')]
-    private Collection $createdTerme;
-
-    /**
-     * @var Collection<int, Proposition>
-     */
-    #[ORM\OneToMany(targetEntity: Proposition::class, mappedBy: 'createdBy')]
-    private Collection $propositions;
-
-    public function __construct()
-    {
-        $this->approvedTermes = new ArrayCollection();
-        $this->createdTerme = new ArrayCollection();
-        $this->propositions = new ArrayCollection();
-    }
 
     public function __toString(): string
     {
@@ -264,93 +241,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Terme>
-     */
-    public function getApprovedTermes(): Collection
-    {
-        return $this->approvedTermes;
-    }
-
-    public function addApprouvedTerme(Terme $approuvedTerme): static
-    {
-        if (!$this->approvedTermes->contains($approuvedTerme)) {
-            $this->approvedTermes->add($approuvedTerme);
-            $approuvedTerme->setApprovedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApprouvedTerme(Terme $approuvedTerme): static
-    {
-        if ($this->approvedTermes->removeElement($approuvedTerme)) {
-            // set the owning side to null (unless already changed)
-            if ($approuvedTerme->getApprovedBy() === $this) {
-                $approuvedTerme->setApprovedBy(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Terme>
-     */
-    public function getCreatedTerme(): Collection
-    {
-        return $this->createdTerme;
-    }
-
-    public function addCreatedTerme(Terme $createdTerme): static
-    {
-        if (!$this->createdTerme->contains($createdTerme)) {
-            $this->createdTerme->add($createdTerme);
-            $createdTerme->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCreatedTerme(Terme $createdTerme): static
-    {
-        if ($this->createdTerme->removeElement($createdTerme)) {
-            // set the owning side to null (unless already changed)
-            if ($createdTerme->getCreatedBy() === $this) {
-                $createdTerme->setCreatedBy(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Proposition>
-     */
-    public function getPropositions(): Collection
-    {
-        return $this->propositions;
-    }
-
-    public function addProposition(Proposition $proposition): static
-    {
-        if (!$this->propositions->contains($proposition)) {
-            $this->propositions->add($proposition);
-            $proposition->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProposition(Proposition $proposition): static
-    {
-        if ($this->propositions->removeElement($proposition)) {
-            // set the owning side to null (unless already changed)
-            if ($proposition->getCreatedBy() === $this) {
-                $proposition->setCreatedBy(null);
-            }
-        }
-
-        return $this;
-    }
 }
