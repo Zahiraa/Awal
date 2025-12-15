@@ -1,22 +1,5 @@
-# SFIFA - Plateforme avec Termes Trilingues en Symfony
+# Awal
 
-Plateforme web développée avec Symfony, avec une interface en français et permettant la gestion des termes en trois langues : français, arabe et darija, avec une interface moderne utilisant Tailwind CSS.
-
-## Caractéristiques principales
-
-- **Termes trilingues** : Gestion des termes disponibles en français, arabe et darija
-- **Support RTL** : Interface adaptée pour l'édition des termes en langues écrites de droite à gauche (arabe, darija)
-- **Interface en français** : Interface utilisateur entièrement en français
-- **Design moderne** : Design épuré utilisant Tailwind CSS
-- **Gestion complète des utilisateurs** :
-  - Système d'authentification
-  - Réinitialisation de mot de passe
-  - Invitation d'utilisateurs
-  - Vérification par email
-- **Gestion d'articles** :
-  - Création et modification d'articles avec termes trilingues
-  - Catégorisation avec tags colorés
-  - Interface d'administration
 
 ## Technologies utilisées
 
