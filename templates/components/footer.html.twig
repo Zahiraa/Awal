@@ -2,25 +2,9 @@
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="flex justify-between items-center flex-wrap  gap-x-10">
 			<div class="col-span-1 sm:col-span-2 lg:col-span-1">
-				<img src="{{ asset('build/images/logo.svg') }}" width="116" height="46" alt="sfifa" class="mb-4">
-				<p class="text-white mb-4 text-sm md:text-base">
-					{{ 'Footer.description'|trans|raw }}
-				</p>
+				
 			</div>
-			<div>
-				<ul class="flex align-center gap-8 text-teal-100 text-sm md:text-base">
-					<li>
-						<a href="{{ path('home') }}" class="text-primary-300 hover:text-white">{{ 'Navbar.accueil'|trans }}</a>
-					</li>
-
-					<li>
-						<a href="{{ path('article_index') }}" class="text-primary-300 hover:text-white">{{ 'Navbar.recitVie'|trans }}</a>
-					</li>
-					<li>
-						<a href="{{ path('contact') }}" class="text-primary-300 hover:text-white">{{ 'Navbar.contact'|trans }}</a>
-					</li>
-				</ul>
-			</div>
+			
 		</div>
 
 		<!-- Footer bottom -->
@@ -29,21 +13,10 @@
 				<p class="text-teal-100 text-warning-400 text-sm">
 					©
 					{{ "now"|date("Y") }}
-					<a href="https://monarkit.net" target="_blank" class="text-warning-400 hover:text-warning-300">{{ 'Footer.company'|trans }}</a>
 					{{ 'Footer.copyright'|trans }}
 				</p>
 				<div class="flex space-x-4 md:space-x-6">
-					{#            <a#}
-					{#              href="#"#}
-					{#              class="text-warning-400 hover:text-warning-300 text-sm"#}
-					{#              >Privacy</a#}
-					{#            >#}
-						<a href="{{ path('conditions_generales') }}" class="text-warning-400 hover:text-warning-300 text-sm"> {{ 'Footer.conditionsGenerales'|trans }}</a>
-					{#            <a#}
-				{#              href="#"#}
-					{#              class="text-warning-400 hover:text-warning-300 text-sm"#}
-					{#              >Cookies</a#}
-					{#            >#}
+				
 				</div>
 			</div>
 		</div>

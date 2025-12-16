@@ -1,0 +1,9 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}
+	من نحن
+{% endblock %}
+
+{% block content %}
+	{% include 'common/about.html.twig' with {'about': about} %}
+{% endblock %}

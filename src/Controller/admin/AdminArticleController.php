@@ -113,45 +113,14 @@ final class AdminArticleController extends DefaultController
         ]);
     }
 
-    /**
-     * @throws TransportExceptionInterface
-     */
-    #[Route('/{id}/approve', name: 'app_admin_article_action', methods: ['POST'])]
-    public function approve(Request $request, Article $article, ArticleManager $articleManager):Response
-    {
-        if ($this->isCsrfTokenValid('article'.$article->getId(), $request->getPayload()->getString('_token'))) {
-            if ($article->getStatut() === Article::STATUT_PUBLISHED) {
-                $this->addErrorMessage('L\'article est deja publié.');
-                return $this->redirectToRoute('app_admin_article_index', [], Response::HTTP_SEE_OTHER);
-            }
 
-            if ($article->getStatut() === Article::STATUT_DRAFT) {
-                $this->addErrorMessage("L'article peut pas encore être publié, il est en statut 'Brouillon'");
-                return $this->redirectToRoute('app_admin_article_index', [], Response::HTTP_SEE_OTHER);
-            }
-
-            $articleManager->approveArticle($article);
-            $this->addSuccessMessage('L\'article a bien été publié.');
-        }
-
-        return $this->redirectToRoute('app_admin_article_index', [], Response::HTTP_SEE_OTHER);
-    }
 
     #[Route('/{id}', name: 'app_admin_article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager ): Response
     {
         /** @var User $me */
         $me = $this->getUser();
-        $canDelete = false;
 
-        if ($me->isAdmin() or $article->getCreatedBy()->getId() === $me->getId()) {
-            $canDelete = true;
-        }
-
-        if (!$canDelete) {
-            $this->addErrorMessage('Vous n\'avez pas le droit de supprimer cet article.');
-            return $this->redirectToRoute('app_admin_article_index');
-        }
 
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->getPayload()->getString('_token'))) {
             $article->setImage(null);

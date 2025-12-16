@@ -4,7 +4,7 @@
 	{% set dashboardName = 'Articles'|trans %}
 
 
-	<nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+	<nav dir="rtl" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 
 		<div class="flex justify-between items-center h-16">
 			<div class="flex items-center">
@@ -13,9 +13,9 @@
 				</a>
 				<div class="hidden md:block">
 					<div class="ml-10 flex items-baseline space-x-4 md:space-x-6 lg:space-x-8">
-						<a href="{{ path('home') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">{{ 'Navbar.accueil'|trans }}</a>
-						<a href="{{ path('article_index') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">{{ 'Navbar.recitVie'|trans }}</a>
-						<a href="{{ path('contact') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">{{ 'Navbar.contact'|trans }}</a>
+						<a href="{{ path('home') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">العدد الحالي</a>
+						<a href="{{ path('about') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">من نحن</a>
+							<a href="{{ path('article_index') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold"> أرشيف أوال فيمينا</a>						<a href="{{ path('contact') }}" class="text-gray-600 hover:text-teal-600 px-2 md:px-2 lg:px-3 py-2 text-xs md:text-xs lg:text-sm font-semibold">اتصل بنا</a>
 					</div>
 
 				</div>
@@ -63,13 +63,7 @@
 							</form>
 						</div>
 					</div>
-				{% else %}
-					<a href="{{ path('app_login') }}" class="text-xs md:text-xs lg:text-sm text-gray-600 font-semibold">
-						{{ 'Navbar.seConnecter'|trans }}
-					</a>
-					<a href="{{ path('app_register') }}" class="bg-teal-600 text-white px-3 md:px-3 lg:px-4 py-2 rounded-md text-xs md:text-xs lg:text-sm font-semibold hover:bg-teal-700">
-						{{ 'Navbar.inscrire'|trans }}
-					</a>
+				
 				{% endif %}
 
 

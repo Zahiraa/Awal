@@ -7,9 +7,8 @@ use App\Entity\Terme;
 use App\Form\ContactForm;
 use App\Manager\Mailler;
 use App\Repository\ArticleRepository;
-use App\Repository\CguRepository;
+use App\Repository\AboutRepository;
 use App\Repository\TermeRepository;
-use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,37 +38,39 @@ class HomeController extends DefaultController
         ]);
     }
 
-    #[Route(path: 'conditions-generales', name: 'conditions_generales', methods: ['GET'])]
-    public function conditionsGenerales(CguRepository $cguRepository): Response
+    #[Route(path: '/about', name: 'about', methods: ['GET'])]
+    public function about(AboutRepository $aboutRepository): Response
     {
-        $cgu = $cguRepository->findOneBy([], ['created_at' => 'DESC']);
-        if(!$cgu) {
-            $this->addInfoMessage('La page des conditions générales n\'est pas encore disponible.');
+        $about = $aboutRepository->findOneBy([], ['id' => 'DESC']);
+        if(!$about) {
+            $this->addInfoMessage('La page about n\'est pas encore disponible.');
             return $this->redirectToRoute('home');
         }
-        return $this->render('cgu/conditions-generales.html.twig', [
-            'cgu' => $cgu,
+        return $this->render('about/index.html.twig', [
+            'about' => $about,
         ]);
     }
-
+ #[Route(path: '/whoAre', name: 'whoAre', methods: ['GET'])]
+    public function whoAre(AboutRepository $aboutRepository): Response
+    {
+        $about = $aboutRepository->findOneBy([], ['created_at' => 'DESC']);
+        if(!$about) {
+            $this->addInfoMessage('La page about n\'est pas encore disponible.');
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('about/index.html.twig', [
+            'about' => $about,
+        ]);
+    }
     #[Route(path: 'contact', name: 'contact', methods: ['GET', 'POST'])]
-    public function contact(Request $request, Mailler $mailler, Recaptcha3Validator $recaptcha3Validator, TranslatorInterface $translator): Response
+    public function contact(Request $request, Mailler $mailler, TranslatorInterface $translator): Response
     {
         $contact = new ContactDTO();
         $form = $this->createForm(ContactForm::class, $contact);
         $form->handleRequest($request);
         $score=0;
         if ($form->isSubmitted() && $form->isValid()) {
-            if($recaptcha3Validator->getLastResponse()) {
-                $score = $recaptcha3Validator->getLastResponse()->getScore();
-            }
-
-            $recaptcha=$form->get('recaptcha')->getData();
-            if ($score < 0.5 || !$recaptcha) {
-                $this->addErrorMessage($translator->trans('ContactSection.page.form.recaptcha.error'));
-                return $this->redirectToRoute('contact');
-            }
-
+     
             $context = ['admin' => $this->getParameter('mailer_from_name'), 'contact' => $contact];
             $response= $mailler->sendTemplateContactEmail($contact->getEmail(), $contact->getSubject(), 'emails/contact.html.twig',$context );
             if($response['status'] === 'success') {

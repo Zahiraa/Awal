@@ -62,6 +62,9 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Author $author = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $shortDescription = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -193,6 +196,18 @@ class Article
     public function setAuthor(?Author $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(?string $shortDescription): static
+    {
+        $this->shortDescription = $shortDescription;
 
         return $this;
     }

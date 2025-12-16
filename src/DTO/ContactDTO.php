@@ -2,7 +2,6 @@
 
 namespace App\DTO;
 
-use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ContactDTO
@@ -17,17 +16,13 @@ class ContactDTO
     #[Assert\Email(message: 'L\'email {{ value }} n\'est pas un email valide.')]
     private ?string $email = null;
 
-    #[Assert\IsTrue(message: 'You should agree to our terms.')]
-    private bool $agreeTerms = false;
-
     #[Assert\NotBlank(message: 'Le sujet ne peut pas être vide.')]
     private ?string $subject = null;
 
     #[Assert\NotBlank(message: 'Message ne peut pas être vide.')]
     private ?string $message = null;
 
-    // add recaptcha validation if needed
-     private ?string $recaptcha = null;
+   
 
 
     // Getters
@@ -46,10 +41,7 @@ class ContactDTO
         return $this->email;
     }
 
-    public function getAgreeTerms(): bool
-    {
-        return $this->agreeTerms;
-    }
+
 
     public function getSubject(): ?string
     {
@@ -80,11 +72,7 @@ class ContactDTO
         return $this;
     }
 
-    public function setAgreeTerms(bool $agreeTerms): self
-    {
-        $this->agreeTerms = $agreeTerms;
-        return $this;
-    }
+
 
     public function setSubject(?string $subject): self
     {
@@ -97,13 +85,5 @@ class ContactDTO
         $this->message = $message;
         return $this;
     }
-    public function getRecaptcha(): ?string
-    {
-        return $this->recaptcha;
-    }
-    public function setRecaptcha(?string $recaptcha): self
-    {
-        $this->recaptcha = $recaptcha;
-        return $this;
-    }
+ 
 } 

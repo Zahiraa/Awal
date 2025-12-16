@@ -3,14 +3,14 @@
 {% block title %}{{ 'ContactSection.page.mainTitle'|trans }}{% endblock %}
 
 {% block page_content %}
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col" dir="rtl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-26">
             <!-- Header Section -->
             <div class="bg-white">
                 <div class="text-center">
-                    <h1 class="text-4xl font-semibold text-teal-600 mb-4">  {{ 'ContactSection.page.mainTitle'|trans }}</h1>
+                    <h1 class="text-4xl font-semibold text-teal-600 mb-4">  اتصل بنا</h1>
                     <p class="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
-                        {{ 'ContactSection.page.subTitle'|trans|raw }}
+                        إذا كانت لديكم أي أسئلة أو ملاحظات أو استفسارات، لا تترددوا في التواصل معنا،
                     </p>
                 </div>
             </div>
@@ -100,27 +100,8 @@
                             {{ form_errors(form.message) }}
                         </div>
 
-                        <!-- Privacy Policy -->
-                        <div class="mb-6">
-                            <div class="flex items-start">
-                                {{ form_widget(form.agreeTerms, {
-                                    'attr': {
-                                        'class': 'mt-1 h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded'
-                                    }
-                                }) }}
-
-                            </div>
-                            {{ form_errors(form.agreeTerms) }}
-                            <div class="mt-5 ">
-                                <a href="{{ path('conditions_generales') }}" target="_blank" class="mx-3 text-teal-600 hover:text-teal-700 underline">
-                                    {{ 'ContactSection.page.form.conditions.label'|trans }}
-                                </a>
-                            </div>
-                        </div>
-                    <div class="mb-6">
-                        {{ form_row(form.recaptcha) }}
-                        {{ form_errors(form.recaptcha) }}
-                    </div>
+                     
+              
 
                         <!-- Submit Button -->
                         <div class="text-center">
