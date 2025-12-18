@@ -62,7 +62,16 @@
             </div>
         </div>
 
-      
+        {% if author.biography %}
+            <!-- Biographie -->
+            <p>Biographie</p>
+            <div class="prose prose-lg max-w-4xl mx-auto mb-16 text-center">
+                <p class="text-xl text-gray-700 leading-relaxed whitespaces-pre-line">
+                    {{ author.biography }}
+                </p>
+                <div class="h-1 w-20 bg-teal-500 mx-auto mt-8 rounded-full"></div>
+            </div>
+        {% endif %}
 
         <!-- Section Articles -->
         {% if author.articles is defined and author.articles|length > 0 %}

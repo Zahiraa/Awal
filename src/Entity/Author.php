@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
@@ -35,6 +36,9 @@ class Author
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?File $image = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $biography = null;
 
     public function __construct()
     {
@@ -121,6 +125,18 @@ class Author
     public function setImage(?File $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getBiography(): ?string
+    {
+        return $this->biography;
+    }
+
+    public function setBiography(?string $biography): static
+    {
+        $this->biography = $biography;
 
         return $this;
     }
