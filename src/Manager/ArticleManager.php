@@ -30,13 +30,7 @@ class ArticleManager
     public function saveArticle(Article $article, $formStatus = 'drafted', $image = null, $isEdit = false,$editor=null): Article
     {
         /** @var User $me */
-        $me = $this->security->getUser();
-        if($editor){
-            $article->setCreatedBy($editor);
-        }else {
-            $article->setCreatedBy($me);
-        }
-
+    
         if($isEdit){
             $article->setUpdatedBy($me);
         }
@@ -138,14 +132,12 @@ class ArticleManager
                 }
             }
         }
-
         // si c'est un admin, on met le terme en statut "published" sauf s'il a juste sauvegardé alors, on met le terme en statut "draft"
         if ($me->isAdmin()) {
             if ($formStatus === 'drafted') {
-                $article->setStatut(Terme::STATUT_DRAFT);
-            } else {
-                $article->setStatut(Terme::STATUT_PUBLISHED);
-                $article->setApprovedBy($me);
+                $article->setStatut(Article::STATUT_DRAFT);
+            }else {
+                $article->setStatut(Article::STATUT_PUBLISHED);
             }
         }
     }

@@ -26,30 +26,5 @@
 			{{ article.content|raw }}
 		</div>
 	</article>
-	<div class="w-full flex flex-wrap justify-center md:justify-between items-center gap-x-8 gap-y-2 mt-12 pt-4  border-t border-light-gray-100 ">
-		<div class="flex flex-wrap items-center gap-2   ">
-			<img src="{{ asset('build/images/icons/user.svg') }}" alt="Avatar" class="w-14 h-14 min-w-14 min-h-14 rounded-full">
-			<div>
-				<p class="text-gray-900 text-lg font-semibold w-fit">
-					{% if article.createdBy %}
-						{{ article.createdBy.prenom }}
-						{{ article.createdBy.nom }}
-					{% else %}
-						Equipe Sfifa
-					{% endif %}
-				</p>
-				{% if article.createdBy %}
-					<p class="text-gray-600 text-md font-semibold w-fit">{% include 'common/job_title.html.twig' with {
-                        'roles': article.createdBy.roles
-                    } %}</p>
-				{% endif %}
-			</div>
-		</div>
-		{% include 'common/footer.actions.html.twig' with {
-            'class': 'py-8 flex-wrap ',
-            'title':  article.titre,
-            'url': url('article_show', {'id': article.id}),
-            'status': article.statut
-        } %}
-	</div>
+
 </div>

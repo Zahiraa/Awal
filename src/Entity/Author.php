@@ -26,8 +26,6 @@ class Author
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $profession = null;
 
     /**
      * @var Collection<int, Article>
@@ -84,17 +82,6 @@ class Author
         return $this;
     }
 
-    public function getProfession(): ?string
-    {
-        return $this->profession;
-    }
-
-    public function setProfession(string $profession): static
-    {
-        $this->profession = $profession;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Article>

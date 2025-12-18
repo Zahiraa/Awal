@@ -39,15 +39,7 @@ class Article
     #[ORM\Column(length: 255)]
     private ?string $statut = null;
 
-    #[ORM\ManyToOne]
-    private ?User $approvedBy = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $createdBy = null;
-
-    #[ORM\ManyToOne]
-    private ?User $updatedBy = null;
 
     /**
      * @var Collection<int, Categorie>
@@ -62,9 +54,10 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Author $author = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $shortDescription = null;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?File $media = null;
 
+ 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -111,46 +104,6 @@ class Article
         return $this;
     }
 
-    public function getApprovedBy(): ?User
-    {
-        return $this->approvedBy;
-    }
-
-    public function setApprovedBy(?User $approvedBy): static
-    {
-        $this->approvedBy = $approvedBy;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?User
-    {
-        try {
-            return ($this->createdBy->getDeletedAt() === null) ? $this->createdBy : null;
-
-        } catch (\Doctrine\ORM\EntityNotFoundException $e) {
-            return null;
-        }
-    }
-
-    public function setCreatedBy(?User $createdBy): static
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    public function getUpdatedBy(): ?User
-    {
-        return $this->updatedBy;
-    }
-
-    public function setUpdatedBy(?User $updatedBy): static
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Categorie>
@@ -200,14 +153,14 @@ class Article
         return $this;
     }
 
-    public function getShortDescription(): ?string
+    public function getMedia(): ?File
     {
-        return $this->shortDescription;
+        return $this->media;
     }
 
-    public function setShortDescription(?string $shortDescription): static
+    public function setMedia(?File $media): static
     {
-        $this->shortDescription = $shortDescription;
+        $this->media = $media;
 
         return $this;
     }

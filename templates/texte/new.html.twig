@@ -1,0 +1,11 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}New Texte{% endblock %}
+
+{% block content %}
+    <h1>Create new Texte</h1>
+
+    {{ include('texte/_form.html.twig') }}
+
+    <a href="{{ path('app_texte_index') }}">back to list</a>
+{% endblock %}

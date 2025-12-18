@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Texte{% endblock %}
+
+{% block body %}
+    <h1>Texte</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ texte.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ texte.title }}</td>
+            </tr>
+            <tr>
+                <th>SubTitle</th>
+                <td>{{ texte.subTitle }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ texte.content }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ texte.createdAt ? texte.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ texte.updatedAt ? texte.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Media</th>
+                <td>
+                    {% if texte.media %}
+                        {% set audioExtensions = ['mp3', 'wav', 'ogg', 'aac', 'flac'] %}
+                        {% set videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'] %}
+                        {% if texte.media.extension in audioExtensions %}
+                            <audio controls>
+                                <source src="/uploads/{{ texte.media.name }}" type="audio/{{ texte.media.extension }}">
+                                Your browser does not support the audio element.
+                            </audio>
+                        {% elseif texte.media.extension in videoExtensions %}
+                            <video controls>
+                                <source src="/uploads/{{ texte.media.name }}" type="video/{{ texte.media.extension }}">
+                                Your browser does not support the video element.
+                            </video>
+                        {% else %}
+                            <a href="/uploads/{{ texte.media.name }}" target="_blank">{{ texte.media.name }}</a>
+                        {% endif %}
+                    {% else %}
+                        No media
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_texte_index') }}">back to list</a>
+
+    <a href="{{ path('app_texte_edit', {'id': texte.id}) }}">edit</a>
+
+    {{ include('texte/_delete_form.html.twig') }}
+{% endblock %}

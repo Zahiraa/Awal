@@ -1,0 +1,42 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Opinion{% endblock %}
+
+{% block content %}
+    <h1>Opinion</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ opinion.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ opinion.title }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ opinion.content }}</td>
+            </tr>
+            <tr>
+                <th>SubTitle</th>
+                <td>{{ opinion.subTitle }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ opinion.createdAt ? opinion.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ opinion.updatedAt ? opinion.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_opinion_index') }}">back to list</a>
+
+    <a href="{{ path('app_opinion_edit', {'id': opinion.id}) }}">edit</a>
+
+    {{ include('opinion/_delete_form.html.twig') }}
+{% endblock %}

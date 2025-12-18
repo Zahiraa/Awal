@@ -1,0 +1,37 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %} نصوص آوال فيمينا {% endblock %}
+
+{% block content %}
+    <h1>نصوص آوال فيمينا </h1>
+
+    <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>SubTitle</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for texte in textes %}
+            <tr>
+                <td>{{ texte.title }}</td>
+                <td>{{ texte.subTitle }}</td>
+                <td>{{ texte.createdAt ? texte.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_texte_show', {'id': texte.id}) }}">show</a>
+                    <a href="{{ path('app_texte_edit', {'id': texte.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_texte_new') }}">Create new</a>
+{% endblock %}
