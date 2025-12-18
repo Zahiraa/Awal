@@ -2,16 +2,16 @@
 
 {% block body %}
 
-	<div class="flex md:h-[94vh]">
-		<button id="admin-mobile-menu-button" class="md:hidden fixed top-4 left-4 z-50 bg-primary-600 text-white p-2 rounded-md">
+	<div class="flex md:h-[94vh]" dir="rtl" lang="ar">
+		<button id="admin-mobile-menu-button" class="md:hidden fixed top-4 right-4 z-50 bg-primary-600 text-white p-2 rounded-md">
 			<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
 			</svg>
 		</button>
 
-		<div id="admin-sidebar" class="w-68 bg-primary-600 text-white flex flex-col fixed md:relative inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:flex h-[calc(var(--vh)_*_100)] lg:h-screen md:overflow-hidden lg:overflow-y-auto">
+		<div id="admin-sidebar" class="w-68 bg-primary-600 text-white flex flex-col fixed md:relative inset-y-0 right-0 z-40 transform translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:flex h-[calc(var(--vh)_*_100)] lg:h-screen md:overflow-hidden lg:overflow-y-auto">
 
-			<div class="md:hidden flex justify-end p-4">
+			<div class="md:hidden flex justify-start p-4">
 				<button id="admin-sidebar-close" class="text-white hover:text-gray-300">
 					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -25,7 +25,15 @@
 			<ul class="space-y-1 flex-1 px-2">
 
 
+	<li>
+					<a href="{{ path('app_contenu_numero_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 {{ app.request.pathinfo starts with path('app_admin_categorie_index') ? 'bg-white text-primary-600' : 'text-white hover:bg-white hover:text-primary-600' }}">
+						<svg width="24" height="25" viewbox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M20 19.2852V16.2852H7C5.34315 16.2852 4 17.6283 4 19.2852M8.8 22.2852H16.8C17.9201 22.2852 18.4802 22.2852 18.908 22.0672C19.2843 21.8754 19.5903 21.5695 19.782 21.1931C20 20.7653 20 20.2053 20 19.0852V5.48516C20 4.36505 20 3.805 19.782 3.37718C19.5903 3.00085 19.2843 2.69489 18.908 2.50314C18.4802 2.28516 17.9201 2.28516 16.8 2.28516H8.8C7.11984 2.28516 6.27976 2.28516 5.63803 2.61214C5.07354 2.89976 4.6146 3.3587 4.32698 3.92318C4 4.56492 4 5.405 4 7.08516V17.4852C4 19.1653 4 20.0054 4.32698 20.6471C4.6146 21.2116 5.07354 21.6706 5.63803 21.9582C6.27976 22.2852 7.11984 22.2852 8.8 22.2852Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
 
+ملف العدد 
+					</a>
+				</li>
 
 	<li>
 					<a href="{{ path('app_texte_index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 {{ app.request.pathinfo starts with path('app_admin_categorie_index') ? 'bg-white text-primary-600' : 'text-white hover:bg-white hover:text-primary-600' }}">
@@ -88,12 +96,12 @@
 					<img src="{{ asset('build/images/icons/user.svg') }}" alt="Avatar" class="w-10 h-10 rounded-full">
 				</a>
 				<a href="{{ path('app_admin_user_show',{'id':app.user.id}) }}">
-					<div class="ml-3">
+					<div class="mr-3">
 						<p class="text-sm font-medium">{{ app.user }}</p>
 						<p class="text-xs text-teal-200">{{ app.user.email }}</p>
 					</div>
 				</a>
-				<a href="{{ path('app_logout') }}" class="ml-auto text-white hover:text-red-500">
+				<a href="{{ path('app_logout') }}" class="mr-auto text-white hover:text-red-500">
 					<svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M13.3333 14.1667L17.5 10M17.5 10L13.3333 5.83333M17.5 10H7.5M7.5 2.5H6.5C5.09987 2.5 4.3998 2.5 3.86502 2.77248C3.39462 3.01217 3.01217 3.39462 2.77248 3.86502C2.5 4.3998 2.5 5.09987 2.5 6.5V13.5C2.5 14.9001 2.5 15.6002 2.77248 16.135C3.01217 16.6054 3.39462 16.9878 3.86502 17.2275C4.3998 17.5 5.09987 17.5 6.5 17.5H7.5" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
 					</svg>
@@ -105,7 +113,7 @@
 
 	<div id="admin-sidebar-overlay" class="fixed inset-0 bg-black/90 z-30 md:hidden hidden"></div>
 
-	<main class="flex-1 px-2 md:px-8 py-8 md:py-12 bg-gray-200 overflow-y-auto ml-0 mt-8 md:mt-0 md:ml-0">
+	<main class="flex-1 px-2 md:px-8 py-8 md:py-12 bg-gray-200 overflow-y-auto mr-0 mt-8 md:mt-0 md:mr-0">
 		{% block content %}{% endblock %}
 		{% block javascripts %}{% endblock %}
 
@@ -125,13 +133,13 @@ return;
 }
 
 function openSidebar() {
-sidebar.classList.remove('-translate-x-full');
+sidebar.classList.remove('translate-x-full');
 overlay.classList.remove('hidden');
 mobileMenuButton.classList.add('hidden');
 }
 
 function closeSidebar() {
-sidebar.classList.add('-translate-x-full');
+sidebar.classList.add('translate-x-full');
 overlay.classList.add('hidden');
 mobileMenuButton.classList.remove('hidden');
 }

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Author;
 use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
+use App\Service\FileUploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,13 +24,20 @@ final class AuthorController extends AbstractController
     }
 
     #[Route('/new', name: 'app_author_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploadService $fileUploadService): Response
     {
         $author = new Author();
         $form = $this->createForm(AuthorType::class, $author);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+            
+            if ($image) {
+                $file = $fileUploadService->upload($image);
+                $author->setImage($file);
+            }
+
             $entityManager->persist($author);
             $entityManager->flush();
 
@@ -51,12 +59,28 @@ final class AuthorController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_author_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Author $author, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Author $author, EntityManagerInterface $entityManager, FileUploadService $fileUploadService): Response
     {
         $form = $this->createForm(AuthorType::class, $author);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+            
+            if ($image) {
+                // Supprimer l'ancienne image si elle existe
+                if ($author->getImage()) {
+                    $oldImage = $fileUploadService->delete($author->getImage()->getName());
+                    if ($oldImage) {
+                        $entityManager->remove($oldImage);
+                    }
+                }
+                
+                // Upload la nouvelle image
+                $file = $fileUploadService->upload($image);
+                $author->setImage($file);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_author_index', [], Response::HTTP_SEE_OTHER);
@@ -65,6 +89,7 @@ final class AuthorController extends AbstractController
         return $this->render('author/edit.html.twig', [
             'author' => $author,
             'form' => $form,
+            'image' => $author->getImage(),
         ]);
     }
 

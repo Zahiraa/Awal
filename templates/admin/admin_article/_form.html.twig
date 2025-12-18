@@ -167,7 +167,7 @@
         <img src="{{ asset('build/images/icons/upload.svg') }}" alt="User"  width="40" height="40" class="rounded-full m-w-">
         <!-- Icône upload -->
         <p class="text-gray-600 text-center mt-2 font-bold text-sm md:text-lg">
-            <span class="text-primary-600">Cliquez pour télécharger</span> ou faites glisser et déposez
+            <span class="text-primary-600">Cliquez pour télécharger une Image</span>
             <br/>
             SVG, PNG, JPG or GIF (max. 800x400px)<br>
             La taille de l'image ne doit pas dépasser {{ maxTaille }}
@@ -203,16 +203,51 @@
     </div>
 {% endif %}
 
+    <label class="flex-col mb-8 mt-4 flex items-center justify-center cursor-pointer pb-3 pt-3 px-4 md:px-0" style="border: 1px solid #E3EDF2">
+        <img src="{{ asset('build/images/icons/upload.svg') }}" alt="Media"  width="40" height="40" class="rounded-full m-w-">
+        <!-- Icône upload média -->
+        <p class="text-gray-600 text-center mt-2 font-bold text-sm md:text-lg">
+            <span class="text-primary-600">Cliquez pour télécharger une Média</span><br>
+             ( Audio ou Video )
+            <br/>
+            La taille du média ne doit pas dépasser {{ maxTaille }}
+        </p>
 
+        {{ form_row(form.media) }}
+
+    </label>
+
+{% if media is defined and media is not empty %}
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-4">
+        <div class="rounded-2xl flex gap-4 justify-between p-2 w-full md:w-auto" style=" border: 1px solid {%if isManager %} #DEDC00 {% else %} #008780 {% endif %}">
+            <img id="media-preview-icon" src="{{ asset('build/images/icons/media.svg') }}" class="w-20 h-20 max-w-20 max-h-20 rounded-xl object-contain" alt="Media Preview">
+            <div class="flex flex-col items-start justify-center flex-1">
+                <p id="media-file-name" class="text-gray-600 font-bold text-xs">{{ media.name }}</p>
+                <p id="media-file-size" class="text-gray-600 font-bold text-xs">Size: {{ media.size ?? 'Unknown' }}</p>
+            </div>
+            {% if isManager %} <img src="{{ asset('build/images/icons/valid-yellow.svg') }}" class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover" alt="Valid"> {% else %} <img src="{{ asset('build/images/icons/valid.svg') }}" class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover" alt="Valid"> {% endif %}
+        </div>
+    </div>
+
+{% else %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-4">
+        <div class="rounded-2xl flex gap-4 justify-between p-2 w-full md:w-auto"  style=" border: 1px solid {%if isManager %}#DEDC00 {% else %} #008780 {% endif %}">
+            <img id="media-preview-icon" src="{{ asset('build/images/icons/upload.svg') }}" class="w-20 h-20 min-w-20 min-h-20 rounded-xl object-contain" alt="Media Preview">
+            <div class="flex flex-col items-start justify-center flex-1">
+                <p id="media-file-name" class="text-gray-600 font-bold text-xs">Aucun fichier média sélectionné</p>
+                <p id="media-file-size" class="text-gray-600 font-bold text-xs">Size: 0 KB</p>
+            </div>
+            {% if isManager %} <img data-user="{{ isManager }}" id="media-img-valid" src="" class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover"  style="display: none" alt="Valid"> {% else %} <img data-user="{{ isManager }}" id="media-img-valid" style="display: none" src="" class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover" alt="Valid"> {% endif %}
+        </div>
+    </div>
+{% endif %}
 
 
 <div class="flex flex-col gap-4">
         {{ form_row(form.titre) }}
-        <div class="mb-3">
-            {{ form_label(form.categories, null, {'label_attr': {'class': 'text-lg text-gray-700'}}) }}
-            {{ form_widget(form.categories) }}
-            {{ form_errors(form.categories) }}
-        </div>
+        {{ form_row(form.author) }}
+   
         
         {{ form_row(form.content) }}
     </div>
@@ -328,6 +363,79 @@
 
             }
         });
+
+    })();
+</script>
+
+<script>
+    (function() {
+        const mediaInput = document.getElementById('{{ form.media.vars.id }}');
+        const mediaPreviewIcon = document.getElementById('media-preview-icon');
+        const mediaFileName = document.getElementById('media-file-name');
+        const mediaFileSize = document.getElementById('media-file-size');
+        const mediaImgValid = document.getElementById('media-img-valid');
+
+        const imageModal = document.getElementById('imageModal');
+
+        if (mediaInput) {
+            mediaInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+
+                if (file) {
+                    const fileName = file.name;
+                    const fileSizeKB = (file.size / 1024).toFixed(2);
+                    const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                    const limit = 500;
+
+                    // Vérifier le type de fichier
+                    const validTypes = [
+                        'audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/aac', 'audio/mp3',
+                        'video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska'
+                    ];
+
+                    const isValidType = validTypes.some(type => file.type.startsWith(type.split('/')[0]));
+
+                    if (!isValidType) {
+                        alert('Type de fichier non valide. Veuillez sélectionner un fichier audio ou vidéo.');
+                        return;
+                    }
+
+                    // Afficher popup si file est trop gros
+                    if(fileSizeMB >= limit) {
+                        if (mediaImgValid) {
+                            mediaImgValid.style.display = 'none';
+                        }
+                        if (imageModal) {
+                            imageModal.style.display = 'block';
+                        }
+                        return;
+                    } else {
+                        // Mettre à jour l'icône en fonction du type de média
+                        if (file.type.startsWith('audio/')) {
+                            mediaPreviewIcon.src = '{{ asset('build/images/icons/audio.svg') }}';
+                        } else if (file.type.startsWith('video/')) {
+                            mediaPreviewIcon.src = '{{ asset('build/images/icons/video.svg') }}';
+                        }
+
+                        if (mediaFileName) {
+                            mediaFileName.textContent = fileName;
+                        }
+                        if (mediaFileSize) {
+                            mediaFileSize.textContent = `Size: ${fileSizeKB} KB`;
+                        }
+
+                        if (mediaImgValid) {
+                            mediaImgValid.style.display = 'block';
+                            if(mediaImgValid.getAttribute('data-user')) {
+                                mediaImgValid.src = '{{ asset('build/images/icons/valid-yellow.svg') }}';
+                            } else {
+                                mediaImgValid.src = '{{ asset('build/images/icons/valid.svg') }}';
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
     })();
 </script>

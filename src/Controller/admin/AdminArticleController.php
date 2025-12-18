@@ -58,7 +58,8 @@ final class AdminArticleController extends DefaultController
             }
 
             $image = $form->get('image')->getData();
-            $articleManager->saveArticle($article, $formStatus, $image);
+            $media = $form->get('media')->getData();
+            $articleManager->saveArticle($article, $formStatus, $image, false, null, $media);
 
             $this->addSuccessMessage('Votre article a bien été ajoutée.');
 
@@ -87,7 +88,6 @@ final class AdminArticleController extends DefaultController
     {
         $form = $this->createForm(ArticleForm::class, $article);
         $form->handleRequest($request);
-          $editor=$article->getCreatedBy();
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $request->request->all()['article_form'];
 
@@ -98,7 +98,8 @@ final class AdminArticleController extends DefaultController
             }
 
             $image = $form->get('image')->getData();
-            $articleManager->saveArticle($article, $formStatus, $image, true, $editor);
+            $media = $form->get('media')->getData();
+            $articleManager->saveArticle($article, $formStatus, $image, true, $media);
 
             $this->addSuccessMessage('Votre article a bien été modifiée.');
 
@@ -110,6 +111,7 @@ final class AdminArticleController extends DefaultController
             'article' => $article,
             'form' => $form,
             'image' => $article->getImage(),
+            'media' => $article->getMedia(),
         ]);
     }
 

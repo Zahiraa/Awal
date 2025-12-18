@@ -27,18 +27,17 @@ class ArticleManager
      * @throws TransportExceptionInterface
      * @throws \Exception
      */
-    public function saveArticle(Article $article, $formStatus = 'drafted', $image = null, $isEdit = false,$editor=null): Article
+    public function saveArticle(Article $article, $formStatus = 'drafted', $image = null, $isEdit = false, $media = null): Article
     {
-        /** @var User $me */
     
-        if($isEdit){
-            $article->setUpdatedBy($me);
-        }
-
         $this->setArticleStatus($article, $formStatus, $isEdit);
 
         if ($image) {
             $this->uploadImage($article, $image);
+        }
+
+        if ($media) {
+            $this->uploadMedia($article, $media);
         }
 
         $this->entityManager->persist($article);
@@ -57,6 +56,18 @@ class ArticleManager
 
         $file = $this->fileUploadService->upload($image);
         $article->setImage($file);
+    }
+
+    private function uploadMedia(Article $article, $media): void {
+        if ($article->getMedia()) {
+            $oldMedia = $this->fileUploadService->delete($article->getMedia()->getName());
+            if ($oldMedia) {
+                $this->entityManager->remove($oldMedia);
+            }
+        }
+
+        $file = $this->fileUploadService->upload($media);
+        $article->setMedia($file);
     }
 
     /**
@@ -112,8 +123,6 @@ class ArticleManager
                 $subject = 'Article en attente d\'approbation';
 
                 if ($isEdit) {
-                    $article->setUpdatedBy($me);
-                    $user = $article->getUpdatedBy();
                     $subject = 'Article modifié et en attente d\'approbation';
                 }
 

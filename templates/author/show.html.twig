@@ -1,42 +1,214 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Author{% endblock %}
+{% block title %}{{ author.name }}{% endblock %}
 
 {% block content %}
-    <h1>Author</h1>
+<div class="w-full h-full" dir="rtl">
+    <!-- Header avec boutons d'action (Navigation) -->
+    <div class="mb-12 flex justify-between items-center border-b pb-4">
+        <a href="{{ path('app_author_index') }}" 
+           class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-200 font-medium gap-2 text-sm">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 10H15M15 10L10 15M15 10L10 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Retour
+        </a>
+        <div class="flex gap-3">
+            <a href="{{ path('app_author_edit', {'id': author.id}) }}" 
+               class="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-150 font-medium gap-2 text-sm">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+                </svg>
+                Modifier
+            </a>
+            <button data-has-articles="{{ author.articles|length > 0 ? 'true' : 'false' }}"
+                    class="delete-trigger-btn inline-flex items-center px-4 py-2 bg-red-50 text-red-600 border border-red-100 rounded-lg hover:bg-red-100 transition duration-150 font-medium gap-2 text-sm cursor-pointer">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                Supprimer
+            </button>
+        </div>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ author.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ author.name }}</td>
-            </tr>
-            <tr>
-                <th>NameFr</th>
-                <td>{{ author.nameFr }}</td>
-            </tr>
-            <tr>
-                <th>Country</th>
-                <td>{{ author.country }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ author.createdAt ? author.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ author.updatedAt ? author.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- Profil de l'auteur (Style Article Content) -->
+    <div class="max-w-4xl mx-auto">
+     
+        
+        <h1 class="text-3xl md:text-5xl font-bold text-gray-900 text-center mb-4">{{ author.name }}</h1>
+        
+        {% if author.nameFr %}
+            <p class="text-xl text-gray-500 text-center mb-8 italic">{{ author.nameFr }}</p>
+        {% endif %}
 
-    <a href="{{ path('app_author_index') }}">back to list</a>
+        <!-- Image de profil -->
+        {% set src = asset('build/images/default/placeholder.jpg') %}
+        {% if author.image %}
+            {% set src = '/uploads/' ~ author.image.name %}
+        {% endif %}
 
-    <a href="{{ path('app_author_edit', {'id': author.id}) }}">edit</a>
+        <div class="flex justify-center items-center mb-10">
+            <div class="relative">
+                <img src="{{ src }}" alt="{{ author.name }}" 
+                     class="w-48 h-48 md:w-64 md:h-64 object-cover rounded-2xl shadow-2xl border-4 border-white">
+                {% if author.country %}
+                    <div class="absolute -bottom-4 -left-4 bg-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 border border-gray-100">
+                        <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        </svg>
+                        <span class="text-sm font-bold text-gray-700">{{ author.country }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
 
-    {{ include('author/_delete_form.html.twig') }}
+      
+
+        <!-- Section Articles -->
+        {% if author.articles is defined and author.articles|length > 0 %}
+            <div class="mt-16 bg-gray-50 rounded-2xl p-8 border border-gray-100">
+                <h2 class="text-xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+                    <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM9 13h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    مقالات الكاتب / Articles
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% for article in author.articles %}
+                        <a href="{{ path('app_admin_article_show', {'id': article.id}) }}" 
+                           class="group bg-white p-5 rounded-xl border border-gray-200 hover:border-teal-500 hover:shadow-lg transition-all duration-300">
+                            <div class="flex flex-col h-full justify-between">
+                                <h3 class="font-bold text-gray-900 group-hover:text-teal-600 transition-colors mb-4 line-clamp-2">
+                                    {{ article.titre }}
+                                </h3>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Publié le {{ article.createdAt|date('d/m/Y') }}</span>
+                                    <span class="bg-teal-50 text-teal-700 px-2 py-1 rounded">Consulter</span>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+        <div id="modalContent" class="relative top-1/4 mx-auto p-4 md:p-5 modal-box-shadow w-11/12 max-w-sm md:w-96 rounded-md bg-white modal-content">
+            <div class="flex justify-between items-start">
+                <img src="{{ asset('build/images/icons/danger.svg') }}" alt="Supprimer" class="w-10 h-10 md:w-12 md:h-12">
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="mt-3">
+                <h3 class="text-base md:text-lg font-medium text-gray-900">Confirmer la suppression</h3>
+                <p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">Êtes-vous sûr de vouloir supprimer cet auteur ? Cette action est irréversible.</p>
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+                    <button id="cancel-delete-btn" class="w-full md:w-1/2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-200">
+                        Annuler
+                    </button>
+                    <form method="post" action="{{ path('app_author_delete', {'id': author.id}) }}" class="w-full md:w-1/2">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ author.id) }}">
+                        <button type="submit" class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200">
+                            Supprimer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cannot Delete Modal -->
+    <div id="cannotDeleteModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+        <div id="cannotDeleteModalContent" class="relative top-1/4 mx-auto p-4 md:p-5 modal-box-shadow w-11/12 max-w-sm md:w-96 rounded-md bg-white modal-content">
+            <div class="flex justify-between items-start">
+                <img src="{{ asset('build/images/icons/danger.svg') }}" alt="Attention" class="w-10 h-10 md:w-12 md:h-12">
+                <button id="close-cannot-delete-modal-btn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="mt-3">
+                <h3 class="text-base md:text-lg font-medium text-gray-900">Suppression impossible</h3>
+                <p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">Cet auteur est lié à des articles existants. Veuillez d'abord supprimer ou réattribuer ses articles avant de pouvoir supprimer l'auteur.</p>
+                <div class="flex justify-center">
+                    <button id="ok-cannot-delete-btn" class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-200">
+                        Compris
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Elements for Normal Delete Modal
+        const deleteModal = document.getElementById('deleteModal');
+        const modalContent = document.getElementById('modalContent');
+        const closeBtn = document.getElementById('close-modal-btn');
+        const cancelBtn = document.getElementById('cancel-delete-btn');
+        
+        // Elements for Cannot Delete Modal
+        const cannotDeleteModal = document.getElementById('cannotDeleteModal');
+        const cannotDeleteModalContent = document.getElementById('cannotDeleteModalContent');
+        const closeCannotDeleteBtn = document.getElementById('close-cannot-delete-modal-btn');
+        const okCannotDeleteBtn = document.getElementById('ok-cannot-delete-btn');
+
+        const openBtn = document.querySelector('.delete-trigger-btn');
+
+        if (openBtn) {
+            openBtn.addEventListener('click', function() {
+                const hasArticles = this.getAttribute('data-has-articles') === 'true';
+                
+                if (hasArticles) {
+                    showSpecificModal(cannotDeleteModal, cannotDeleteModalContent);
+                } else {
+                    showSpecificModal(deleteModal, modalContent);
+                }
+            });
+        }
+
+        function showSpecificModal(modal, content) {
+            modal.style.display = 'block';
+            setTimeout(() => {
+                modal.classList.add('modal-entered');
+                content.classList.add('modal-entered');
+            }, 10);
+        }
+
+        function hideSpecificModal(modal, content) {
+            modal.classList.remove('modal-entered');
+            content.classList.remove('modal-entered');
+            modal.classList.add('modal-exiting');
+            content.classList.add('modal-exiting');
+
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.remove('modal-exiting');
+                content.classList.remove('modal-exiting');
+            }, 300);
+        }
+
+        // Normal Delete Modal Events
+        if (closeBtn) closeBtn.addEventListener('click', () => hideSpecificModal(deleteModal, modalContent));
+        if (cancelBtn) cancelBtn.addEventListener('click', () => hideSpecificModal(deleteModal, modalContent));
+        
+        // Cannot Delete Modal Events
+        if (closeCannotDeleteBtn) closeCannotDeleteBtn.addEventListener('click', () => hideSpecificModal(cannotDeleteModal, cannotDeleteModalContent));
+        if (okCannotDeleteBtn) okCannotDeleteBtn.addEventListener('click', () => hideSpecificModal(cannotDeleteModal, cannotDeleteModalContent));
+
+        // Close when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === deleteModal) hideSpecificModal(deleteModal, modalContent);
+            if (e.target === cannotDeleteModal) hideSpecificModal(cannotDeleteModal, cannotDeleteModalContent);
+        });
+    })();
+</script>
 {% endblock %}

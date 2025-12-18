@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ContenuNumero{% endblock %}
+
+{% block body %}
+    <h1>Create new ContenuNumero</h1>
+
+    {{ include('contenu_numero/_form.html.twig') }}
+
+    <a href="{{ path('app_contenu_numero_index') }}">back to list</a>
+{% endblock %}

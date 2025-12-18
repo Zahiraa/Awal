@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Author;
 use App\Entity\Categorie;
 use App\Entity\File;
 use App\Entity\User;
@@ -41,6 +42,16 @@ class ArticleForm extends AbstractType
                 ],
 
             ])
+               ->add('media', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'hidden',
+                    'accept' => '.mp3,.wav,.ogg,.aac,.mp4,.webm,.mov,.avi,.mkv',
+                ],
+
+            ])
             ->add('titre', TextType::class, [
                 'label' => 'Titre',
                 'label_attr' => [
@@ -50,29 +61,20 @@ class ArticleForm extends AbstractType
                     'class' => 'form-input block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-auto px-2 py-2'
                 ]
             ])
-            ->add('categories', EntityType::class, [
-                'class' => Categorie::class,
-                'choice_label' => 'nom',
-                'choice_value' => 'id',
-                'choice_attr' => function(Categorie $categorie) {
-                    return [
-                        'data-bg-class' => $categorie->getBgClass(),
-                        'data-text-class' => $categorie->getTextClass(),
-                        'data-color' => $categorie->getColor() ?: 'gray' // Conserver data-color pour compatibilité
-                    ];
-                },
-                'multiple' => true,
-                'expanded' => false,
+            ->add('author', EntityType::class, [
+                'class' => Author::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionnez un auteur',
                 'required' => false,
+                'label' => 'Auteur',
                 'label_attr' => [
                     'class' => 'text-lg text-gray-700'
                 ],
                 'attr' => [
-                    'class' => 'js-select2 form-multiselect block w-full mt-1 rounded-md border-gray-300 shadow-sm h-auto py-2',
-                    'data-placeholder' => 'Sélectionnez des catégories'
-                ],
-                'by_reference' => false
+                    'class' => 'form-select block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-auto px-2 py-2'
+                ]
             ])
+          
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
                 'label_attr' => [

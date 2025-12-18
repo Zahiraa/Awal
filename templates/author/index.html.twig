@@ -1,43 +1,250 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Author index{% endblock %}
+{% block title %}كتاب الرأي{% endblock %}
 
 {% block content %}
-    <h1>كتاب الرأي</h1>
+    <div class="mb-6" dir="rtl">
+     
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>NameFr</th>
-                <th>Country</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for author in authors %}
-            <tr>
-                <td>{{ author.id }}</td>
-                <td>{{ author.name }}</td>
-                <td>{{ author.nameFr }}</td>
-                <td>{{ author.country }}</td>
-                <td>{{ author.createdAt ? author.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ author.updatedAt ? author.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_author_show', {'id': author.id}) }}">show</a>
-                    <a href="{{ path('app_author_edit', {'id': author.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <!-- Header -->
+        <header class="bg-white py-6 border-b border-gray-200">
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <h1 class="text-2xl font-semibold text-gray-900">
+                       كتاب الرأي
+                    </h1>
+                </div>
+                <a href="{{ path('app_author_new') }}"
+                   class="bg-teal-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-teal-700 transition duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+                    </svg>
+                    Ajouter un auteur
+                </a>
+            </div>
+            <hr class="text-gray-300 mt-4 mb-2">
+        </header>
+    </div>
 
-    <a href="{{ path('app_author_new') }}">Create new</a>
+    <!-- Table -->
+    <div class="pb-8" dir="rtl">
+        <div class="bg-white rounded-lg table-box-shadow overflow-hidden">
+            {% if authors|length > 0 %}
+                <!-- Responsive Table with Horizontal Scroll -->
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[800px]">
+                        <thead class="bg-light-gray-300 border-b border-t border-light-gray-200 rounded-t-lg">
+                        <tr>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+                                Image
+                            </th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+                                Nom (Arabe)
+                            </th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+                                Nom (Français)
+                            </th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+                                Pays
+                            </th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+                                Actions
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        {% for author in authors %}
+                            <tr class="hover:bg-gray-50 transition duration-150 border-b border-light-gray-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if author.image %}
+                                        <img src="{{ '/uploads/' ~ author.image.name }}" alt="{{ author.name }}" class="w-12 h-12 rounded-full object-cover">
+                                    {% else %}
+                                        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 max-w-[200px] truncate text-right">
+                                        {{ author.name }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 max-w-[200px] truncate text-right">
+                                        {{ author.nameFr }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900 max-w-[200px] truncate text-right">
+                                        {{ author.country }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <div class="flex items-center space-x-reverse space-x-4">
+                                        <!-- View Button -->
+                                        <a href="{{ path('app_author_show', {'id': author.id}) }}"
+                                           class="text-gray-400 hover:text-gray-600 transition duration-150"
+                                           title="Voir">
+                                            <img src="{{ asset('build/images/icons/eye.svg') }}" alt="Voir" class="w-5 h-5 min-w-4 min-h-4">
+                                        </a>
+
+                                        <!-- Edit Button -->
+                                        <a href="{{ path('app_author_edit', {'id': author.id}) }}"
+                                           class="text-gray-400 hover:text-gray-600 transition duration-150"
+                                           title="Modifier">
+                                            <img src="{{ asset('build/images/icons/edit.svg') }}" alt="Modifier" class="w-5 h-5 min-w-4 min-h-4">
+                                        </a>
+
+                                        <!-- Delete Button -->
+                                        <button class="delete-btn text-gray-400 hover:text-red-600 transition duration-150 cursor-pointer"
+                                                title="Supprimer"
+                                                data-author-id="{{ author.id }}"
+                                                data-csrf-token="{{ csrf_token('delete' ~ author.id) }}">
+                                            <img src="{{ asset('build/images/icons/trash.svg') }}" alt="Supprimer" class="w-5 h-5 min-w-4 min-h-4">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <!-- Empty State -->
+                <div class="text-center py-12">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">
+                        Aucun auteur trouvé
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Commencez par créer un nouvel auteur.
+                    </p>
+                    <div class="mt-6">
+                        <a href="{{ path('app_author_new') }}" 
+                           class="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-200 font-semibold gap-2">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Ajouter un auteur
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+        <div id="modalContent" class="relative top-1/4 mx-auto p-4 md:p-5 modal-box-shadow w-11/12 max-w-sm md:w-96 rounded-md bg-white modal-content">
+            <div class="flex justify-between items-start">
+                <img src="{{ asset('build/images/icons/danger.svg') }}" alt="Supprimer" class="w-10 h-10 md:w-12 md:h-12">
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="mt-3">
+                <h3 class="text-base md:text-lg font-medium text-gray-900">Confirmer la suppression</h3>
+                <p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">Êtes-vous sûr de vouloir supprimer cet auteur ? Cette action est irréversible.</p>
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+                    <button id="cancel-delete-btn" class="w-full md:w-1/2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-200">
+                        Annuler
+                    </button>
+                    <button id="confirm-delete-btn" class="w-full md:w-1/2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200">
+                        Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const deleteModal = document.getElementById('deleteModal');
+            const modalContent = document.getElementById('modalContent');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const cancelBtn = document.getElementById('cancel-delete-btn');
+            const confirmBtn = document.getElementById('confirm-delete-btn');
+            let currentAuthorId = null;
+            let currentCsrfToken = null;
+
+            // Function to show modal
+            function showModal(authorId, csrfToken) {
+                currentAuthorId = authorId;
+                currentCsrfToken = csrfToken;
+                deleteModal.style.display = 'block';
+                setTimeout(() => {
+                    deleteModal.classList.add('modal-entered');
+                    modalContent.classList.add('modal-entered');
+                }, 10);
+            }
+
+            // Function to hide modal
+            function hideModal() {
+                deleteModal.classList.remove('modal-entered');
+                modalContent.classList.remove('modal-entered');
+                deleteModal.classList.add('modal-exiting');
+                modalContent.classList.add('modal-exiting');
+
+                setTimeout(() => {
+                    deleteModal.style.display = 'none';
+                    deleteModal.classList.remove('modal-exiting');
+                    modalContent.classList.remove('modal-exiting');
+                    currentAuthorId = null;
+                    currentCsrfToken = null;
+                }, 300);
+            }
+
+            // Attach click event to all delete buttons
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const authorId = this.getAttribute('data-author-id');
+                    const csrfToken = this.getAttribute('data-csrf-token');
+                    showModal(authorId, csrfToken);
+                });
+            });
+
+            // Close modal events
+            if (closeBtn) {
+                closeBtn.addEventListener('click', hideModal);
+            }
+
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', hideModal);
+            }
+
+            // Confirm delete
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', function() {
+                    if (currentAuthorId && currentCsrfToken) {
+                        // Create and submit form
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '{{ path('app_author_delete', {'id': '__ID__'}) }}'.replace('__ID__', currentAuthorId);
+
+                        const tokenInput = document.createElement('input');
+                        tokenInput.type = 'hidden';
+                        tokenInput.name = '_token';
+                        tokenInput.value = currentCsrfToken;
+
+                        form.appendChild(tokenInput);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
+            }
+
+            // Close modal when clicking outside
+            deleteModal.addEventListener('click', function(e) {
+                if (e.target === deleteModal) {
+                    hideModal();
+                }
+            });
+        })();
+    </script>
 {% endblock %}
