@@ -20,10 +20,16 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findAllQuery($search): QueryBuilder
     {
-        return $this->createQueryBuilder('a')
-            ->orderBy('a.createdAt', 'DESC')
-            ->andWhere('a.titre LIKE :search OR a.content LIKE :search')
-            ->setParameter('search', '%' . $search . '%');
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC');
+
+        if (!empty($search)) {
+           
+            $queryBuilder->andWhere('a.titre LIKE :search OR a.content LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        return $queryBuilder;
     }
 
     public function findPublishedArticles($max = null)

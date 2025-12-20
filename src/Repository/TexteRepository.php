@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Texte;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,4 +41,17 @@ class TexteRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+     public function findAllQuery($search): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC');
+
+        if (!empty($search)) {
+            $queryBuilder->andWhere('a.title LIKE :search OR a.content LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        return $queryBuilder;
+    }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\File;
 use App\Entity\Opinion;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,9 +17,26 @@ class OpinionType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('subTitle')
-            ->add('image', EntityType::class, [
-                'class' => File::class,
-                'choice_label' => 'id',
+            ->add('image', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'hidden',
+                    'accept' => '.jpg,.png,.jpeg,.gif,.svg',
+                ],
+            ])
+            ->add('draft_button', SubmitType::class, [
+                'label' => 'Brouillon',
+                'attr' => [
+                    'class' => 'bg-[#AAEFEF] text-[#069490] px-4 py-2 rounded-lg font-semibold flex items-center gap-2 text-lg hover:bg-[#8EDFDF] transition cursor-pointer'
+                ]
+            ])
+            ->add('publish_button', SubmitType::class, [
+                'label' => 'Publier',
+                'attr' => [
+                    'class' => 'bg-teal-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-teal-700 transition duration-200 font-semibold cursor-pointer flex gap-2'
+                ]
             ])
         ;
     }

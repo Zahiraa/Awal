@@ -5,7 +5,7 @@
 {% block content %}
     <h1>Create new Texte</h1>
 
-    {{ include('texte/_form.html.twig') }}
+    {{ include('texte/_form.html.twig', {'image': null, 'media': null}) }}
 
     <a href="{{ path('app_texte_index') }}">back to list</a>
 {% endblock %}

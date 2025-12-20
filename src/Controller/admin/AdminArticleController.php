@@ -26,7 +26,6 @@ final class AdminArticleController extends DefaultController
     {
         $search = $request->query->get('search', '');
         $queryBuilder = $articleRepository->findAllQuery($search);
-
         $articles = $paginator->paginate(
             $queryBuilder->getQuery(),
             $request->query->getInt('page', 1),

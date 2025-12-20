@@ -7,6 +7,7 @@ use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
 use App\Service\FileUploadService;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +17,18 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AuthorController extends AbstractController
 {
     #[Route(name: 'app_author_index', methods: ['GET'])]
-    public function index(AuthorRepository $authorRepository): Response
+    public function index(Request $request, AuthorRepository $authorRepository, PaginatorInterface $paginator): Response
     {
+        $search = $request->query->get('search', '');
+        $queryBuilder = $authorRepository->findAllQuery($search);
+        $authors = $paginator->paginate(
+            $queryBuilder->getQuery(),
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('author/index.html.twig', [
-            'authors' => $authorRepository->findAll(),
+            'authors' => $authors,
         ]);
     }
 

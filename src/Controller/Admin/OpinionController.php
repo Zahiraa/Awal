@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Opinion;
 use App\Form\OpinionType;
 use App\Repository\OpinionRepository;
+use App\Service\FileUploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,13 +24,19 @@ final class OpinionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_opinion_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploadService $fileUploadService): Response
     {
         $opinion = new Opinion();
         $form = $this->createForm(OpinionType::class, $opinion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $file = $fileUploadService->upload($image);
+                $opinion->setImage($file);
+            }
+
             $entityManager->persist($opinion);
             $entityManager->flush();
 
@@ -51,12 +58,24 @@ final class OpinionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_opinion_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Opinion $opinion, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Opinion $opinion, EntityManagerInterface $entityManager, FileUploadService $fileUploadService): Response
     {
         $form = $this->createForm(OpinionType::class, $opinion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('image')->getData();
+            if ($image) {
+                if ($opinion->getImage()) {
+                    $oldImage = $fileUploadService->delete($opinion->getImage()->getName());
+                    if ($oldImage) {
+                        $entityManager->remove($oldImage);
+                    }
+                }
+                $file = $fileUploadService->upload($image);
+                $opinion->setImage($file);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_opinion_index', [], Response::HTTP_SEE_OTHER);
@@ -65,6 +84,7 @@ final class OpinionController extends AbstractController
         return $this->render('opinion/edit.html.twig', [
             'opinion' => $opinion,
             'form' => $form,
+            'image' => $opinion->getImage(),
         ]);
     }
 

@@ -3,40 +3,66 @@
 {% block title %}Opinion{% endblock %}
 
 {% block content %}
-    <h1>Opinion</h1>
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">{{ opinion.title }}</h1>
+        <hr class="text-gray-300 my-2">
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ opinion.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ opinion.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ opinion.content }}</td>
-            </tr>
-            <tr>
-                <th>SubTitle</th>
-                <td>{{ opinion.subTitle }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ opinion.createdAt ? opinion.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ opinion.updatedAt ? opinion.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <!-- Image Section -->
+        {% if opinion.image %}
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Image</h2>
+                <div class="flex justify-center">
+                    <img src="{{ '/uploads/' ~ opinion.image.name }}" alt="{{ opinion.title }}" class="max-w-full h-auto rounded-lg shadow-sm">
+                </div>
+            </div>
+        {% endif %}
 
-    <a href="{{ path('app_opinion_index') }}">back to list</a>
+        <!-- Content Section -->
+        <div class="p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Détails de l'opinion</h2>
 
-    <a href="{{ path('app_opinion_edit', {'id': opinion.id}) }}">edit</a>
+            <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Titre</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{ opinion.title }}</dd>
+                </div>
 
-    {{ include('opinion/_delete_form.html.twig') }}
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Sous-titre</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{ opinion.subTitle }}</dd>
+                </div>
+
+                <div class="md:col-span-2">
+                    <dt class="text-sm font-medium text-gray-500">Contenu</dt>
+                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{{ opinion.content }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Date de création</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{ opinion.createdAt ? opinion.createdAt|date('d/m/Y à H:i') : 'Non définie' }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Dernière modification</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{ opinion.updatedAt ? opinion.updatedAt|date('d/m/Y à H:i') : 'Non définie' }}</dd>
+                </div>
+            </dl>
+        </div>
+
+        <!-- Actions -->
+        <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+            <div class="flex justify-end space-x-4">
+                <a href="{{ path('app_opinion_index') }}"
+                   class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition duration-200">
+                    Retour à la liste
+                </a>
+                <a href="{{ path('app_opinion_edit', {'id': opinion.id}) }}"
+                   class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200">
+                    Modifier
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

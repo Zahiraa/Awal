@@ -13,25 +13,10 @@ final class DefaultStory extends Story
         // admin
         UserFactory::createOne([
             'roles' => ['ROLE_ADMIN'],
-            'email' => 'admin@sfifa.com',
+            'email' => 'admin@awal.com',
             'statut' => User::ACTIVE,
             'is_verified' => true,
         ]);
 
-        // manager
-        UserFactory::createOne([
-            'roles' => ['ROLE_MANAGER'],
-            'email' => 'manager@sfifa.com',
-            'statut' => User::ACTIVE,
-            'is_verified' => true,
-        ]);
-
-        // user
-        UserFactory::createOne([
-            'roles' => ['ROLE_USER'],
-            'email' => 'user@sfifa.com',
-            'statut' => User::ACTIVE,
-            'is_verified' => true,
-        ]);
     }
 }

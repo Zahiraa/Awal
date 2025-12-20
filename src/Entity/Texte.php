@@ -11,6 +11,19 @@ class Texte
 {
     use TimestampTrait;
     
+    
+    const STATUT_DRAFT = 'draft';
+
+    const STATUT_WAITING_APPROVAL = 'waiting_approval';
+
+    const STATUT_PUBLISHED = 'published';
+
+    const STATUTS = [
+        self::STATUT_DRAFT,
+        self::STATUT_WAITING_APPROVAL,
+        self::STATUT_PUBLISHED,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,6 +34,9 @@ class Texte
 
     #[ORM\Column(length: 255)]
     private ?string $subTitle = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $statut = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?File $image = null;
@@ -84,6 +100,18 @@ class Texte
         return $this;
     }
 
+        public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): static
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+    
     public function getMedia(): ?File
     {
         return $this->media;

@@ -37,7 +37,8 @@ final class AdminAboutController extends DefaultController
         $form = $this->createForm(AboutForm::class, $about);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->saveAbout($about);
+            $image = $form->get('image')->getData();
+            $manager->saveAbout($about, $image);
             $this->addSuccessMessage('La page "À propos" a bien été créée.');
             return $this->redirectToRoute('app_admin_about_index');
         }
@@ -71,13 +72,15 @@ final class AdminAboutController extends DefaultController
         $form = $this->createForm(AboutForm::class, $about);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->editAbout($about);
+            $image = $form->get('image')->getData();
+            $manager->editAbout($about, $image);
             $this->addSuccessMessage('La page "À propos" a bien été modifiée.');
             return $this->redirectToRoute('app_admin_about_index');
         }
         return $this->render('admin/admin_about/edit.html.twig', [
             'about' => $about,
             'form' => $form,
+            'image' => $about->getImage(),
         ]);
     }
     #[Route('/{id}', name: 'app_admin_about_delete', methods: ['POST'])]

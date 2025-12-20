@@ -1,11 +1,12 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}New Opinion{% endblock %}
+{% block title %}Nouvelle Opinion{% endblock %}
 
 {% block content %}
-    <h1>Create new Opinion</h1>
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Créer une nouvelle opinion</h1>
+        <hr class="text-gray-300 my-2">
+    </div>
 
     {{ include('opinion/_form.html.twig') }}
-
-    <a href="{{ path('app_opinion_index') }}">back to list</a>
 {% endblock %}

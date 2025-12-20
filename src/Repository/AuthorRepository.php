@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,4 +41,17 @@ class AuthorRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+     public function findAllQuery($search): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC');
+
+        if (!empty($search)) {
+            $queryBuilder->andWhere('a.name LIKE :search OR a.nameFr LIKE :search OR a.country LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        return $queryBuilder;
+    }
 }

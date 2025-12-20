@@ -1,13 +1,12 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Edit Opinion{% endblock %}
+{% block title %}Modifier Opinion{% endblock %}
 
 {% block content %}
-    <h1>Edit Opinion</h1>
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Modifier l'opinion</h1>
+        <hr class="text-gray-300 my-2">
+    </div>
 
-    {{ include('opinion/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_opinion_index') }}">back to list</a>
-
-    {{ include('opinion/_delete_form.html.twig') }}
+    {{ include('opinion/_form.html.twig') }}
 {% endblock %}
