@@ -2,12 +2,12 @@
 lock "~> 3.19.2"
 
 # Configuration de l'application
-set :application, "sfifa"
-set :repo_url, "git@github.com:monark-it/sfifa.git"
+set :application, "awal"
+set :repo_url, "git@github.com:Zahiraa/awal.git"
 # Utiliser l'URL GitHub standard
 
 # Configuration du déploiement
-set :deploy_to, "/var/www/sfifa"
+set :deploy_to, "/var/www/awal"
 set :keep_releases, 3
 
 # Configuration de Symfony

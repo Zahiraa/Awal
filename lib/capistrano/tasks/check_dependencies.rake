@@ -63,10 +63,10 @@ namespace :deploy do
           env_content = File.read(File.join(File.dirname(__FILE__), "../../../.env"))
           
           # Extraire les valeurs des variables MySQL
-          mysql_root_password = env_content.match(/MYSQL_ROOT_PASSWORD=([^\s\n]+)/)[1] rescue "sfifa"
-          db_name = env_content.match(/MYSQL_DATABASE=([^\s\n]+)/)[1] rescue "sfifa"
-          db_user = env_content.match(/MYSQL_USER=([^\s\n]+)/)[1] rescue "sfifa"
-          db_password = env_content.match(/MYSQL_PASSWORD=([^\s\n]+)/)[1] rescue "sfifa"
+          mysql_root_password = env_content.match(/MYSQL_ROOT_PASSWORD=([^\s\n]+)/)[1] rescue "awal"
+          db_name = env_content.match(/MYSQL_DATABASE=([^\s\n]+)/)[1] rescue "awal"
+          db_user = env_content.match(/MYSQL_USER=([^\s\n]+)/)[1] rescue "awal"
+          db_password = env_content.match(/MYSQL_PASSWORD=([^\s\n]+)/)[1] rescue "awal"
           
           # Définir un mot de passe root pour MySQL
           execute :sudo, "debconf-set-selections <<< 'mysql-server mysql-server/root_password password '"
@@ -82,7 +82,7 @@ namespace :deploy do
           execute :sudo, "mysql -u root -e \"FLUSH PRIVILEGES;\""
           
           # Mettre à jour la variable DATABASE_URL dans .env.local
-          execute :sudo, "sed -i 's|DATABASE_URL=\"mysql://.*\@127.0.0.1:3306/.*\"|DATABASE_URL=\"mysql://#{db_user}:#{db_password}@127.0.0.1:3306/#{db_name}\"|g' /var/www/sfifa/shared/.env.local"
+          execute :sudo, "sed -i 's|DATABASE_URL=\"mysql://.*\@127.0.0.1:3306/.*\"|DATABASE_URL=\"mysql://#{db_user}:#{db_password}@127.0.0.1:3306/#{db_name}\"|g' /var/www/awal/shared/.env.local"
           
           info "MySQL a été installé et configuré avec succès."
         else

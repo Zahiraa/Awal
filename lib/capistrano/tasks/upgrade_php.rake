@@ -53,10 +53,10 @@ namespace :php do
       info "Mise à jour de la configuration Nginx..."
       
       # Backup de la config actuelle
-      execute :sudo, "cp /etc/nginx/sites-available/sfifa.ma /etc/nginx/sites-available/sfifa.ma.backup-$(date +%Y%m%d-%H%M%S)"
+      execute :sudo, "cp /etc/nginx/sites-available/awal.ma /etc/nginx/sites-available/awal.ma.backup-$(date +%Y%m%d-%H%M%S)"
       
       # Remplacer php8.2-fpm.sock par php8.3-fpm.sock
-      execute :sudo, "sed -i 's/php8\\.2-fpm\\.sock/php8.3-fpm.sock/g' /etc/nginx/sites-available/sfifa.ma"
+      execute :sudo, "sed -i 's/php8\\.2-fpm\\.sock/php8.3-fpm.sock/g' /etc/nginx/sites-available/awal.ma"
       
       # Faire de même pour le fichier default si il existe
       if test("[ -f /etc/nginx/sites-available/default ]")
@@ -79,7 +79,7 @@ namespace :php do
         error "La configuration Nginx contient des erreurs!"
         error nginx_test
         # Restaurer la configuration
-        execute :sudo, "cp /etc/nginx/sites-available/sfifa.ma.backup-* /etc/nginx/sites-available/sfifa.ma 2>/dev/null || true"
+        execute :sudo, "cp /etc/nginx/sites-available/awal.ma.backup-* /etc/nginx/sites-available/awal.ma 2>/dev/null || true"
         next
       end
       
@@ -124,7 +124,7 @@ namespace :php do
       info "=== Rollback de la configuration PHP ==="
       
       # Trouver le dernier backup de la config Nginx
-      backup_file = capture("ls -t /etc/nginx/sites-available/sfifa.ma.backup-* 2>/dev/null | head -1").strip
+      backup_file = capture("ls -t /etc/nginx/sites-available/awal.ma.backup-* 2>/dev/null | head -1").strip
       
       if backup_file.empty?
         error "Aucun fichier de backup trouvé!"
@@ -132,7 +132,7 @@ namespace :php do
       end
       
       info "Restauration de la configuration depuis: #{backup_file}"
-      execute :sudo, "cp #{backup_file} /etc/nginx/sites-available/sfifa.ma"
+      execute :sudo, "cp #{backup_file} /etc/nginx/sites-available/awal.ma"
       
       # Tester et recharger Nginx
       nginx_test = capture("sudo nginx -t 2>&1")

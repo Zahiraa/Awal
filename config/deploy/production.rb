@@ -17,7 +17,7 @@ set :ssh_options, {
 # Configuration de la base de données pour les migrations (optionnel)
 # Vous pouvez ajouter ici des variables spécifiques à la production
 # set :default_env, {
-#   'DATABASE_URL' => 'mysql://sfifa:sfifa@127.0.0.1:3306/sfifa?serverVersion=8.0&charset=utf8mb4'
+#   'DATABASE_URL' => 'mysql://awal:awal@127.0.0.1:3306/awal?serverVersion=8.0&charset=utf8mb4'
 # }
 
 # Nombre de versions à conserver spécifiquement en production

@@ -24,16 +24,16 @@
 1. Cloner le dépôt:
 ```bash
 git clone
-cd sfifa
+cd awal
 ```
 
 2. Configurer les variables d'environnement:
    Copier le fichier `.env` en `.env.local` et ajuster la configuration de la base de données et du mailer:
 ```
-DATABASE_URL=mysql://user:password@127.0.0.1:3306/sfifa
+DATABASE_URL=mysql://user:password@127.0.0.1:3306/awal
 MAILER_DSN=smtp://localhost:1025
-MAILER_FROM_ADDRESS=no-reply@sfifa.com
-MAILER_FROM_NAME="SFIFA"
+MAILER_FROM_ADDRESS=no-reply@awal.com
+MAILER_FROM_NAME="AWAl"
 ```
 
 3.Installer:

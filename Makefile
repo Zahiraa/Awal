@@ -71,12 +71,12 @@ prod-check:
 # Voir les logs de production
 prod-logs:
 	@echo "📋 Logs Nginx (Ctrl+C pour quitter)..."
-	bundle exec cap production invoke "sudo tail -f /var/log/nginx/sfifa_error.log"
+	bundle exec cap production invoke "sudo tail -f /var/log/nginx/awal_error.log"
 
 # Backup de la base de données de production
 prod-backup-db:
 	@echo "💾 Backup de la base de données..."
-	ssh ubuntu@51.68.213.123 "sudo mysqldump -u sfifa -p sfifa > ~/backup_sfifa_\$$(date +%Y%m%d_%H%M%S).sql"
+	ssh ubuntu@51.68.213.123 "sudo mysqldump -u awal -p awal > ~/backup_awal_\$$(date +%Y%m%d_%H%M%S).sql"
 	@echo "✅ Backup créé avec succès"
 
 # Aide pour les commandes de production
