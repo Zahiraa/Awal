@@ -45,6 +45,10 @@ class ContenuNumero
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
+    #[ORM\ManyToOne(inversedBy: 'contenuNumeros')]
+    #[ORM\JoinColumn(onDelete: "SET NULL")]
+    private ?Contenu $contenu = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +110,18 @@ class ContenuNumero
     public function setContent(string $content): static
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getContenu(): ?Contenu
+    {
+        return $this->contenu;
+    }
+
+    public function setContenu(?Contenu $contenu): static
+    {
+        $this->contenu = $contenu;
 
         return $this;
     }

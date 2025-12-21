@@ -50,11 +50,12 @@
 								<img src="{{ asset('build/images/icons/profile.svg') }}" alt="User" width="16" height="16" class="rounded-full m-w-">
 								{{ 'Navbar.myProfile'|trans }}
 							</a>
+								{% if  is_granted('ROLE_ADMIN') %}
 							<a href="{{ dashboardPath }}" class="flex items-center gap-2 block px-4 py-4 border-b border-gray-200 text-gray-700 text-sm hover:text-teal-700 hover:bg-gray-100">
 								<img src="{{ asset('build/images/icons/settings.svg') }}" alt="User" width="16" height="16" class="rounded-full m-w-">
 								{{ dashboardName }}
 							</a>
-
+{% endif %}
 
 							<form method="post" action="{{ path('app_logout') }}" class="w-full">
 								<input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
@@ -96,13 +97,14 @@
 																																								                            >
 																																								                            {{ 'Navbar.myProfile'|trans }}
 																																								                            </a>
-								
+								{% if  is_granted('ROLE_ADMIN') %}
 																																								                            <a
 																																								                                    href=" {{ dashboardPath }} "
 																																								                                    class=" text-gray-700 text-sm hover:text-teal-700 block px-3 py-2"
 																																								                            >
 																																								                                {{ dashboardName }}
 																																								                            </a>
+								{% endif %}
 																																								                            <form method=" post" action=" {{ path('app_logout') }} " class=" w-full">
 								<input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
 								<button type="submit" class="text-gray-700 text-sm hover:text-teal-700 block px-3 py-2 w-full text-left hover:cursor-pointer">

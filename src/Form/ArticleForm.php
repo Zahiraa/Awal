@@ -77,6 +77,7 @@ class ArticleForm extends AbstractType
           
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
+                'required' => false,
                 'label_attr' => [
                     'class' => 'text-lg text-gray-700'
                 ],

@@ -1,284 +1,279 @@
 {% extends 'admin.html.twig' %}
 
 
-{% block title %} {{ article.titre }} {% endblock %}
+{% block title %}
+	{{ article.titre }}
+{% endblock %}
 
 
 {% block content %}
 
-    <div class="flex-1 flex flex-col bg-gray-50">
-        <!-- Header -->
-        <header class="bg-white py-6 border-b border-gray-200">
-            <div class="flex flex-wrap justify-between items-center gap-4">
-                <div>
-                    <h1 class="text-2xl font-semibold text-gray-900">
-                        تقارير آوال فيمينا 
-                    </h1>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <a href="{{ path('app_admin_article_index') }}" class="flex  items-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
-                        Retour
-                    </a>
+	<div
+		class="flex-1 flex flex-col bg-gray-50">
+		<!-- Header -->
+		<header class="bg-white py-6 border-b border-gray-200">
+			<div class="flex flex-wrap justify-between items-center gap-4">
+				<div>
+					<h1 class="text-2xl font-semibold text-gray-900">
+						تقارير آوال فيمينا
+					</h1>
+				</div>
+				<div class="flex items-center space-x-3">
+					<a href="{{ path('app_admin_article_index') }}" class="flex  items-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+						Retour
+					</a>
 
-                    {%  if is_granted('ROLE_ADMIN') and article.statut != 'published' and article.statut != 'draft' %}
-                        <button class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 cursor-pointer publish-button"
-                                data-article-id="{{ article.id }}"
-                                data-confirm-message="Voulez-vous vraiment publier cet article ?"
-                                data-csrf-token="{{ csrf_token('article' ~ article.id) }}">
-                            Valider et publier
-                            <img src="{{ asset('build/images/icons/full-external-link.svg') }}" alt="Check Icon" class="inline-block ml-2 w-4 h-4">
-                        </button>
-                    {% endif %}
-                </div>
-            </div>
-            <hr class="text-gray-300 mt-4 mb-2">
-        </header>
-    </div>
 
-    <!-- Content de l article -->
-    {% include 'common/article_content.html.twig' with {'article': article} %}
+				</div>
+			</div>
+			<hr class="text-gray-300 mt-4 mb-2">
+		</header>
+	</div>
 
-    <!-- Action Modal -->
-    <div id="publishedModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
-        <div id="modalContent" class="relative top-1/4 mx-auto p-5 modal-box-shadow w-96 rounded-md bg-white modal-content">
-            <div class="flex justify-between items-start">
-                <img  src="{{ asset('build/images/icons/confirm.svg') }}" id="img-modal" class="w-12 h-12">
-                <button id="close-publish-modal-btn" class="text-gray-400 hover:text-gray-600">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-            </div>
-            <div class="mt-3">
-                <h3 class="text-lg font-medium text-gray-900">Confirmation</h3>
-                <p class="text-sm text-gray-600 mb-6">Voulez-vous vraiment publier cet article ?</p>
-                <div class="flex space-x-4">
-                    <button id="cancel-publish-modal-btn" class="px-4 py-2 flex-1 border border-light-gray-100 text-gray-800 text-base font-medium rounded-md hover:bg-gray-50 transition duration-150 cursor-pointer">
-                        Annuler
-                    </button>
-                    <button id="confirm-publish-btn" class="px-4 py-2 flex-1 bg-primary-600 text-white text-base font-medium rounded-md hover:bg-primary-700 transition duration-150 cursor-pointer">
-                        Confirmer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Content de l article -->
+	{% include 'common/article_content.html.twig' with {'article': article} %}
+
+	<!-- Action Modal -->
+	<div id="publishedModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+		<div id="modalContent" class="relative top-1/4 mx-auto p-5 modal-box-shadow w-96 rounded-md bg-white modal-content">
+			<div class="flex justify-between items-start">
+				<img src="{{ asset('build/images/icons/confirm.svg') }}" id="img-modal" class="w-12 h-12">
+				<button id="close-publish-modal-btn" class="text-gray-400 hover:text-gray-600">
+					<svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+					</svg>
+				</button>
+			</div>
+			<div class="mt-3">
+				<h3 class="text-lg font-medium text-gray-900">Confirmation</h3>
+				<p class="text-sm text-gray-600 mb-6">Voulez-vous vraiment publier cet article ?</p>
+				<div class="flex space-x-4">
+					<button id="cancel-publish-modal-btn" class="px-4 py-2 flex-1 border border-light-gray-100 text-gray-800 text-base font-medium rounded-md hover:bg-gray-50 transition duration-150 cursor-pointer">
+						Annuler
+					</button>
+					<button id="confirm-publish-btn" class="px-4 py-2 flex-1 bg-primary-600 text-white text-base font-medium rounded-md hover:bg-primary-700 transition duration-150 cursor-pointer">
+						Confirmer
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block head_scripts %}
-    <script>
-        function initializePublishModal() {
-            console.log('Initializing publish modal script');
-            
-            // Ensure we don't add multiple event listeners
-            if (window.publishModalInitialized) {
-                console.log('Publish modal already initialized, skipping');
-                return;
-            }
-            window.publishModalInitialized = true;
-            console.log('Publish modal initialization starting');
+	<script>
+		function initializePublishModal() {
+console.log('Initializing publish modal script');
 
-            let articleToPublish = null;
-            let csrfTokenForPublish = null;
-            let isModalAnimating = false;
+// Ensure we don't add multiple event listeners
+if (window.publishModalInitialized) {
+console.log('Publish modal already initialized, skipping');
+return;
+}
+window.publishModalInitialized = true;
+console.log('Publish modal initialization starting');
 
-            // Function to show publish modal
-            function showPublishModal(button) {
-                console.log('showPublishModal called', button);
-                if (isModalAnimating) return;
+let articleToPublish = null;
+let csrfTokenForPublish = null;
+let isModalAnimating = false;
 
-                articleToPublish = button.getAttribute('data-article-id');
-                csrfTokenForPublish = button.getAttribute('data-csrf-token');
-                
-                console.log('Modal data:', { articleToPublish, csrfTokenForPublish });
-                
-                const modal = document.getElementById('publishedModal');
-                const modalContent = document.getElementById('modalContent');
+// Function to show publish modal
+function showPublishModal(button) {
+console.log('showPublishModal called', button);
+if (isModalAnimating) 
+return;
 
-                if (!modal) {
-                    console.error('Modal not found');
-                    return;
-                }
 
-                // Show modal and start animation
-                modal.classList.remove('hidden');
-                modal.classList.add('modal-entering');
-                modalContent.classList.add('modal-entering');
-                isModalAnimating = true;
+articleToPublish = button.getAttribute('data-article-id');
+csrfTokenForPublish = button.getAttribute('data-csrf-token');
 
-                // After a small delay, transition to entered state
-                requestAnimationFrame(() => {
-                    modal.classList.remove('modal-entering');
-                    modal.classList.add('modal-entered');
-                    modalContent.classList.remove('modal-entering');
-                    modalContent.classList.add('modal-entered');
+console.log('Modal data:', {articleToPublish, csrfTokenForPublish});
 
-                    setTimeout(() => {
-                        isModalAnimating = false;
-                    }, 300);
-                });
-            }
+const modal = document.getElementById('publishedModal');
+const modalContent = document.getElementById('modalContent');
 
-            function hidePublishModal() {
-                console.log('hidePublishModal called');
-                if (isModalAnimating) return;
+if (! modal) {
+console.error('Modal not found');
+return;
+}
 
-                const modal = document.getElementById('publishedModal');
-                const modalContent = document.getElementById('modalContent');
+// Show modal and start animation
+modal.classList.remove('hidden');
+modal.classList.add('modal-entering');
+modalContent.classList.add('modal-entering');
+isModalAnimating = true;
 
-                isModalAnimating = true;
+// After a small delay, transition to entered state
+requestAnimationFrame(() => {
+modal.classList.remove('modal-entering');
+modal.classList.add('modal-entered');
+modalContent.classList.remove('modal-entering');
+modalContent.classList.add('modal-entered');
 
-                // Start exit animation
-                modal.classList.remove('modal-entered');
-                modal.classList.add('modal-exiting');
-                modalContent.classList.remove('modal-entered');
-                modalContent.classList.add('modal-exiting');
+setTimeout(() => {
+isModalAnimating = false;
+}, 300);
+});
+}
 
-                // Use requestAnimationFrame to ensure the exiting state is applied, then transition to exited
-                requestAnimationFrame(() => {
-                    modal.classList.remove('modal-exiting');
-                    modal.classList.add('modal-exited');
-                    modalContent.classList.remove('modal-exiting');
-                    modalContent.classList.add('modal-exited');
+function hidePublishModal() {
+console.log('hidePublishModal called');
+if (isModalAnimating) 
+return;
 
-                    // After animation completes, hide modal
-                    setTimeout(() => {
-                        modal.classList.add('hidden');
-                        modal.classList.remove('modal-exited');
-                        modalContent.classList.remove('modal-exited');
 
-                        articleToPublish = null;
-                        csrfTokenForPublish = null;
-                        isModalAnimating = false;
-                    }, 300);
-                });
-            }
+const modal = document.getElementById('publishedModal');
+const modalContent = document.getElementById('modalContent');
 
-            function publishItem() {
-                console.log('publishItem called');
-                if (articleToPublish && csrfTokenForPublish) {
-                    fetch(`/admin/article/${articleToPublish}/approve`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            _method: 'POST',
-                            _token: csrfTokenForPublish
-                        })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // Handle success - maybe reload the page or show success message
-                            window.location.href = response.url;
-                        } else {
-                            console.error('Publish failed:', response.status);
-                            // Handle error case
-                            hidePublishModal();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error publishing item:', error);
-                        hidePublishModal();
-                    });
-                } else {
-                    console.log('Missing data for publish:', { articleToPublish, csrfTokenForPublish });
-                    hidePublishModal();
-                }
-            }
+isModalAnimating = true;
 
-            // Attach event listeners to publish buttons
-            const publishButtons = document.querySelectorAll('.publish-button');
-            console.log('Found publish buttons:', publishButtons.length);
-            publishButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    console.log('Publish button clicked');
-                    e.preventDefault();
-                    showPublishModal(this);
-                });
-            });
+// Start exit animation
+modal.classList.remove('modal-entered');
+modal.classList.add('modal-exiting');
+modalContent.classList.remove('modal-entered');
+modalContent.classList.add('modal-exiting');
 
-            // Attach event listener to confirm button
-            const confirmButton = document.getElementById('confirm-publish-btn');
-            if (confirmButton) {
-                console.log('Confirm button found, adding listener');
-                confirmButton.addEventListener('click', function(e) {
-                    console.log('Confirm button clicked');
-                    e.preventDefault();
-                    publishItem();
-                });
-            }
+// Use requestAnimationFrame to ensure the exiting state is applied, then transition to exited
+requestAnimationFrame(() => {
+modal.classList.remove('modal-exiting');
+modal.classList.add('modal-exited');
+modalContent.classList.remove('modal-exiting');
+modalContent.classList.add('modal-exited');
 
-            // Attach event listener to close modal button (X button)
-            const closeModalButton = document.getElementById('close-publish-modal-btn');
-            if (closeModalButton) {
-                console.log('Close button found, adding listener');
-                closeModalButton.addEventListener('click', function(e) {
-                    console.log('Close button clicked');
-                    e.preventDefault();
-                    hidePublishModal();
-                });
-            }
+// After animation completes, hide modal
+setTimeout(() => {
+modal.classList.add('hidden');
+modal.classList.remove('modal-exited');
+modalContent.classList.remove('modal-exited');
 
-            // Attach event listener to cancel button
-            const cancelModalButton = document.getElementById('cancel-publish-modal-btn');
-            if (cancelModalButton) {
-                console.log('Cancel button found, adding listener');
-                cancelModalButton.addEventListener('click', function(e) {
-                    console.log('Cancel button clicked');
-                    e.preventDefault();
-                    hidePublishModal();
-                });
-            }
+articleToPublish = null;
+csrfTokenForPublish = null;
+isModalAnimating = false;
+}, 300);
+});
+}
 
-            // Close modal when clicking outside
-            const publishModal = document.getElementById('publishedModal');
-            if (publishModal) {
-                publishModal.addEventListener('click', function (e) {
-                    if (e.target === this && !isModalAnimating) {
-                        hidePublishModal();
-                    }
-                });
-            }
-            // Escape key to close modal
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && !isModalAnimating) {
-                    const modal = document.getElementById('publishedModal');
-                    if (modal && !modal.classList.contains('hidden')) {
-                        hidePublishModal();
-                    }
-                }
-            });
-        }
+function publishItem() {
+console.log('publishItem called');
+if (articleToPublish && csrfTokenForPublish) {
+fetch (`/admin/article/${articleToPublish}/approve`, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify(
+{_method: 'POST', _token: csrfTokenForPublish}
+)
+}).then(response => {
+if (response.ok) { // Handle success - maybe reload the page or show success message
+window.location.href = response.url;
+} else {
+console.error('Publish failed:', response.status);
+// Handle error case
+hidePublishModal();
+}
+}).catch(error => {
+console.error('Error publishing item:', error);
+hidePublishModal();
+});
+} else {
+console.log('Missing data for publish:', {articleToPublish, csrfTokenForPublish});
+hidePublishModal();
+}
+}
 
-        // Listen for both Turbo load and DOM content loaded
-        document.addEventListener('turbo:load', function() {
-            console.log('Turbo loaded - Publish modal script starting');
-            initializePublishModal();
-        });
+// Attach event listeners to publish buttons
+const publishButtons = document.querySelectorAll('.publish-button');
+console.log('Found publish buttons:', publishButtons.length);
+publishButtons.forEach(button => {
+button.addEventListener('click', function (e) {
+console.log('Publish button clicked');
+e.preventDefault();
+showPublishModal(this);
+});
+});
 
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM Content Loaded - Publish modal script starting');
-            initializePublishModal();
-        });
+// Attach event listener to confirm button
+const confirmButton = document.getElementById('confirm-publish-btn');
+if (confirmButton) {
+console.log('Confirm button found, adding listener');
+confirmButton.addEventListener('click', function (e) {
+console.log('Confirm button clicked');
+e.preventDefault();
+publishItem();
+});
+}
 
-        // Listen for page show event (for back/forward navigation)
-        window.addEventListener('pageshow', function(event) {
-            console.log('Page show event - Publish modal script starting');
-            // Reset the flag on pageshow to allow re-initialization
-            window.publishModalInitialized = false;
-            initializePublishModal();
-        });
+// Attach event listener to close modal button (X button)
+const closeModalButton = document.getElementById('close-publish-modal-btn');
+if (closeModalButton) {
+console.log('Close button found, adding listener');
+closeModalButton.addEventListener('click', function (e) {
+console.log('Close button clicked');
+e.preventDefault();
+hidePublishModal();
+});
+}
 
-        // Reset initialization flag on page unload
-        document.addEventListener('turbo:before-cache', function() {
-            console.log('Turbo before cache - resetting flag');
-            window.publishModalInitialized = false;
-        });
+// Attach event listener to cancel button
+const cancelModalButton = document.getElementById('cancel-publish-modal-btn');
+if (cancelModalButton) {
+console.log('Cancel button found, adding listener');
+cancelModalButton.addEventListener('click', function (e) {
+console.log('Cancel button clicked');
+e.preventDefault();
+hidePublishModal();
+});
+}
 
-        window.addEventListener('beforeunload', function() {
-            console.log('Before unload - resetting flag');
-            window.publishModalInitialized = false;
-        });
-    </script>
+// Close modal when clicking outside
+const publishModal = document.getElementById('publishedModal');
+if (publishModal) {
+publishModal.addEventListener('click', function (e) {
+if (e.target === this && ! isModalAnimating) {
+hidePublishModal();
+}
+});
+}
+// Escape key to close modal
+document.addEventListener('keydown', function (e) {
+if (e.key === 'Escape' && ! isModalAnimating) {
+const modal = document.getElementById('publishedModal');
+if (modal && ! modal.classList.contains('hidden')) {
+hidePublishModal();
+}
+}
+});
+}
+
+// Listen for both Turbo load and DOM content loaded
+document.addEventListener('turbo:load', function () {
+console.log('Turbo loaded - Publish modal script starting');
+initializePublishModal();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+console.log('DOM Content Loaded - Publish modal script starting');
+initializePublishModal();
+});
+
+// Listen for page show event (for back/forward navigation)
+window.addEventListener('pageshow', function (event) {
+console.log('Page show event - Publish modal script starting');
+// Reset the flag on pageshow to allow re-initialization
+window.publishModalInitialized = false;
+initializePublishModal();
+});
+
+// Reset initialization flag on page unload
+document.addEventListener('turbo:before-cache', function () {
+console.log('Turbo before cache - resetting flag');
+window.publishModalInitialized = false;
+});
+
+window.addEventListener('beforeunload', function () {
+console.log('Before unload - resetting flag');
+window.publishModalInitialized = false;
+});
+	</script>
 {% endblock %}
