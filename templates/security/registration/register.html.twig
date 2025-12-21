@@ -48,7 +48,7 @@
         {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded'}}) }}
     </div>
 
-    <button class="w-full cursor-pointer bg-primary-600 text-white py-2.5 px-4 rounded-lg font-medium hover:bg-primary-700 active:bg-primary-700 transition duration-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2" type="submit">
+    <button class="w-full cursor-pointer bg-[#A81B60] text-white py-2.5 px-4 rounded-lg font-medium hover:bg-primary-700 active:bg-primary-700 transition duration-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2" type="submit">
          {{ 'register.button'|trans }}
     </button>
     {{ form_end(registrationForm) }}
@@ -56,7 +56,7 @@
     <div class="mt-4 md:mt-6 text-center">
         <p class="text-steel text-sm md:text-base">
             {{ 'register.haveAccount'|trans }}
-            <a href="{{ path('app_login') }}" class="text-primary-600 hover:text-primary-700 font-medium">
+            <a href="{{ path('app_login') }}" class="text-[#A81B60] hover:text-[#A81B60] font-medium">
                   {{ 'register.login'|trans }}
             </a>
         </p>
