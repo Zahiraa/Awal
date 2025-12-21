@@ -8,7 +8,10 @@ use App\Form\ContactForm;
 use App\Manager\Mailler;
 use App\Repository\ArticleRepository;
 use App\Repository\AboutRepository;
-use App\Repository\TermeRepository;
+use App\Repository\ContenuRepository;
+use App\Repository\TexteRepository;
+use App\Repository\OpinionRepository;
+use App\Repository\AuthorRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,11 +33,44 @@ class HomeController extends DefaultController
     }
 
     #[Route(path: '/', name: 'home')]
-    public function home(ArticleRepository $articleRepository): Response
+    public function home(ArticleRepository $articleRepository, ContenuRepository $contenuRepository, TexteRepository $texteRepository, OpinionRepository $opinionRepository, AboutRepository $aboutRepository, AuthorRepository $authorRepository,Mailler $mailler,Request $request): Response
     {
-        $articles= $articleRepository->findPublishedArticles(3);
+        $contenu = $contenuRepository->findContentCurrentOrPreviousMonth();
+        // archive contenu all published contenu different than current month
+        $contenuArchive = [];
+        if($contenu){
+            $contenuArchive = $contenuRepository->findContentArchive($contenu);
+        }
+        $textes = $texteRepository->findTexteCurrentOrPreviousMonth();
+        $opinion = $opinionRepository->findLastOpinion();
+        $about = $aboutRepository->findLastAbout();
+        $authors= $authorRepository->findAll();
+
+        $contact = new ContactDTO();
+        $form = $this->createForm(ContactForm::class, $contact);
+        $form->handleRequest($request);
+        $score=0;
+        if ($form->isSubmitted() && $form->isValid()) {
+     
+            $context = ['admin' => $this->getParameter('mailer_from_name'), 'contact' => $contact];
+            $response= $mailler->sendTemplateContactEmail($contact->getEmail(), $contact->getSubject(), 'emails/contact.html.twig',$context );
+            if($response['status'] === 'success') {
+                $this->addSuccessMessage($response['message']);
+            } else {
+                $this->addErrorMessage($response['message']);
+            }
+
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('home/index.html.twig', [
-            'articles' => $articles,
+            'contenu' => $contenu,
+            'contenuArchive' => $contenuArchive,
+            'textes' => $textes,
+            'opinion' => $opinion,
+            'about' => $about,
+            'authors' => $authors,
+            'form' => $form,
         ]);
     }
 

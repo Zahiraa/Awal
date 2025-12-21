@@ -82,4 +82,15 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findPublishedArticlesByAuthor(Author $author): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author = :author')
+            ->andWhere('a.statut = :statut')
+            ->setParameter('author', $author)
+            ->setParameter('statut', Article::STATUT_PUBLISHED)
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

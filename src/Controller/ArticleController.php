@@ -35,12 +35,27 @@ final class ArticleController extends AbstractController
     public function show(int $id,ArticleRepository $articleRepository): Response
     {
         $article = $articleRepository->find($id);
-        if (!$article) {
+        if (!$article || $article->getStatus() !== Article::STATUS_PUBLISHED) {
             return $this->redirectToRoute('article_index');
         }
         return $this->render('article/show.html.twig', [
             'article' => $article,
         ]);
+
     }
+
+    // findPublishedArticlesByAuthor
+    #[Route('/author/{id}', name: 'article_author', methods: ['GET'])]
+    public function showByAuthor(int $id,ArticleRepository $articleRepository): Response
+    {
+        $articles = $articleRepository->findPublishedArticlesByAuthor($id)->orderBy(['createdAt' => 'DESC'])->getFirstResult();
+        if (!$articles) {
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('article/index.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+    
 
 }

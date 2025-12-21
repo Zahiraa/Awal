@@ -1,0 +1,14 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}
+	textes
+{% endblock %}
+
+{% block page_content %}
+	{% for texte in textes %}
+		<ul>
+			<li>{{ texte.title }}</li>
+			<li>{{ texte.subTitle }}</li>
+		</ul>
+	{% endfor %}
+{% endblock %}

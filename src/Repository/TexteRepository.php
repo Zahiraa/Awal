@@ -54,4 +54,34 @@ class TexteRepository extends ServiceEntityRepository
 
         return $queryBuilder;
     }
+    public function findTexteCurrentOrPreviousMonth()
+    {
+        $now = new \DateTime();
+        $startOfMonth = (clone $now)->modify('first day of this month')->setTime(0, 0, 0);
+        $endOfMonth = (clone $now)->modify('last day of this month')->setTime(23, 59, 59);
+
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.statut = :status')
+            ->andWhere('t.createdAt BETWEEN :start AND :end')
+            ->setParameter('status', Texte::STATUT_PUBLISHED)
+            ->setParameter('start', $startOfMonth)
+            ->setParameter('end', $endOfMonth)
+            ->orderBy('t.createdAt', 'DESC')
+           ;
+        
+        $result = $qb->getQuery()->getResult();
+
+        if ($result) {
+            return $result;
+        }
+
+        // Try previous month
+        $startOfPrevMonth = (clone $now)->modify('first day of last month')->setTime(0, 0, 0);
+        $endOfPrevMonth = (clone $now)->modify('last day of last month')->setTime(23, 59, 59);
+
+        $qb->setParameter('start', $startOfPrevMonth)
+           ->setParameter('end', $endOfPrevMonth);
+
+        return $qb->getQuery()->getResult();
+    }
 }

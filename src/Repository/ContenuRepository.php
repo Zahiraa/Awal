@@ -40,4 +40,48 @@ class ContenuRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findContentCurrentOrPreviousMonth(): ?Contenu
+    {
+        $now = new \DateTime();
+        $startOfMonth = (clone $now)->modify('first day of this month')->setTime(0, 0, 0);
+        $endOfMonth = (clone $now)->modify('last day of this month')->setTime(23, 59, 59);
+
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.statut = :status')
+            ->andWhere('c.createdAt BETWEEN :start AND :end')
+            ->setParameter('status', Contenu::STATUT_PUBLISHED)
+            ->setParameter('start', $startOfMonth)
+            ->setParameter('end', $endOfMonth)
+            ->orderBy('c.createdAt', 'DESC')
+            ->setMaxResults(1);
+        
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        if ($result) {
+            return $result;
+        }
+
+        // Try previous month
+        $startOfPrevMonth = (clone $now)->modify('first day of last month')->setTime(0, 0, 0);
+        $endOfPrevMonth = (clone $now)->modify('last day of last month')->setTime(23, 59, 59);
+
+        $qb->setParameter('start', $startOfPrevMonth)
+           ->setParameter('end', $endOfPrevMonth);
+        
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+    public function findContentArchive(?Contenu $excludeContent = null): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.statut = :status')
+            ->setParameter('status', Contenu::STATUT_PUBLISHED)
+            ->orderBy('c.createdAt', 'DESC');
+
+        if ($excludeContent) {
+            $qb->andWhere('c.id != :excludeId')
+               ->setParameter('excludeId', $excludeContent->getId());
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

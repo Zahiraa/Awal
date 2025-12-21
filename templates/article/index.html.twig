@@ -1,6 +1,7 @@
 {% extends 'public.html.twig' %}
 
-{% block title %}{{ 'RecitVie.tag'|trans }}
+{% block title %}
+	article
 {% endblock %}
 
 {% block page_content %}
@@ -20,11 +21,6 @@
 				</div>
 			</div>
 
-			{% if articles is not empty %}
-				<div class="max-w-6xl px-3 py-8">
-					<h2 class="text-2xl font-bold text-gray-900">{{ 'RecitVie.page.title'|trans }}</h2>
-				</div>
-			{% endif %}
 
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-white">
 				{% for article in articles %}
@@ -35,30 +31,30 @@
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
 						</svg>
 						<h3 class="text-2xl font-bold text-gray-900 mb-3">
-                            {{ 'RecitVie.page.noResults.title'|trans }}
+							{{ 'RecitVie.page.noResults.title'|trans }}
 						</h3>
 						{% if not is_granted('ROLE_ADMIN') %}
 							<p class="text-lg text-gray-600 max-w-md mx-auto leading-relaxed">
-                                {{ 'RecitVie.page.noResults.texte'|trans }}
+								{{ 'RecitVie.page.noResults.texte'|trans }}
 							</p>
 							<div class="mt-8">
 								<a href="{{ path('home') }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 transition-colors duration-200">
 									<svg class="w-5 h-5 mr-2" fill="currentColor" viewbox="0 0 24 24">
 										<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
 									</svg>
-                                    {{ 'RecitVie.page.noResults.backToHome'|trans }}
+									{{ 'RecitVie.page.noResults.backToHome'|trans }}
 								</a>
 							</div>
 						{% else %}
 							<p class="text-lg text-gray-600 max-w-md mx-auto leading-relaxed">
-                                {{ 'RecitVie.page.noResults.admin'|trans }}
+								{{ 'RecitVie.page.noResults.admin'|trans }}
 							</p>
 							<div class="mt-8">
 								<a href="{{ path('app_admin_article_new') }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 transition-colors duration-200">
 									<svg class="w-5 h-5 mr-2" fill="currentColor" viewbox="0 0 24 24">
 										<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
 									</svg>
-                                    {{ 'RecitVie.page.noResults.create'|trans }}
+									{{ 'RecitVie.page.noResults.create'|trans }}
 								</a>
 							</div>
 						{% endif %}
