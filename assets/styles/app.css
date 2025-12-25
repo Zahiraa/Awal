@@ -70,6 +70,9 @@
   --color-modal: rgba(75, 85, 99, 0.5);
 }
 
+.anywhere-words {
+  word-wrap: anywhere;
+}
 /* Custom Categories badge Colors */
 .text-red-800 {
   color: var(--color-red-800) !important;
@@ -224,7 +227,6 @@
 }
 
 /* end Custom Categories badge Colors */
-
 
 body {
   background-color: white;
@@ -658,9 +660,11 @@ body {
   right: 15%;
   width: 200px;
   height: 200px;
-  background-image: radial-gradient(circle,
-      rgba(254, 205, 211, 0.4) 1px,
-      transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    rgba(254, 205, 211, 0.4) 1px,
+    transparent 1px
+  );
   background-size: 8px 8px;
 }
 
@@ -670,9 +674,11 @@ body {
   left: 10%;
   width: 250px;
   height: 250px;
-  background-image: radial-gradient(circle,
-      rgba(254, 205, 211, 0.3) 1px,
-      transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    rgba(254, 205, 211, 0.3) 1px,
+    transparent 1px
+  );
   background-size: 8px 8px;
 }
 
@@ -690,10 +696,12 @@ body {
   width: 90%;
   height: 4px;
 
-  background: linear-gradient(90deg,
-      rgba(244, 63, 94, 0) 0%,
-      #f43f5e 50%,
-      rgba(244, 63, 94, 0) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(244, 63, 94, 0) 0%,
+    #f43f5e 50%,
+    rgba(244, 63, 94, 0) 100%
+  );
 }
 
 .scroll-indicator {
@@ -720,7 +728,6 @@ body {
 }
 
 @keyframes scroll {
-
   0%,
   100% {
     transform: translateY(0);

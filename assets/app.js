@@ -85,10 +85,12 @@ function copyLink() {
   const link = window.location.href;
   const copyButton = document.getElementById("copy-link");
   const originalContent = copyButton.innerHTML;
-  
+
   // Get translations from data attributes (from Symfony translations)
-  const successMessage = copyButton.getAttribute("data-success-message") || "Lien copié !";
-  const errorMessage = copyButton.getAttribute("data-error-message") || "Erreur";
+  const successMessage =
+    copyButton.getAttribute("data-success-message") || "Lien copié !";
+  const errorMessage =
+    copyButton.getAttribute("data-error-message") || "Erreur";
   navigator.clipboard
     .writeText(link)
     .then(() => {
@@ -184,16 +186,24 @@ function initializeApp() {
 
     if (event.target.closest("#mobile-menu-button")) {
       if (mobileMenu) {
-        mobileMenu.classList.contains("hidden")
-          ? mobileMenu.classList.remove("hidden")
-          : mobileMenu.classList.add("hidden");
+        mobileMenu.classList.toggle("hidden");
       }
+    }
+
+    // Close mobile menu when clicking on a link inside it
+    if (
+      mobileMenu &&
+      !mobileMenu.classList.contains("hidden") &&
+      event.target.closest("#mobile-menu a")
+    ) {
+      mobileMenu.classList.add("hidden");
     }
 
     // Close mobile menu when clicking outside
     if (
       mobileMenuButton &&
       mobileMenu &&
+      !mobileMenu.classList.contains("hidden") &&
       !mobileMenuButton.contains(event.target) &&
       !mobileMenu.contains(event.target)
     ) {
