@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/texte')]
 final class TexteController extends AbstractController
 {
-    #[Route('', name: 'app_texte_index', methods: ['GET'])]
+    #[Route('', name: 'app_texte_index_front', methods: ['GET'])]
     public function index(TexteRepository $texteRepository): Response
     {
         $texteThisMonthOrLastMonth = $texteRepository->findTexteCurrentOrPreviousMonth();

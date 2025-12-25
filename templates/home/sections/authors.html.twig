@@ -18,7 +18,7 @@
 							{% if author.image %}
 								<img src="{{ asset('uploads/' ~ author.image.name) }}" alt="{{ author.name }}" class="w-full h-full object-cover"/>
 							{% else %}
-								<img src="https://ui-avatars.com/api/?name={{ author.name|url_encode }}&background=fb7185&color=fff&size=128" alt="{{ author.name }}" class="w-full h-full object-cover"/>
+								<img src="{{ asset('build/images/home/author.svg') }}" alt="{{ author.name }}" class="w-full h-full object-cover"/>
 							{% endif %}
 						</div>
 						<h3 class="text-2xl font-bold mb-2">{{ author.name }}</h3>

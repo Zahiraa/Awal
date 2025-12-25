@@ -1,46 +1,88 @@
 <header class="bg-gray-50">
-
-
 	<nav class="bg-white shadow-sm sticky top-0 z-50">
-		<div
-			class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-			<!-- Centered Links -->
-			<div class="flex-1 flex justify-center items-center gap-12 text-gray-700">
-				<a href="#contact" class="hover:text-rose-500 transition">اتصل بنا</a>
-				<a href="#who" class="hover:text-rose-500 transition">من نحن؟</a>
-				<a href="#archive" class="hover:text-rose-500 transition">أرشيف أوال فيمينا</a>
-				<a href="#current" class="hover:text-rose-500 transition">العدد الحالي</a>
-				<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
+		<div class="max-w-7xl mx-auto px-6 py-4">
+			<div
+				class="flex justify-between items-center">
+				<!-- Mobile Menu Button -->
+				<button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-rose-500 transition focus:outline-none">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+					</svg>
+				</button>
+
+				<!-- Desktop Links (Hidden on Mobile) -->
+				<div class="hidden md:flex flex-1 justify-center items-center gap-12 text-gray-700">
+					<a href="#contact" class="hover:text-rose-500 transition">اتصل بنا</a>
+					<a href="#who" class="hover:text-rose-500 transition">من نحن؟</a>
+					<a href="#archive" class="hover:text-rose-500 transition">أرشيف أوال فيمينا</a>
+					<a href="#current" class="hover:text-rose-500 transition">العدد الحالي</a>
+					<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
+				</div>
+
+				<!-- Admin Dropdown (Desktop) -->
+				{% if app.user and is_granted('ROLE_ADMIN') %}
+					<div class="hidden md:block relative group">
+						<button class="flex items-center gap-2 text-gray-700 hover:text-rose-500 transition focus:outline-none font-bold">
+							<span>حسابي</span>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+							</svg>
+						</button>
+
+						<!-- Dropdown Menu -->
+						<div class="absolute right-0 top-full pt-2 w-48 hidden group-hover:block z-50">
+							<div class="bg-white rounded-xl shadow-custom-lg py-2 ring-1 ring-black ring-opacity-5">
+								<a href="{{ path('app_admin_user_show', {'id': app.user.id}) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-500 text-right transition">
+									الملف الشخصي
+								</a>
+								<a href="{{ path('app_admin_article_index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-500 text-right transition">
+									لوحة التحكم
+								</a>
+								<div class="border-t border-gray-100 my-1"></div>
+								<a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 text-right transition">
+									تسجيل الخروج
+								</a>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+				<!-- Logo (Extreme Right) -->
+				<a href="{{ path('home') }}" class="flex-shrink-0 transition-transform hover:scale-105">
+					<img src="{{ asset('build/images/logo-pink.svg') }}" alt="Awal Femina" class="h-10 md:h-10 w-auto object-contain">
+				</a>
+
+				<!-- Spacer for mobile to keep button on left -->
+				<div class="md:hidden w-6"></div>
 			</div>
 
-			<!-- Admin Dropdown -->
-			{% if app.user and is_granted('ROLE_ADMIN') %}
-				<div class="relative group">
-					<button class="flex items-center gap-2 text-gray-700 hover:text-rose-500 transition focus:outline-none font-bold">
-						<span>حسابي</span>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-						</svg>
-					</button>
+			<!-- Mobile Menu (Hidden by default) -->
+			<div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-100 pt-4">
+				<div class="flex flex-col gap-4 text-gray-700 text-right">
+					<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
+					<a href="#current" class="hover:text-rose-500 transition py-2">العدد الحالي</a>
+					<a href="#archive" class="hover:text-rose-500 transition py-2">أرشيف أوال فيمينا</a>
+					<a href="#who" class="hover:text-rose-500 transition py-2">من نحن؟</a>
+					<a href="#contact" class="hover:text-rose-500 transition py-2">اتصل بنا</a>
 
-					<!-- Dropdown Menu -->
-					<div class="absolute right-0 top-full pt-2 w-48 hidden group-hover:block z-50">
-						<div class="bg-white rounded-xl shadow-custom-lg py-2 ring-1 ring-black ring-opacity-5">
-							<a href="{{ path('app_admin_user_show', {'id': app.user.id}) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-500 text-right transition">
+					<!-- Admin Links for Mobile -->
+					{% if app.user and is_granted('ROLE_ADMIN') %}
+						<div class="border-t border-gray-200 pt-4 mt-2">
+							<p class="font-bold text-gray-700 mb-3">حسابي</p>
+							<a href="{{ path('app_admin_user_show', {'id': app.user.id}) }}" class="block py-2 text-gray-700 hover:text-rose-500 transition">
 								الملف الشخصي
 							</a>
-							<a href="{{ path('app_admin_article_index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-rose-50 hover:text-rose-500 text-right transition">
+							<a href="{{ path('app_admin_article_index') }}" class="block py-2 text-gray-700 hover:text-rose-500 transition">
 								لوحة التحكم
 							</a>
-							<div class="border-t border-gray-100 my-1"></div>
-							<a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50 text-right transition">
+							<a href="{{ path('app_logout') }}" class="block py-2 text-red-500 hover:text-red-600 transition">
 								تسجيل الخروج
 							</a>
 						</div>
-					</div>
+					{% endif %}
 				</div>
-			{% endif %}
+			</div>
 		</div>
 	</nav>
+
 
 </header>

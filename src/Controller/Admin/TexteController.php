@@ -33,6 +33,8 @@ final class TexteController extends AbstractController
         ]);
     }
 
+ 
+
     #[Route('/new', name: 'app_texte_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, FileUploadService $fileUploadService): Response
     {

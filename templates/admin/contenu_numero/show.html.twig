@@ -1,94 +1,100 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}{{ contenu_numero.title }}{% endblock %}
+{% block title %}
+	{{ contenu_numero.title }}
+{% endblock %}
 
 {% block content %}
-    <div class="flex-1 flex flex-col bg-gray-50">
-        <!-- Header -->
-        <header class="bg-white py-6 border-b border-gray-200">
-            <div class="flex flex-wrap justify-between items-center gap-4">
-                <div>
-                    <h1 class="text-2xl font-semibold text-gray-900">
-                        Contenu Numéro
-                    </h1>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <a href="{{ path('app_admin_contenu_numero_index') }}" class="flex items-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
-                        Retour
-                    </a>
-                    <a href="{{ path('app_admin_contenu_numero_edit', {'id': contenu_numero.id}) }}" class="flex items-center cursor-pointer px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
-                        Modifier
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            <hr class="text-gray-300 mt-4 mb-2">
-        </header>
+	<div
+		class="flex-1 flex flex-col bg-gray-50 px-4">
+		<!-- Header -->
+		<header class="bg-white py-6 border-b border-gray-200">
+			<div class="flex flex-wrap justify-between items-center gap-4">
+				<div>
+					<h1 class="text-2xl font-semibold text-gray-900">
+						Contenu Numéro
+					</h1>
+				</div>
+				<div class="flex items-center space-x-3">
+					<a href="{{ path('app_admin_contenu_numero_index') }}" class="flex items-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+						Retour
+					</a>
+					<a href="{{ path('app_admin_contenu_numero_edit', {'id': contenu_numero.id}) }}" class="flex items-center cursor-pointer px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
+						Modifier
+						<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+						</svg>
+					</a>
+				</div>
+			</div>
+			<hr class="text-gray-300 mt-4 mb-2">
+		</header>
 
-        <!-- Content -->
-        <div class="flex-1 p-6">
-            <div class="max-w-4xl mx-auto">
-                <!-- Contenu Numero Header -->
-                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <h2 class="text-3xl font-bold text-gray-900 mb-2">{{ contenu_numero.title }}</h2>
-                            {% if contenu_numero.subTitle %}
-                                <p class="text-xl text-gray-600 mb-4">{{ contenu_numero.subTitle }}</p>
-                            {% endif %}
+		<!-- Content -->
+		<div class="flex-1 p-6">
+			<div
+				class="max-w-4xl mx-auto">
+				<!-- Contenu Numero Header -->
+				<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+					<div class="flex items-start justify-between">
+						<div class="flex-1">
+							<h2 class="text-3xl font-bold text-gray-900 mb-2">{{ contenu_numero.title }}</h2>
+							{% if contenu_numero.subTitle %}
+								<p class="text-xl text-gray-600 mb-4">{{ contenu_numero.subTitle }}</p>
+							{% endif %}
 
-                            <div class="flex items-center space-x-4 text-sm text-gray-500">
-                                <span>Créé le {{ contenu_numero.createdAt ? contenu_numero.createdAt|date('d/m/Y à H:i') : 'Non défini' }}</span>
-                                {% if contenu_numero.updatedAt %}
-                                    <span>• Modifié le {{ contenu_numero.updatedAt|date('d/m/Y à H:i') }}</span>
-                                {% endif %}
-                            </div>
+							<div class="flex items-center space-x-4 text-sm text-gray-500">
+								<span>Créé le
+									{{ contenu_numero.createdAt ? contenu_numero.createdAt|date('d/m/Y à H:i') : 'Non défini' }}</span>
+								{% if contenu_numero.updatedAt %}
+									<span>• Modifié le
+										{{ contenu_numero.updatedAt|date('d/m/Y à H:i') }}</span>
+								{% endif %}
+							</div>
 
-                            <!-- Status Badge -->
-                            <div class="mt-4">
-                                {% if contenu_numero.statut == 'published' %}
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 8 8">
-                                            <circle cx="4" cy="4" r="3"/>
-                                        </svg>
-                                        Publié
-                                    </span>
-                                {% elseif contenu_numero.statut == 'draft' %}
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 8 8">
-                                            <circle cx="4" cy="4" r="3"/>
-                                        </svg>
-                                        Brouillon
-                                    </span>
-                                {% else %}
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-                                        {{ contenu_numero.statut }}
-                                    </span>
-                                {% endif %}
-                            </div>
-                        </div>
+							<!-- Status Badge -->
+							<div class="mt-4">
+								{% if contenu_numero.statut == 'published' %}
+									<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+										<svg class="w-4 h-4 mr-2" fill="currentColor" viewbox="0 0 8 8">
+											<circle cx="4" cy="4" r="3"/>
+										</svg>
+										Publié
+									</span>
+								{% elseif contenu_numero.statut == 'draft' %}
+									<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+										<svg class="w-4 h-4 mr-2" fill="currentColor" viewbox="0 0 8 8">
+											<circle cx="4" cy="4" r="3"/>
+										</svg>
+										Brouillon
+									</span>
+								{% else %}
+									<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+										{{ contenu_numero.statut }}
+									</span>
+								{% endif %}
+							</div>
+						</div>
 
-                        <!-- Image -->
-                        {% if contenu_numero.image %}
-                            <div class="ml-6">
-                                <img src="{{ '/uploads/' ~ contenu_numero.image.name }}" alt="{{ contenu_numero.title }}" class="w-32 h-32 rounded-lg object-cover shadow-sm">
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
+						<!-- Image -->
+						{% if contenu_numero.image %}
+							<div class="ml-6">
+								<img src="{{ '/uploads/' ~ contenu_numero.image.name }}" alt="{{ contenu_numero.title }}" class="w-32 h-32 rounded-lg object-cover shadow-sm">
+							</div>
+						{% endif %}
+					</div>
+				</div>
 
-                <!-- Content -->
-                {% if contenu_numero.content %}
-                    <div class="bg-white rounded-lg shadow-sm p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Contenu</h3>
-                        <div class="prose prose-lg max-w-none">
-                            {{ contenu_numero.content|raw }}
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
+				<!-- Content -->
+				{% if contenu_numero.content %}
+					<div class="bg-white rounded-lg shadow-sm p-6">
+						<h3 class="text-lg font-semibold text-gray-900 mb-4">Contenu</h3>
+						<div class="prose prose-lg max-w-none">
+							{{ contenu_numero.content|raw }}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

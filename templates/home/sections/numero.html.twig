@@ -15,13 +15,14 @@
 					</div>
 				</a>
 				<div class="rounded-3xl overflow-hidden shadow-custom-lg">
-					<img src="{{ asset('build/images/home/awal.jpeg') }}" alt="Magazine" class="w-full h-96 object-cover"/>
+
+					<img src="{{ asset('build/images/home/awal.jpeg') }}" alt="Magazine" class="w-full h-105 object-cover"/>
 				</div>
 			</div>
 
 			<!-- Content List -->
 			<div class="space-y-4">
-				<div class="bg-rose-50 rounded-2xl p-6 shadow-custom flex items-center justify-between">
+				<div class="bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border border-[#FECDD3] rounded-[16px] p-6 flex items-center gap-4 justify-between">
 					<a href="{{ path('app_opinion_show_front', {'id': opinion.id}) }}" class="text-right flex-1 block group">
 						<h3 class="text-2xl font-bold mb-2 group-hover:text-rose-600 transition-colors">{{ opinion.title }}</h3>
 						<p class="text-gray-600">
@@ -30,22 +31,23 @@
 
 				</div>
 
-				<div class="bg-white rounded-2xl p-6 shadow-custom flex items-center justify-between border border-gray-100">
+				<div class="bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)]  border border-[#E5E7EB] p-6  rounded-[16px] flex items-center gap-4 justify-between border border-gray-100">
 					<div class="text-right flex-1">
-						<h3 class="text-2xl font-bold mb-2">نصوص أوال فيمينا</h3>
+
+						<h3 class="text-2xl font-bold mb-2">ملف العدد</h3>
 						<p class="text-gray-600">
-							مجموعة من النصوص الأدبية والإبداعية المميزة
+							{{ contenu.title }}
 						</p>
 					</div>
 
 				</div>
 
-				<div class="bg-rose-50 rounded-2xl p-6 shadow-custom flex items-center justify-between">
+				<div class="mb-10 bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border border-[#FECDD3] rounded-[16px] p-6 flex items-center gap-4 justify-between">
 					<a href="{{ path('app_contenu_numero_list', {'id': contenu.id}) }}" class="text-right flex-1 block group">
 						<div class="text-right flex-1">
-							<h3 class="text-2xl font-bold mb-2">ملف العدد</h3>
+							<h3 class="text-2xl font-bold mb-2">نصوص أوال فيمينا</h3>
 							<p class="text-gray-600">
-								{{ contenu.title }}
+								مجموعة من النصوص الأدبية والإبداعية المميزة
 							</p>
 						</div>
 					</a>
@@ -53,7 +55,7 @@
 
 				{% for text in textes %}
 					<a href="{{ path('app_texte_show', {'id': text.id}) }}">
-						<div class="{{ loop.index is even ? 'bg-rose-50' : 'bg-white border border-gray-100' }} rounded-2xl p-6 shadow-custom flex items-center justify-between">
+						<div class="mt-4 border rounded-[16px] p-6 mb-4 flex items-center gap-4 justify-between {{ loop.index is not even ? 'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]' : 'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]' }} rounded-2xl p-6 shadow-custom flex items-center justify-between">
 							<div class="text-right flex-1">
 								<h3 class="text-2xl font-bold mb-2">{{ text.title }}</h3>
 								<p class="text-gray-600">
