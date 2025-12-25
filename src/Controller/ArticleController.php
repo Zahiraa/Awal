@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Form\ArticleForm;
 use App\Repository\ArticleRepository;
+use App\Repository\AuthorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
@@ -46,14 +47,17 @@ final class ArticleController extends AbstractController
 
     // findPublishedArticlesByAuthor
     #[Route('/author/{id}', name: 'article_author', methods: ['GET'])]
-    public function showByAuthor(int $id,ArticleRepository $articleRepository): Response
+    public function showByAuthor(int $id,ArticleRepository $articleRepository,AuthorRepository $authorRepository): Response
     {
-        $articles = $articleRepository->findPublishedArticlesByAuthor($id)->orderBy(['createdAt' => 'DESC'])->getFirstResult();
-        if (!$articles) {
+    
+        $author = $authorRepository->find($id);
+       
+        $article = $articleRepository->findPublishedArticlesByAuthor($author);
+        if (!$article) {
             return $this->redirectToRoute('home');
         }
         return $this->render('article/index.html.twig', [
-            'articles' => $articles,
+            'article' => $article,
         ]);
     }
     

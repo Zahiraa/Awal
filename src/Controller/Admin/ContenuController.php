@@ -18,7 +18,7 @@ final class ContenuController extends AbstractController
     public function index(ContenuRepository $contenuRepository): Response
     {
         return $this->render('admin/contenu/index.html.twig', [
-            'contenus' => $contenuRepository->findAll(),
+            'articles' => $contenuRepository->findAll(),
         ]);
     }
 

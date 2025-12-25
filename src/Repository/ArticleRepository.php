@@ -82,7 +82,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function findPublishedArticlesByAuthor(Author $author): array
+    public function findPublishedArticlesByAuthor(Author $author): ?Article
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.author = :author')
@@ -90,7 +90,8 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('author', $author)
             ->setParameter('statut', Article::STATUT_PUBLISHED)
             ->orderBy('a.createdAt', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 }

@@ -1,18 +1,20 @@
 {% extends 'public.html.twig' %}
 {% block title %}
-	{{ 'Navbar.accueil'|trans }}
+	الرئيسية
 {% endblock %}
 
 {% block content %}
 	{% include 'home/sections/hero.html.twig' %}
 
-	{% include 'home/sections/numero.html.twig' %}
+	{% include 'home/sections/numero.html.twig' with { 'contenu': contenu, 'textes': textes, 'opinion': opinion } %}
 
-	{% include 'home/sections/about.html.twig' %}
+	{% include 'home/sections/authors.html.twig' with { 'authors': authors } %}
 
 	{% include 'home/sections/archive.html.twig' %}
 
-	{% include 'home/sections/authors.html.twig' %}
+
+	{% include 'home/sections/about.html.twig' %}
+
 
 	{% include 'home/sections/contact.html.twig' %}
 

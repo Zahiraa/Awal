@@ -9,24 +9,25 @@
 			class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-16">
 			<!-- Images Column -->
 			<div class="space-y-8">
+				<a href="{{ path('app_opinion_show_front', {'id': opinion.id}) }}" class="text-right flex-1 block group">
+					<div class="rounded-3xl overflow-hidden shadow-custom-lg">
+						<img src="{{ asset('uploads/' ~ opinion.image.name) }}" alt="Woman reading" class="w-full h-96 object-cover"/>
+					</div>
+				</a>
 				<div class="rounded-3xl overflow-hidden shadow-custom-lg">
-					<img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&h=700&fit=crop" alt="Woman reading" class="w-full h-96 object-cover"/>
-				</div>
-				<div class="rounded-3xl overflow-hidden shadow-custom-lg">
-					<img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=700&fit=crop" alt="Magazine" class="w-full h-96 object-cover"/>
+					<img src="{{ asset('build/images/home/awal.jpeg') }}" alt="Magazine" class="w-full h-96 object-cover"/>
 				</div>
 			</div>
 
 			<!-- Content List -->
 			<div class="space-y-4">
 				<div class="bg-rose-50 rounded-2xl p-6 shadow-custom flex items-center justify-between">
-					<div class="text-right flex-1">
-						<h3 class="text-2xl font-bold mb-2">رأينا</h3>
-						<p class="text-gray-600">بقلم: نوال الوراني</p>
-					</div>
-					<div class="bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
-						1
-					</div>
+					<a href="{{ path('app_opinion_show_front', {'id': opinion.id}) }}" class="text-right flex-1 block group">
+						<h3 class="text-2xl font-bold mb-2 group-hover:text-rose-600 transition-colors">{{ opinion.title }}</h3>
+						<p class="text-gray-600">
+							{{ opinion.subTitle }}</p>
+					</a>
+
 				</div>
 
 				<div class="bg-white rounded-2xl p-6 shadow-custom flex items-center justify-between border border-gray-100">
@@ -36,69 +37,34 @@
 							مجموعة من النصوص الأدبية والإبداعية المميزة
 						</p>
 					</div>
-					<div class="bg-gray-400 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
-						2
-					</div>
+
 				</div>
 
 				<div class="bg-rose-50 rounded-2xl p-6 shadow-custom flex items-center justify-between">
-					<div class="text-right flex-1">
-						<h3 class="text-2xl font-bold mb-2">ملف العدد</h3>
-						<p class="text-gray-600">
-							التعليم الغموض والتخصوص، أي جيل نريد للمستقبل؟
-						</p>
-					</div>
-					<div class="bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
-						3
-					</div>
+					<a href="{{ path('app_contenu_numero_list', {'id': contenu.id}) }}" class="text-right flex-1 block group">
+						<div class="text-right flex-1">
+							<h3 class="text-2xl font-bold mb-2">ملف العدد</h3>
+							<p class="text-gray-600">
+								{{ contenu.title }}
+							</p>
+						</div>
+					</a>
 				</div>
 
-				<div class="bg-white rounded-2xl p-6 shadow-custom flex items-center justify-between border border-gray-100">
-					<div class="text-right flex-1">
-						<h3 class="text-2xl font-bold mb-2">حوار العدد</h3>
-						<p class="text-gray-600">
-							د. عائدة الرباوي (مديرة بيت الذاكرة)
-						</p>
-					</div>
-					<div class="bg-gray-400 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
-						4
-					</div>
-				</div>
+				{% for text in textes %}
+					<a href="{{ path('app_texte_show', {'id': text.id}) }}">
+						<div class="{{ loop.index is even ? 'bg-rose-50' : 'bg-white border border-gray-100' }} rounded-2xl p-6 shadow-custom flex items-center justify-between">
+							<div class="text-right flex-1">
+								<h3 class="text-2xl font-bold mb-2">{{ text.title }}</h3>
+								<p class="text-gray-600">
+									{{ text.subTitle }}
+								</p>
+							</div>
 
-				<div class="bg-rose-50 rounded-2xl p-6 shadow-custom flex items-center justify-between">
-					<div class="text-right flex-1">
-						<h3 class="text-2xl font-bold mb-2">"الهجرة، بعنوين"</h3>
-						<p class="text-gray-600">
-							الشتاتية والأكاديمية مونية العاقلي (رونا)
-						</p>
-					</div>
-					<div class="bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
-						5
-					</div>
-				</div>
+						</div>
+					</a>
+				{% endfor %}
 
-				<div class="bg-white rounded-2xl p-6 shadow-custom flex items-center justify-between border border-gray-100">
-					<div class="text-right flex-1">
-						<h3 class="text-2xl font-bold mb-2">مبادرات يون السوة</h3>
-						<p class="text-gray-600">
-							"نوافذ الحالي" مع
-																							                  ....................................................................
-						</p>
-					</div>
-					<div class="bg-gray-400 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
-						6
-					</div>
-				</div>
-
-				<div class="bg-rose-50 rounded-2xl p-6 shadow-custom flex items-center justify-between">
-					<div class="text-right flex-1">
-						<h3 class="text-2xl font-bold mb-2">جيك ماجيك</h3>
-						<p class="text-gray-600">مع الحكواتية والرحالة المرأة الريق</p>
-					</div>
-					<div class="bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
-						7
-					</div>
-				</div>
 
 				<div class="bg-white rounded-2xl p-6 shadow-custom flex items-center justify-between border border-gray-100">
 					<div class="text-right flex-1">
@@ -107,9 +73,7 @@
 							تقارير شاملة حول قضايا المرأة والمجتمع
 						</p>
 					</div>
-					<div class="bg-gray-400 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mr-4">
-						8
-					</div>
+
 				</div>
 			</div>
 		</div>

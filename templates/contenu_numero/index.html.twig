@@ -5,11 +5,41 @@
 {% endblock %}
 
 {% block page_content %}
-	<p>{{ contenu.subTitle }}</p>
-	{% for contenu in contenus %}
-		<ul>
-			<li>{{ contenu.title }}</li>
-			<li>{{ contenu.subTitle }}</li>
-		</ul>
-	{% endfor %}
+	<section class="py-24 bg-white">
+		<div
+			class="max-w-7xl mx-auto px-6">
+			<!-- Main Title -->
+			<div class="text-center mb-16">
+				<h1 class="text-4xl md:text-5xl font-bold text-rose-600 mb-4">{{ contenu.title }}</h1>
+				{% if contenu.subTitle is defined %}
+					<p class="text-xl text-gray-500">{{ contenu.subTitle }}</p>
+				{% endif %}
+			</div>
+
+			<!-- Grid of Cards -->
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				{% for item in contenu_numeros %}
+					<a href="{{ path('app_contenu_numero_show', {'id': item.id}) }}" class="h-full">
+						<div
+							class="bg-stone-50 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 group h-full flex flex-col">
+							<!-- Card Image -->
+							<div class="aspect-w-16 aspect-h-9 overflow-hidden">
+								<img src="{{ asset('uploads/' ~ item.image.name) }}" alt="{{ item.title }}" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500"/>
+							</div>
+
+							<!-- Card Content -->
+							<div class="p-8 flex-1 flex flex-col">
+								<h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-rose-600 transition-colors">
+									{{ item.title }}
+								</h3>
+								<p class="text-gray-600 leading-relaxed flex-1">
+									{{ item.subTitle }}
+								</p>
+							</div>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
 {% endblock %}

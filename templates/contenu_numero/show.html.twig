@@ -5,5 +5,26 @@
 {% endblock %}
 
 {% block page_content %}
-	<p>{{ contenuNumero.subTitle }}</p>
+	<section class="py-24 bg-white" dir="rtl">
+		<div
+			class="max-w-4xl mx-auto px-6">
+			<!-- Image -->
+			<div class="rounded-3xl overflow-hidden shadow-custom-lg mb-12">
+				<img src="{{ asset('uploads/' ~ contenuNumero.image.name) }}" alt="{{ contenuNumero.title }}" class="w-full h-auto object-cover max-h-[600px] hover:scale-105 transition-transform duration-700"/>
+			</div>
+
+			<!-- Header -->
+			<div class="text-center mb-12">
+				<h1 class="text-4xl md:text-5xl font-bold text-rose-600 mb-6 leading-tight">{{ contenuNumero.title }}</h1>
+				<p class="text-xl text-gray-500 font-medium">{{ contenuNumero.subTitle }}</p>
+			</div>
+
+			<!-- Content -->
+			<div class="bg-stone-50 rounded-3xl p-8 md:p-12 shadow-sm">
+				<div class="prose prose-lg prose-rose max-w-none mx-auto text-gray-700 leading-relaxed text-justify">
+					{{ contenuNumero.content|raw }}
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}

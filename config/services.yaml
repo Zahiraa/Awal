@@ -45,9 +45,6 @@ services:
         arguments:
             $uploadDirectory: '%upload_directory%'
 
-    App\Manager\PropositionManager:
-        arguments:
-            $uploadDirectory: '%upload_directory%'
 
     App\EventSubscriber\LocaleSubscriber:
       arguments:

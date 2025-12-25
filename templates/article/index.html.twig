@@ -1,73 +1,81 @@
 {% extends 'public.html.twig' %}
 
 {% block title %}
-	article
+	{{ article.titre }}
 {% endblock %}
 
-{% block page_content %}
-	<div class="flex-1 flex flex-col ">
-
-		<div
-			class=" min-h-screen">
-			<!-- Header Section -->
-			<div class="bg-white ">
-				<div
-					class="max-w-6xl mx-auto px-4 py-8 text-center">
-					{#                    <p class="text-teal-600 font-medium mb-2">Notre blog</p>#}
-					<h1 class="text-4xl font-bold text-teal-600 mb-4">{{ 'RecitVie.page.mainTitle'|trans }}</h1>
-					<p class="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-						{{ 'RecitVie.page.subTitle'|trans }}
-					</p>
-				</div>
-			</div>
-
-
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-white">
-				{% for article in articles %}
-					{{ include('common/article_card.html.twig', {'article': article}) }}
-				{% else %}
-					<div class="col-span-full text-center py-12 px-4">
-						<svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-						</svg>
-						<h3 class="text-2xl font-bold text-gray-900 mb-3">
-							{{ 'RecitVie.page.noResults.title'|trans }}
-						</h3>
-						{% if not is_granted('ROLE_ADMIN') %}
-							<p class="text-lg text-gray-600 max-w-md mx-auto leading-relaxed">
-								{{ 'RecitVie.page.noResults.texte'|trans }}
-							</p>
-							<div class="mt-8">
-								<a href="{{ path('home') }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 transition-colors duration-200">
-									<svg class="w-5 h-5 mr-2" fill="currentColor" viewbox="0 0 24 24">
-										<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-									</svg>
-									{{ 'RecitVie.page.noResults.backToHome'|trans }}
-								</a>
-							</div>
-						{% else %}
-							<p class="text-lg text-gray-600 max-w-md mx-auto leading-relaxed">
-								{{ 'RecitVie.page.noResults.admin'|trans }}
-							</p>
-							<div class="mt-8">
-								<a href="{{ path('app_admin_article_new') }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 transition-colors duration-200">
-									<svg class="w-5 h-5 mr-2" fill="currentColor" viewbox="0 0 24 24">
-										<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-									</svg>
-									{{ 'RecitVie.page.noResults.create'|trans }}
-								</a>
-							</div>
-						{% endif %}
-					</div>
-				{% endfor %}
-			</div>
-
-			<!-- KnpPaginatorBundle Pagination -->
-			{% if articles.pageCount > 1 %}
-				<div class="bg-white px-4 py-5 border-t border-gray-200 sm:px-6">
-					{{ knp_pagination_render(articles, 'components/pagination.html.twig') }}
+{% block content %}
+	<section class="py-24 bg-white" dir="rtl">
+		<div class="max-w-4xl mx-auto px-6">
+			{% if article.image %}
+				<!-- Image -->
+				<div class="rounded-3xl overflow-hidden shadow-custom-lg mb-12">
+					<img src="{{ asset('uploads/' ~ article.image.name) }}" alt="{{ article.titre }}" class="w-full h-auto object-cover object-top max-h-[85vh] hover:scale-105 transition-transform duration-700"/>
 				</div>
 			{% endif %}
+
+			<!-- Header -->
+			<div class="text-center mb-12">
+				<h1 class="text-4xl md:text-5xl font-bold text-rose-600 mb-6 leading-tight">{{ article.titre }}</h1>
+
+				<!-- Author -->
+				{% if article.author %}
+					<div class="flex items-center justify-center gap-4 mt-6">
+						<div class="w-16 h-16 rounded-full overflow-hidden shadow-sm">
+							{% if article.author.image %}
+								<img src="{{ asset('uploads/' ~ article.author.image.name) }}" alt="{{ article.author.name }}" class="w-full h-full object-cover"/>
+							{% else %}
+								<img src="https://ui-avatars.com/api/?name={{ article.author.name|url_encode }}&background=fb7185&color=fff&size=128" alt="{{ article.author.name }}" class="w-full h-full object-cover"/>
+							{% endif %}
+						</div>
+						<div class="text-right">
+							<p class="font-bold text-gray-900 text-lg">{{ article.author.name }}</p>
+							{% if article.author.nameFr %}
+								<p class="text-sm text-gray-500">{{ article.author.nameFr }}</p>
+							{% endif %}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+
+			{% if article.media %}
+				{% set extension = article.media.extension|lower %}
+
+				{% if extension in ['mp3', 'wav', 'ogg', 'mpeg', 'm4a'] %}
+					<div class="my-18 border-t border-gray-200 pt-8">
+						<h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+							<svg class="w-6 h-6 text-rose-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+							استمع
+						</h3>
+						<div class="bg-white p-4 rounded-2xl shadow-sm">
+							<audio controls class="w-full">
+								<source src="{{ asset('uploads/' ~ article.media.name) }}" type="audio/{{ extension == 'mp3' ? 'mpeg' : extension }}">
+								متصفحك لا يدعم تشغيل الملفات الصوتية.
+							</audio>
+						</div>
+					</div>
+				{% elseif extension in ['mp4', 'webm', 'mov', 'avi'] %}
+					<div class="my-18 border-t border-gray-200 pt-8">
+						<h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+							<svg class="w-6 h-6 text-rose-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+							شاهد الفيديو
+						</h3>
+						<div class="rounded-2xl overflow-hidden shadow-custom">
+							<video controls class="w-full max-h-[500px]">
+								<source src="{{ asset('uploads/' ~ article.media.name) }}" type="video/{{ extension }}">
+								متصفحك لا يدعم تشغيل الفيديو.
+							</video>
+						</div>
+					</div>
+				{% endif %}
+			{% endif %}
+
+			<!-- Content -->
+			<div class="bg-stone-50 rounded-3xl p-8 md:p-12 shadow-sm">
+				<div class="prose prose-lg prose-rose max-w-none mx-auto text-gray-700 leading-relaxed text-justify mb-8 [&_*]:!bg-transparent">
+					{{ article.content|raw }}
+				</div>
+			</div>
 		</div>
-	</div>
+	</section>
 {% endblock %}

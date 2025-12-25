@@ -29,7 +29,7 @@ set :ssh_options, {
   verify_host_key: :never,
   auth_methods: %w(publickey),
   # Utiliser la clé du serveur directement
-  keys: %w(~/.ssh/id_barry_monarkit),
+  keys: %w(~/.ssh/awal),
   config: true
 }
 
