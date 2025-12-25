@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Controller\admin;
+namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
 use App\Entity\Article;
-use App\Entity\Terme;
 use App\Entity\User;
 use App\Form\ArticleForm;
 use App\Manager\ArticleManager;
-use App\Manager\TermeManager;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;

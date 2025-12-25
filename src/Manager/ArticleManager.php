@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Entity\Article;
-use App\Entity\Terme;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\FileUploadService;
@@ -80,7 +79,7 @@ class ArticleManager
         $me = $this->security->getUser();
 
         if (!$me->isAdmin()) {
-            throw new \Exception('Vous n\'avez pas les droits pour approuver ce terme');
+            throw new \Exception('Vous n\'avez pas les droits pour approuver');
         }
 
         $article->setApprovedBy($me);
@@ -112,12 +111,11 @@ class ArticleManager
         /** @var User $me */
         $me = $this->security->getUser();
 
-        // si c'est un manager, on met le terme en statut "waiting_approval" sauf s'il a juste sauvegardé alors, on met le terme en statut "draft"
         if ($me->isManager()) {
             if ($formStatus === 'drafted') {
-                $article->setStatut(Terme::STATUT_DRAFT);
+                $article->setStatut(Article::STATUT_DRAFT);
             } else {
-                $article->setStatut(Terme::STATUT_WAITING_APPROVAL);
+                $article->setStatut(Article::STATUT_WAITING_APPROVAL);
 
                 $user = $me;
                 $subject = 'Article en attente d\'approbation';
@@ -141,7 +139,6 @@ class ArticleManager
                 }
             }
         }
-        // si c'est un admin, on met le terme en statut "published" sauf s'il a juste sauvegardé alors, on met le terme en statut "draft"
         if ($me->isAdmin()) {
             if ($formStatus === 'drafted') {
                 $article->setStatut(Article::STATUT_DRAFT);

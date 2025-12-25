@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\DTO\ContactDTO;
-use App\Entity\Terme;
 use App\Form\ContactForm;
 use App\Manager\Mailler;
 use App\Repository\ArticleRepository;
