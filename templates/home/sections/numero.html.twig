@@ -4,14 +4,13 @@
 		<h2 class="text-5xl font-bold text-center mb-4">
 			<span class="pink-underline">العدد الحالي</span>
 		</h2>
-
 		<div
 			class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-16">
 			<!-- Images Column -->
 			<div class="space-y-8">
 				<a href="{{ path('app_opinion_show_front', {'id': opinion.id}) }}" class="text-right flex-1 block group">
 					<div class="rounded-3xl overflow-hidden shadow-custom-lg">
-						<img src="{{ asset('uploads/' ~ opinion.image.name) }}" alt="Woman reading" class="w-full h-96 object-cover object-top"/>
+						<img src="{{ asset('uploads/' ~ opinion.image.name) }}" alt="nawal" class="w-full h-96 object-cover object-top"/>
 					</div>
 				</a>
 				<div class="rounded-3xl overflow-hidden shadow-custom-lg">
