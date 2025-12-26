@@ -5,37 +5,34 @@
 {% endblock %}
 
 {% block content %}
-    <div class="flex-1 flex flex-col bg-gray-100">
-           <!-- Header -->
-        <header class="bg-white py-6 border-b border-gray-200">
-            <div class="flex flex-wrap justify-between items-center gap-4">
-                <div>
-                   	<h1 class="text-2xl font-bold text-gray-800">نصوص آوال فيمينا</h1>
-                </div>
-             	<a href="{{ path('app_texte_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#A81B60] hover:bg-primary-700 transition-colors duration-200 mr-4">
-				<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-				</svg>
-				نص جديد
-			</a>
-            </div>
-            <hr class="text-gray-300 mt-4 mb-2">
-        </header>
+	<div
+		class="flex-1 flex flex-col bg-gray-100">
+		<!-- Header -->
+		<header class="bg-white py-6 border-b border-gray-200">
+			<div class="flex flex-wrap justify-between items-center gap-4">
+				<div>
+					<h1 class="text-2xl font-bold text-gray-800">نصوص آوال فيمينا</h1>
+				</div>
+				<a href="{{ path('app_texte_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#A81B60] hover:bg-primary-700 transition-colors duration-200 mr-4">
+					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+					</svg>
+					نص جديد
+				</a>
+			</div>
+			<hr class="text-gray-300 mt-4 mb-2">
+		</header>
 
-       
+
 		<!-- Search Bar -->
 		<div class="pt-2 pb-4 rounded-t-lg flex justify-end bg-white mb-[-8px] container-table-box-shadow">
 			<div class="relative md:min-w-sm md:max-w-sm">
 				<form method="GET" action="{{ path('app_texte_index') }}" class="flex ">
 					<div class="relative w-full">
-						<svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+						<svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewbox="0 0 20 20">
 							<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
 						</svg>
-						<input type="text"
-							   name="search"
-							   value="{{ app.request.get('search') }}"
-							   placeholder="Rechercher"
-							   class="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"/>
+						<input type="text" name="search" value="{{ app.request.get('search') }}" placeholder="Rechercher" class="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"/>
 						{% if app.request.get('search') %}
 							<a href="{{ path('app_texte_index') }}" class="absolute hover:filter hover:brightness-125 right-3 top-1/2 transform -translate-y-1/2">
 								<img src="{{ asset('build/images/icons/x-close.svg') }}" alt="Effacer" class="w-5 h-5">
@@ -52,7 +49,7 @@
 				<table class="min-w-full divide-y divide-gray-200">
 					<thead class="bg-gray-50">
 						<tr>
-						
+
 							<th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
 								العنوان
 							</th>
@@ -86,7 +83,7 @@
 										<img src="{{ '/uploads/' ~ texte.image.name }}" alt="{{ texte.title }}" class="w-8 h-8 rounded-full object-cover">
 									{% else %}
 										<div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-											<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
 											</svg>
 										</div>
@@ -100,14 +97,14 @@
 								<td class="px-6 py-4 whitespace-nowrap">
 									{% if texte.statut == 'published' %}
 										<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-											<svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 8 8">
+											<svg class="w-3 h-3 mr-1" fill="currentColor" viewbox="0 0 8 8">
 												<circle cx="4" cy="4" r="3"/>
 											</svg>
 											Publié
 										</span>
 									{% elseif texte.statut == 'draft' %}
 										<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-											<svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 8 8">
+											<svg class="w-3 h-3 mr-1" fill="currentColor" viewbox="0 0 8 8">
 												<circle cx="4" cy="4" r="3"/>
 											</svg>
 											Brouillon
@@ -123,24 +120,19 @@
 								</td>
 								<td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
 									<div class="flex space-x-2">
-										<a href="{{ path('app_texte_show', {'id': texte.id}) }}"
-										   class="text-primary-600 hover:text-primary-900 transition-colors duration-200">
-											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<a href="{{ path('app_texte_show', {'id': texte.id}) }}" class="text-primary-600 hover:text-primary-900 transition-colors duration-200">
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
 											</svg>
 										</a>
-										<a href="{{ path('app_texte_edit', {'id': texte.id}) }}"
-										   class="text-indigo-600 hover:text-indigo-900 transition-colors duration-200">
-											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<a href="{{ path('app_texte_edit', {'id': texte.id}) }}" class="text-indigo-600 hover:text-indigo-900 transition-colors duration-200">
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
 											</svg>
 										</a>
-										<button class="delete-btn text-gray-400 hover:text-red-600 transition-colors duration-200 cursor-pointer"
-												title="Supprimer"
-												data-texte-id="{{ texte.id }}"
-												data-csrf-token="{{ csrf_token('delete' ~ texte.id) }}">
-											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<button class="delete-btn text-gray-400 hover:text-red-600 transition-colors duration-200 cursor-pointer" title="Supprimer" data-texte-id="{{ texte.id }}" data-csrf-token="{{ csrf_token('delete' ~ texte.id) }}">
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
 											</svg>
 										</button>
@@ -160,7 +152,7 @@
 			{% endif %}
 		{% else %}
 			<div class="text-center py-12 px-4">
-				<svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
 				</svg>
 				<h3 class="text-lg font-medium text-gray-900 mb-2">
@@ -178,12 +170,12 @@
 					{% endif %}
 				</p>
 				{% if not app.request.get('search') %}
-				<a href="{{ path('app_texte_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors duration-200">
-					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-					</svg>
-					Créer le premier texte
-				</a>
+					<a href="{{ path('app_texte_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors duration-200">
+						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+						</svg>
+						Créer le premier texte
+					</a>
 				{% endif %}
 			</div>
 		{% endif %}
@@ -191,190 +183,207 @@
 
 </div>
 
-	<!-- Delete Modal -->
-	<div id="deleteModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
-		<div id="modalContent" class="relative top-1/4 mx-auto p-4 md:p-5 modal-box-shadow w-11/12 max-w-sm md:w-96 rounded-md bg-white modal-content">
-			<div class="flex justify-between items-start">
-				<img src="{{ asset('build/images/icons/delete.svg') }}" alt="Supprimer" class="w-10 h-10 md:w-12 md:h-12">
-				<button id="closeModalBtn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
-					<svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 20 20">
-						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-					</svg>
+<!-- Delete Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+	<div id="modalContent" class="relative top-1/4 mx-auto p-4 md:p-5 modal-box-shadow w-11/12 max-w-sm md:w-96 rounded-md bg-white modal-content">
+		<div class="flex justify-between items-start">
+			<img src="{{ asset('build/images/icons/delete.svg') }}" alt="Supprimer" class="w-10 h-10 md:w-12 md:h-12">
+			<button id="closeModalBtn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+				<svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewbox="0 0 20 20">
+					<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+				</svg>
+			</button>
+		</div>
+		<div class="mt-3">
+			<h3 class="text-base md:text-lg font-medium text-gray-900">Supprimer le texte</h3>
+			<p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">Êtes-vous sûr de vouloir supprimer ce texte ? Cette action ne peut pas être annulée.</p>
+			<div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+				<button id="cancelDeleteBtn" class="px-4 py-2 flex-1 border border-light-gray-100 text-gray-800 text-sm md:text-base font-medium rounded-md hover:bg-gray-50 transition duration-150 cursor-pointer">
+					Annuler
 				</button>
-			</div>
-			<div class="mt-3">
-				<h3 class="text-base md:text-lg font-medium text-gray-900">Supprimer le texte</h3>
-				<p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">Êtes-vous sûr de vouloir supprimer ce texte ? Cette action ne peut pas être annulée.</p>
-				<div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
-					<button id="cancelDeleteBtn" class="px-4 py-2 flex-1 border border-light-gray-100 text-gray-800 text-sm md:text-base font-medium rounded-md hover:bg-gray-50 transition duration-150 cursor-pointer">
-						Annuler
-					</button>
-					<button id="confirmDeleteBtn" class="px-4 py-2 flex-1 bg-red-600 text-white text-sm md:text-base font-medium rounded-md hover:bg-red-700 transition duration-150 cursor-pointer">
-						Supprimer
-					</button>
-				</div>
+				<button id="confirmDeleteBtn" class="px-4 py-2 flex-1 bg-red-600 text-white text-sm md:text-base font-medium rounded-md hover:bg-red-700 transition duration-150 cursor-pointer">
+					Supprimer
+				</button>
 			</div>
 		</div>
 	</div>
-{% endblock %}
+</div>{% endblock %}{% block javascripts %}
+{{ parent() }}
+<script>
+	function initializeDeleteModal() { // Variables locales pour éviter les conflits avec Turbo
+let texteToDelete = null;
+let csrfTokenForDelete = null;
+let isModalAnimating = false;
 
-{% block javascripts %}
-	{{ parent() }}
-	<script>
-		function initializeDeleteModal() {
-			// Variables locales pour éviter les conflits avec Turbo
-			let texteToDelete = null;
-			let csrfTokenForDelete = null;
-			let isModalAnimating = false;
+// Nettoyer les anciens event listeners pour éviter les doublons
+const existingDeleteBtns = document.querySelectorAll('.delete-btn');
+existingDeleteBtns.forEach(btn => {
+btn.replaceWith(btn.cloneNode(true));
+});
 
-			// Nettoyer les anciens event listeners pour éviter les doublons
-			const existingDeleteBtns = document.querySelectorAll('.delete-btn');
-			existingDeleteBtns.forEach(btn => {
-				btn.replaceWith(btn.cloneNode(true));
-			});
+function showDeleteModal(texteId) {
+if (isModalAnimating) 
+return;
 
-			function showDeleteModal(texteId) {
-				if (isModalAnimating) return;
 
-				texteToDelete = texteId;
-				const deleteButton = document.querySelector(`[data-texte-id="${texteId}"]`);
-				csrfTokenForDelete = deleteButton ? deleteButton.dataset.csrfToken : null;
 
-				const modal = document.getElementById('deleteModal');
-				const modalContent = document.getElementById('modalContent');
+texteToDelete = texteId;
+const deleteButton = document.querySelector (`[data-texte-id="${texteId}"]`);
+csrfTokenForDelete = deleteButton ? deleteButton.dataset.csrfToken : null;
 
-				if (!modal || !modalContent) return;
+const modal = document.getElementById('deleteModal');
+const modalContent = document.getElementById('modalContent');
 
-				// Show modal and start animation
-				modal.classList.remove('hidden');
-				modal.classList.add('modal-entering');
-				modalContent.classList.add('modal-entering');
+if (! modal || ! modalContent) 
+return;
 
-				isModalAnimating = true;
 
-				// After a small delay, transition to entered state
-				requestAnimationFrame(() => {
-					modal.classList.remove('modal-entering');
-					modal.classList.add('modal-entered');
-					modalContent.classList.remove('modal-entering');
-					modalContent.classList.add('modal-entered');
 
-					setTimeout(() => {
-						isModalAnimating = false;
-					}, 300);
-				});
-			}
+// Show modal and start animation
+modal.classList.remove('hidden');
+modal.classList.add('modal-entering');
+modalContent.classList.add('modal-entering');
 
-			function hideDeleteModal() {
-				if (isModalAnimating) return;
+isModalAnimating = true;
 
-				const modal = document.getElementById('deleteModal');
-				const modalContent = document.getElementById('modalContent');
+// After a small delay, transition to entered state
+requestAnimationFrame(() => {
+modal.classList.remove('modal-entering');
+modal.classList.add('modal-entered');
+modalContent.classList.remove('modal-entering');
+modalContent.classList.add('modal-entered');
 
-				if (!modal || !modalContent) return;
+setTimeout(() => {
+isModalAnimating = false;
+}, 300);
+});
+}
 
-				isModalAnimating = true;
+function hideDeleteModal() {
+if (isModalAnimating) 
+return;
 
-				// Start exit animation
-				modal.classList.remove('modal-entered');
-				modal.classList.add('modal-exiting');
-				modalContent.classList.remove('modal-entered');
-				modalContent.classList.add('modal-exiting');
 
-				// Use requestAnimationFrame to ensure the exiting state is applied, then transition to exited
-				requestAnimationFrame(() => {
-					modal.classList.remove('modal-exiting');
-					modal.classList.add('modal-exited');
-					modalContent.classList.remove('modal-exiting');
-					modalContent.classList.add('modal-exited');
 
-					// After animation completes, hide modal
-					setTimeout(() => {
-						modal.classList.add('hidden');
-						modal.classList.remove('modal-exited');
-						modalContent.classList.remove('modal-exited');
+const modal = document.getElementById('deleteModal');
+const modalContent = document.getElementById('modalContent');
 
-						texteToDelete = null;
-						csrfTokenForDelete = null;
-						isModalAnimating = false;
-					}, 300);
-				});
-			}
+if (! modal || ! modalContent) 
+return;
 
-			function deleteItem() {
-				if (texteToDelete && csrfTokenForDelete) {
-					// Create a form to submit the delete request
-					const form = document.createElement('form');
-					form.method = 'POST';
-					// Utiliser le path Symfony correct pour la suppression de texte
-					form.action = `{{ path('app_texte_delete', {'id': '__ID__'}) }}`.replace('__ID__', texteToDelete);
 
-					// Add CSRF token - use the pre-generated token
-					const csrfToken = document.createElement('input');
-					csrfToken.type = 'hidden';
-					csrfToken.name = '_token';
-					csrfToken.value = csrfTokenForDelete;
-					form.appendChild(csrfToken);
 
-					// Add method override for DELETE
-					const methodInput = document.createElement('input');
-					methodInput.type = 'hidden';
-					methodInput.name = '_method';
-					methodInput.value = 'DELETE';
-					form.appendChild(methodInput);
+isModalAnimating = true;
 
-					document.body.appendChild(form);
-					form.submit();
-				}
-				hideDeleteModal();
-			}
+// Start exit animation
+modal.classList.remove('modal-entered');
+modal.classList.add('modal-exiting');
+modalContent.classList.remove('modal-entered');
+modalContent.classList.add('modal-exiting');
 
-			// Attacher les événements aux boutons de suppression (après le clonage)
-			document.querySelectorAll('.delete-btn').forEach(button => {
-				button.addEventListener('click', function() {
-					const texteId = this.dataset.texteId;
-					showDeleteModal(texteId);
-				});
-			});
+// Use requestAnimationFrame to ensure the exiting state is applied, then transition to exited
+requestAnimationFrame(() => {
+modal.classList.remove('modal-exiting');
+modal.classList.add('modal-exited');
+modalContent.classList.remove('modal-exiting');
+modalContent.classList.add('modal-exited');
 
-			// Événements pour fermer le modal
-			const closeBtn = document.getElementById('closeModalBtn');
-			const cancelBtn = document.getElementById('cancelDeleteBtn');
-			const confirmBtn = document.getElementById('confirmDeleteBtn');
-			const modal = document.getElementById('deleteModal');
+// After animation completes, hide modal
+setTimeout(() => {
+modal.classList.add('hidden');
+modal.classList.remove('modal-exited');
+modalContent.classList.remove('modal-exited');
 
-			if (closeBtn) closeBtn.addEventListener('click', hideDeleteModal);
-			if (cancelBtn) cancelBtn.addEventListener('click', hideDeleteModal);
-			if (confirmBtn) confirmBtn.addEventListener('click', deleteItem);
+texteToDelete = null;
+csrfTokenForDelete = null;
+isModalAnimating = false;
+}, 300);
+});
+}
 
-			// Close modal when clicking outside
-			if (modal) {
-				modal.addEventListener('click', function (e) {
-					if (e.target === this && !isModalAnimating) {
-						hideDeleteModal();
-					}
-				});
-			}
+function deleteItem() {
+if (texteToDelete && csrfTokenForDelete) { // Create a form to submit the delete request
+const form = document.createElement('form');
+form.method = 'POST';
+// Utiliser le path Symfony correct pour la suppression de texte
+form.action = `{{ path('app_texte_delete', {'id': '__ID__'}) }}`.replace('__ID__', texteToDelete);
 
-			// Escape key to close modal (une seule fois par initialisation)
-			const handleEscape = function (e) {
-				if (e.key === 'Escape' && !isModalAnimating) {
-					const modal = document.getElementById('deleteModal');
-					if (modal && !modal.classList.contains('hidden')) {
-						hideDeleteModal();
-					}
-				}
-			};
+// Add CSRF token - use the pre-generated token
+const csrfToken = document.createElement('input');
+csrfToken.type = 'hidden';
+csrfToken.name = '_token';
+csrfToken.value = csrfTokenForDelete;
+form.appendChild(csrfToken);
 
-			// Nettoyer l'ancien listener avant d'en ajouter un nouveau
-			document.removeEventListener('keydown', handleEscape);
-			document.addEventListener('keydown', handleEscape);
-		}
+// Add method override for DELETE
+const methodInput = document.createElement('input');
+methodInput.type = 'hidden';
+methodInput.name = '_method';
+methodInput.value = 'DELETE';
+form.appendChild(methodInput);
 
-		// Initialiser au chargement de la page
-		document.addEventListener('DOMContentLoaded', initializeDeleteModal);
+document.body.appendChild(form);
+form.submit();
+}
+hideDeleteModal();
+}
 
-		// Initialize on turbo:load (for Turbo navigation)
-		document.addEventListener('turbo:load', initializeDeleteModal);
-	</script>
-{% endblock %}
+// Attacher les événements aux boutons de suppression (après le clonage)
+document.querySelectorAll('.delete-btn').forEach(button => {
+button.addEventListener('click', function () {
+const texteId = this.dataset.texteId;
+showDeleteModal(texteId);
+});
+});
+
+// Événements pour fermer le modal
+const closeBtn = document.getElementById('closeModalBtn');
+const cancelBtn = document.getElementById('cancelDeleteBtn');
+const confirmBtn = document.getElementById('confirmDeleteBtn');
+const modal = document.getElementById('deleteModal');
+
+if (closeBtn) 
+closeBtn.addEventListener('click', hideDeleteModal);
+
+
+
+if (cancelBtn) 
+cancelBtn.addEventListener('click', hideDeleteModal);
+
+
+
+if (confirmBtn) 
+confirmBtn.addEventListener('click', deleteItem);
+
+
+
+// Close modal when clicking outside
+if (modal) {
+modal.addEventListener('click', function (e) {
+if (e.target === this && ! isModalAnimating) {
+hideDeleteModal();
+}
+});
+}
+
+// Escape key to close modal (une seule fois par initialisation)
+const handleEscape = function (e) {
+if (e.key === 'Escape' && ! isModalAnimating) {
+const modal = document.getElementById('deleteModal');
+if (modal && ! modal.classList.contains('hidden')) {
+hideDeleteModal();
+}
+}
+};
+
+// Nettoyer l'ancien listener avant d'en ajouter un nouveau
+document.removeEventListener('keydown', handleEscape);
+document.addEventListener('keydown', handleEscape);
+}
+
+// Initialiser au chargement de la page
+document.addEventListener('DOMContentLoaded', initializeDeleteModal);
+
+// Initialize on turbo:load (for Turbo navigation)
+document.addEventListener('turbo:load', initializeDeleteModal);
+</script>{% endblock %}

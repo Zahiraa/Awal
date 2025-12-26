@@ -129,7 +129,7 @@ initSummernote();
 {% endblock %}
 
 <div class="mb-6">
-	<h1 class="text-2xl font-bold text-gray-800">{{ title|default('Créer un nouveau Texte') }}</h1>
+	<h1 class="text-2xl font-bold text-gray-800">Gestion de texte</h1>
 	<hr class="text-gray-300 my-2">
 </div>
 
@@ -286,6 +286,7 @@ closeBtn.addEventListener('click', function (e) {
 const modalContent = document.getElementById('modalContent');
 if (! imageModal || ! modalContent) 
 return;
+
 
 
 imageModal.classList.remove('modal-entered');

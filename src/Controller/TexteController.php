@@ -29,7 +29,7 @@ final class TexteController extends AbstractController
     }
 
 
-    #[Route('/{id}', name: 'app_texte_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_texte_show_front', methods: ['GET'])]
     public function show(Texte $texte): Response
     {
         return $this->render('texte/showFront.html.twig', [

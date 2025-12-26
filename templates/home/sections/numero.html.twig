@@ -53,7 +53,7 @@
 				</div>
 
 				{% for text in textes %}
-					<a href="{{ path('app_texte_show', {'id': text.id}) }}">
+					<a href="{{ path('app_texte_show_front', {'id': text.id}) }}">
 						<div class="mt-4 border rounded-[16px] p-6 mb-4 flex items-center gap-4 justify-between {{ loop.index is not even ? 'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]' : 'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]' }} rounded-2xl p-6 shadow-custom flex items-center justify-between">
 							<div class="text-right flex-1">
 								<h3 class="text-2xl font-bold mb-2">{{ text.title }}</h3>
