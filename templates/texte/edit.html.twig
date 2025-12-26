@@ -1,13 +1,21 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Edit Texte{% endblock %}
+{% block title %}Edit Texte
+{% endblock %}
 
 {% block content %}
-    <h1>Edit Texte</h1>
+	<h1>Edit Texte</h1>
 
-    {{ include('texte/_form.html.twig', {'button_label': 'Update', 'image': image, 'media': media}) }}
+	{{ include('texte/_form.html.twig', {'button_label': 'Update', 'image': image, 'media': media}) }}
 
-    <a href="{{ path('app_texte_index') }}">back to list</a>
+	<div class="mt-6 flex items-center justify-between gap-4 border-t pt-6">
+		<a href="{{ path('app_texte_index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors duration-200">
+			<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+			</svg>
+			back to list
+		</a>
 
-    {{ include('texte/_delete_form.html.twig') }}
+		{{ include('texte/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

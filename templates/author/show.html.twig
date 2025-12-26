@@ -15,7 +15,7 @@
         </a>
         <div class="flex gap-3">
             <a href="{{ path('app_author_edit', {'id': author.id}) }}" 
-               class="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-150 font-medium gap-2 text-sm">
+               class="inline-flex items-center px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-teal-700 transition duration-150 font-medium gap-2 text-sm">
                 <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
                 </svg>
@@ -62,16 +62,7 @@
             </div>
         </div>
 
-        {% if author.biography %}
-            <!-- Biographie -->
-            <p>Biographie</p>
-            <div class="prose prose-lg max-w-4xl mx-auto mb-16 text-center">
-                <p class="text-xl text-gray-700 leading-relaxed whitespaces-pre-line">
-                    {{ author.biography }}
-                </p>
-                <div class="h-1 w-20 bg-teal-500 mx-auto mt-8 rounded-full"></div>
-            </div>
-        {% endif %}
+
 
         <!-- Section Articles -->
         {% if author.articles is defined and author.articles|length > 0 %}
@@ -147,7 +138,7 @@
                 <h3 class="text-base md:text-lg font-medium text-gray-900">Suppression impossible</h3>
                 <p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">Cet auteur est lié à des articles existants. Veuillez d'abord supprimer ou réattribuer ses articles avant de pouvoir supprimer l'auteur.</p>
                 <div class="flex justify-center">
-                    <button id="ok-cannot-delete-btn" class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-200">
+                    <button id="ok-cannot-delete-btn" class="px-6 py-2 bg-pink-600 text-white rounded-lg hover:bg-teal-700 transition duration-200">
                         Compris
                     </button>
                 </div>

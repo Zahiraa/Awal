@@ -19,12 +19,6 @@ class AuthorType extends AbstractType
             ->add('name')
             ->add('nameFr')
             ->add('country')
-            ->add('biography', TextareaType::class, [
-                'required' => false,
-                'attr' => [
-                    'rows' => 4,
-                ]
-            ])
             ->add('image', FileType::class, [
                 'label' => false,
                 'mapped' => false,

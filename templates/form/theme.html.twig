@@ -200,7 +200,7 @@
     <div class="flex items-center">
         <input type="checkbox"
                 {{ block('widget_attributes') }}
-               class="h-4 w-4 text-primary-600 border rounded {{ has_errors ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-primary-600' }}"
+               class="h-4 w-4 text-pink-600 border rounded {{ has_errors ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-primary-600' }}"
                 {% if value is defined %}value="{{ value }}"{% endif %}
                 {% if checked %}checked="checked"{% endif %}
                 {% if has_errors %}style="border-color: #ef4444 !important;"{% endif %}
