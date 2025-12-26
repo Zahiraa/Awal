@@ -31,25 +31,25 @@
 				</div>
 
 				<div class="bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)]  border border-[#E5E7EB] p-6  rounded-[16px] flex items-center gap-4 justify-between border border-gray-100">
-					<div class="text-right flex-1">
-
-						<h3 class="text-2xl font-bold mb-2">ملف العدد</h3>
-						<p class="text-gray-600">
-							{{ contenu.title }}
-						</p>
-					</div>
-
-				</div>
-
-				<div class="mb-10 bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border border-[#FECDD3] rounded-[16px] p-6 flex items-center gap-4 justify-between">
 					<a href="{{ path('app_contenu_numero_list', {'id': contenu.id}) }}" class="text-right flex-1 block group">
+
 						<div class="text-right flex-1">
-							<h3 class="text-2xl font-bold mb-2">نصوص أوال فيمينا</h3>
+
+							<h3 class="text-2xl font-bold mb-2">ملف العدد</h3>
 							<p class="text-gray-600">
-								مجموعة من النصوص الأدبية والإبداعية المميزة
+								{{ contenu.title }}
 							</p>
 						</div>
 					</a>
+				</div>
+
+				<div class="mb-10 bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border border-[#FECDD3] rounded-[16px] p-6 flex items-center gap-4 justify-between">
+					<div class="text-right flex-1">
+						<h3 class="text-2xl font-bold mb-2">نصوص أوال فيمينا</h3>
+						<p class="text-gray-600">
+							مجموعة من النصوص الأدبية والإبداعية المميزة
+						</p>
+					</div>
 				</div>
 
 				{% for text in textes %}
