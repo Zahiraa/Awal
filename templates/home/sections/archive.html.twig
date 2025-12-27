@@ -1,159 +1,39 @@
 <!-- Archive Section -->
-<section id="archive" class="py-24 bg-white">
-	<div class="max-w-7xl mx-auto px-6">
-		<h2 class="text-5xl font-bold text-center mb-4">
-			<span class="pink-underline">أرشيف أوال فيمينا</span>
-		</h2>
-		<p class="text-center text-gray-600 text-xl mb-16">
-			استكشف أعدادنا السابقة وتصفح مواضيعنا المتنوعة
-		</p>
+{% if contenuArchive is not empty %}
+	<section id="archive" class="py-24 bg-white" dir="rtl">
+		<div class="max-w-7xl mx-auto px-6">
+			<h2 class="text-5xl font-bold text-center mb-4">
+				<span class="pink-underline">أرشيف أوال فيمينا</span>
+			</h2>
+			<p class="text-center text-gray-600 text-xl mb-16">
+				استكشف أعدادنا السابقة وتصفح مواضيعنا المتنوعة
+			</p>
 
-		<div
-			class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-			<!-- Issue Card -->
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					10
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">10</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">التعليم والتمكين</p>
-				</div>
-			</div>
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<!-- Issue Card -->
 
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4 bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					11
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">11</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">الكتابة النسائية في المغرب</p>
-				</div>
-			</div>
+				{% for contenuArchive in contenuArchive %}
+					<a href="{{ path('app_contenu_numero_list', {'id': contenuArchive.id}) }}">
+						<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-custom-lg p-8 hover:shadow-xl transition relative">
+							<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
+								{{ contenuArchive.createdAt | date('m') }}
+							</div>
+							<div class="text-center">
+								<h3 class="text-rose-500 text-6xl font-bold mb-4">{{ contenuArchive.title }}</h3>
+								<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
+									<span>●</span>
+									<span>{{ contenuArchive.createdAt | date('Y') }}</span>
+									<span>●</span>
+								</div>
+								<hr class="border-rose-200 mb-6"/>
+								<p class="text-gray-700 text-xl">{{ contenuArchive.title }}</p>
+							</div>
+						</div>
+					</a>
+				{% endfor %}
 
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					12
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">12</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">المرأة والفن المعاصر</p>
-				</div>
-			</div>
-
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					7
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">7</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">المرأة والعمل الثقافي</p>
-				</div>
-			</div>
-
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					8
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">8</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">الشعر النسائي المعاصر</p>
-				</div>
-			</div>
-
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					9
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">9</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">المرأة في السينما العربية</p>
-				</div>
-			</div>
-
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					4
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">4</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">الفن التشكيلي النسائي</p>
-				</div>
-			</div>
-
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					5
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">5</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">المرأة والإعلام</p>
-				</div>
-			</div>
-
-			<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] shadow-custom-lg p-8 hover:shadow-xl transition relative">
-				<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
-					6
-				</div>
-				<div class="text-center">
-					<h3 class="text-rose-500 text-6xl font-bold mb-4">6</h3>
-					<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
-						<span>●</span>
-						<span>2025</span>
-						<span>●</span>
-					</div>
-					<hr class="border-rose-200 mb-6"/>
-					<p class="text-gray-700 text-xl">الرواية النسائية</p>
-				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
+{% endif %}

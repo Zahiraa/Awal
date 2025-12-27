@@ -78,8 +78,11 @@ class ContenuRepository extends ServiceEntityRepository
             ->orderBy('c.createdAt', 'DESC');
 
         if ($excludeContent) {
-            $qb->andWhere('c.id != :excludeId')
-               ->setParameter('excludeId', $excludeContent->getId());
+            $excludeDate = $excludeContent->getCreatedAt();
+            $startOfExcludedMonth = (clone $excludeDate)->modify('first day of this month')->setTime(0, 0, 0);
+
+            $qb->andWhere('c.createdAt < :startOfExcludedMonth')
+               ->setParameter('startOfExcludedMonth', $startOfExcludedMonth);
         }
 
         return $qb->getQuery()->getResult();

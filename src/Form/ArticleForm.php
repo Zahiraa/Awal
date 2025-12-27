@@ -54,6 +54,7 @@ class ArticleForm extends AbstractType
             ])
             ->add('titre', TextType::class, [
                 'label' => 'Titre',
+                'required' => true,
                 'label_attr' => [
                     'class' => 'text-lg text-gray-700'
                 ],

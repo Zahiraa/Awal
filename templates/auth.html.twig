@@ -28,8 +28,19 @@
 					<img src="{{ asset('build/images/logo.svg') }}" alt="Logo" class="w-48 h-48">
 				</div>
 			</a>
-			<!-- Pattern Overlay (Matches Landing Page) -->
-			<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 24px 24px;"></div>
+			<!-- Background Pattern -->
+			<div class="absolute inset-0 opacity-10">
+				<div class="absolute inset-0" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, white 35px, white 36px);"></div>
+				<div class="absolute inset-0" style="background-image: repeating-linear-gradient(-45deg, transparent, transparent 50px, white 50px, white 51px);"></div>
+			</div>
+
+			<!-- Random Decorative Lines -->
+			<div class="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+				<div class="absolute w-px h-64 bg-white rotate-[30deg] -top-12 left-[15%]"></div>
+				<div class="absolute w-px h-96 bg-white rotate-[60deg] -bottom-24 left-[40%]"></div>
+				<div class="absolute w-px h-64 bg-white rotate-[-45deg] top-1/2 right-[10%]"></div>
+				<div class="absolute w-px h-48 bg-white rotate-[15deg] bottom-10 right-[30%]"></div>
+			</div>
 		</div>
 	</div>
 

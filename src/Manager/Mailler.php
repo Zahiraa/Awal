@@ -39,7 +39,7 @@ class Mailler
     {
         $response=[
             'status' => 'success',
-            'message' => $this->translator->trans('common.flash.success.contact'),
+            'message' => 'تم إرسال الرسالة بنجاح، سنرد عليكم في أقرب وقت ممكن',
         ];
         $templatedEmail = (new TemplatedEmail())
             ->from($from)

@@ -48,9 +48,7 @@ class HomeController extends DefaultController
         $contact = new ContactDTO();
         $form = $this->createForm(ContactForm::class, $contact);
         $form->handleRequest($request);
-        $score=0;
         if ($form->isSubmitted() && $form->isValid()) {
-     
             $context = ['admin' => $this->getParameter('mailer_from_name'), 'contact' => $contact];
             $response= $mailler->sendTemplateContactEmail($contact->getEmail(), $contact->getSubject(), 'emails/contact.html.twig',$context );
             if($response['status'] === 'success') {
@@ -97,28 +95,5 @@ class HomeController extends DefaultController
             'about' => $about,
         ]);
     }
-    #[Route(path: 'contact', name: 'contact', methods: ['GET', 'POST'])]
-    public function contact(Request $request, Mailler $mailler, TranslatorInterface $translator): Response
-    {
-        $contact = new ContactDTO();
-        $form = $this->createForm(ContactForm::class, $contact);
-        $form->handleRequest($request);
-        $score=0;
-        if ($form->isSubmitted() && $form->isValid()) {
-     
-            $context = ['admin' => $this->getParameter('mailer_from_name'), 'contact' => $contact];
-            $response= $mailler->sendTemplateContactEmail($contact->getEmail(), $contact->getSubject(), 'emails/contact.html.twig',$context );
-            if($response['status'] === 'success') {
-                $this->addSuccessMessage($response['message']);
-            } else {
-                $this->addErrorMessage($response['message']);
-            }
 
-            return $this->redirectToRoute('contact');
-        }
-
-        return $this->render('contact/index.html.twig', [
-            'form' => $form
-        ]);
-    }
 }

@@ -10,13 +10,13 @@
 
 	{% include 'home/sections/authors.html.twig' with { 'authors': authors } %}
 
-	{% include 'home/sections/archive.html.twig' %}
+	{% include 'home/sections/archive.html.twig' with { 'contenuArchive': contenuArchive } %}
 
 
 	{% include 'home/sections/about.html.twig' %}
 
 
-	{% include 'home/sections/contact.html.twig' %}
+	{% include 'home/sections/contact.html.twig' with { 'form': form } %}
 
 
 	<script>

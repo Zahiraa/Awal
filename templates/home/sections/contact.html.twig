@@ -8,53 +8,101 @@
 			نسعد بتواصلكم واستفساراتكم
 		</p>
 
+
+		{% for message in app.flashes('success') %}
+			<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl relative mb-8 text-center" role="alert">
+				<span class="block sm:inline">{{ message }}</span>
+			</div>
+		{% endfor %}
+
+		{% for message in app.flashes('error') %}
+			<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl relative mb-8 text-center" role="alert">
+				<span class="block sm:inline">{{ message }}</span>
+			</div>
+		{% endfor %}
+
 		<div class="bg-white rounded-3xl shadow-custom-lg p-12">
-			<form class="space-y-6">
+			{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<div>
-					<label class="flex items-center gap-2 text-[#1F2937] font-bold mb-3 text-lg">
+					<label for="{{ form.nom.vars.id }}" class="flex items-center gap-2 text-[#1F2937] font-bold mb-3 text-lg">
 						<svg width="19" height="28" viewbox="0 0 19 28" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M3.375 21.875C3.375 20.785 3.65 19.775 4.2 18.845C4.73 17.945 5.445 17.23 6.345 16.7C7.275 16.15 8.285 15.875 9.375 15.875C10.465 15.875 11.475 16.15 12.405 16.7C13.305 17.23 14.02 17.945 14.55 18.845C15.1 19.775 15.375 20.785 15.375 21.875H13.875C13.875 21.065 13.67 20.31 13.26 19.61C12.86 18.93 12.32 18.39 11.64 17.99C10.94 17.58 10.185 17.375 9.375 17.375C8.565 17.375 7.81 17.58 7.11 17.99C6.43 18.39 5.89 18.93 5.49 19.61C5.08 20.31 4.875 21.065 4.875 21.875H3.375ZM9.375 15.125C8.555 15.125 7.8 14.92 7.11 14.51C6.43 14.11 5.89 13.57 5.49 12.89C5.08 12.2 4.875 11.445 4.875 10.625C4.875 9.805 5.08 9.05 5.49 8.36C5.89 7.68 6.43 7.14 7.11 6.74C7.8 6.33 8.555 6.125 9.375 6.125C10.195 6.125 10.95 6.33 11.64 6.74C12.32 7.14 12.86 7.68 13.26 8.36C13.67 9.05 13.875 9.805 13.875 10.625C13.875 11.445 13.67 12.2 13.26 12.89C12.86 13.57 12.32 14.11 11.64 14.51C10.95 14.92 10.195 15.125 9.375 15.125ZM9.375 13.625C9.915 13.625 10.415 13.49 10.875 13.22C11.335 12.95 11.7 12.585 11.97 12.125C12.24 11.665 12.375 11.165 12.375 10.625C12.375 10.085 12.24 9.585 11.97 9.125C11.7 8.665 11.335 8.3 10.875 8.03C10.415 7.76 9.915 7.625 9.375 7.625C8.835 7.625 8.335 7.76 7.875 8.03C7.415 8.3 7.05 8.665 6.78 9.125C6.51 9.585 6.375 10.085 6.375 10.625C6.375 11.165 6.51 11.665 6.78 12.125C7.05 12.585 7.415 12.95 7.875 13.22C8.335 13.49 8.835 13.625 9.375 13.625Z" fill="#F43F5E"/>
 						</svg>
-
-						الاسم الكامل
+						الاسم
 					</label>
-					<input type="text" class="w-full px-6 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-right" required/>
+					{{ form_widget(form.nom, {'attr': {'class': 'w-full px-6 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-right', 'placeholder': 'الاسم'}}) }}
+					{{ form_errors(form.nom) }}
 				</div>
-
 				<div>
-					<label class="flex items-center gap-2 text-[#1F2937] font-bold mb-3 text-lg">
-						<svg width="19" height="18" viewbox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M2.625 2.25H16.125C16.335 2.25 16.5125 2.3225 16.6575 2.4675C16.8025 2.6125 16.875 2.79 16.875 3V15C16.875 15.21 16.8025 15.3875 16.6575 15.5325C16.5125 15.6775 16.335 15.75 16.125 15.75H2.625C2.415 15.75 2.2375 15.6775 2.0925 15.5325C1.9475 15.3875 1.875 15.21 1.875 15V3C1.875 2.79 1.9475 2.6125 2.0925 2.4675C2.2375 2.3225 2.415 2.25 2.625 2.25ZM15.375 5.43L9.435 10.755L3.375 5.415V14.25H15.375V5.43ZM3.765 3.75L9.42 8.745L15 3.75H3.765Z" fill="#F43F5E"/>
+					<label for="{{ form.prenom.vars.id }}" class="flex items-center gap-2 text-[#1F2937] font-bold mb-3 text-lg">
+						<svg width="19" height="28" viewbox="0 0 19 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M3.375 21.875C3.375 20.785 3.65 19.775 4.2 18.845C4.73 17.945 5.445 17.23 6.345 16.7C7.275 16.15 8.285 15.875 9.375 15.875C10.465 15.875 11.475 16.15 12.405 16.7C13.305 17.23 14.02 17.945 14.55 18.845C15.1 19.775 15.375 20.785 15.375 21.875H13.875C13.875 21.065 13.67 20.31 13.26 19.61C12.86 18.93 12.32 18.39 11.64 17.99C10.94 17.58 10.185 17.375 9.375 17.375C8.565 17.375 7.81 17.58 7.11 17.99C6.43 18.39 5.89 18.93 5.49 19.61C5.08 20.31 4.875 21.065 4.875 21.875H3.375ZM9.375 15.125C8.555 15.125 7.8 14.92 7.11 14.51C6.43 14.11 5.89 13.57 5.49 12.89C5.08 12.2 4.875 11.445 4.875 10.625C4.875 9.805 5.08 9.05 5.49 8.36C5.89 7.68 6.43 7.14 7.11 6.74C7.8 6.33 8.555 6.125 9.375 6.125C10.195 6.125 10.95 6.33 11.64 6.74C12.32 7.14 12.86 7.68 13.26 8.36C13.67 9.05 13.875 9.805 13.875 10.625C13.875 11.445 13.67 12.2 13.26 12.89C12.86 13.57 12.32 14.11 11.64 14.51C10.95 14.92 10.195 15.125 9.375 15.125ZM9.375 13.625C9.915 13.625 10.415 13.49 10.875 13.22C11.335 12.95 11.7 12.585 11.97 12.125C12.24 11.665 12.375 11.165 12.375 10.625C12.375 10.085 12.24 9.585 11.97 9.125C11.7 8.665 11.335 8.3 10.875 8.03C10.415 7.76 9.915 7.625 9.375 7.625C8.835 7.625 8.335 7.76 7.875 8.03C7.415 8.3 7.05 8.665 6.78 9.125C6.51 9.585 6.375 10.085 6.375 10.625C6.375 11.165 6.51 11.665 6.78 12.125C7.05 12.585 7.415 12.95 7.875 13.22C8.335 13.49 8.835 13.625 9.375 13.625Z" fill="#F43F5E"/>
 						</svg>
-
-						البريد الإلكتروني
+						النسب
 					</label>
-					<input type="email" class="w-full px-6 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-right" required/>
+					{{ form_widget(form.prenom, {'attr': {'class': 'w-full px-6 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-right', 'placeholder': 'النسب'}}) }}
+					{{ form_errors(form.prenom) }}
 				</div>
+			</div>
 
-				<div>
-					<label class="flex items-center gap-2 text-[#1F2937] font-bold mb-3 text-lg">
-						<svg width="19" height="18" viewbox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M1.875 6.75C1.875 5.93 2.08 5.17 2.49 4.47C2.89 3.8 3.425 3.265 4.095 2.865C4.795 2.455 5.555 2.25 6.375 2.25H12.375C13.185 2.25 13.94 2.455 14.64 2.865C15.32 3.265 15.86 3.805 16.26 4.485C16.67 5.185 16.875 5.94 16.875 6.75V15.75H6.375C5.565 15.75 4.81 15.545 4.11 15.135C3.43 14.735 2.89 14.195 2.49 13.515C2.08 12.815 1.875 12.06 1.875 11.25V6.75ZM15.375 14.25V6.75C15.375 6.21 15.24 5.71 14.97 5.25C14.7 4.79 14.335 4.425 13.875 4.155C13.415 3.885 12.915 3.75 12.375 3.75H6.375C5.835 3.75 5.335 3.885 4.875 4.155C4.415 4.425 4.05 4.7875 3.78 5.2425C3.51 5.6975 3.375 6.2 3.375 6.75V11.25C3.375 11.79 3.51 12.29 3.78 12.75C4.05 13.21 4.415 13.575 4.875 13.845C5.335 14.115 5.835 14.25 6.375 14.25H15.375ZM10.875 8.25H12.375V9.75H10.875V8.25ZM6.375 8.25H7.875V9.75H6.375V8.25Z" fill="#F43F5E"/>
-						</svg>
-
-						حرف
-					</label>
-					<textarea rows="6" class="w-full px-6 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-right resize-none" required></textarea>
-					<div class="flex justify-between items-center mt-2 text-sm text-gray-500">
-						<span>حرف</span>
-						<span>0</span>
-					</div>
-				</div>
-
-				<button type="submit" class="w-full bg-rose-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-rose-600 transition flex items-center justify-center gap-3">
+			<div>
+				<label for="{{ form.email.vars.id }}" class="flex items-center gap-2 text-[#1F2937] font-bold mb-3 text-lg">
 					<svg width="19" height="18" viewbox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M2.0848 6.72018C1.8948 6.65018 1.7998 6.57018 1.7998 6.48018C1.7998 6.39018 1.8998 6.31018 2.0998 6.24018L16.4098 1.47018C16.6098 1.40018 16.7598 1.41268 16.8598 1.50768C16.9598 1.60268 16.9798 1.75018 16.9198 1.95018L12.8398 16.2602C12.7798 16.4602 12.6998 16.5627 12.5998 16.5677C12.4998 16.5727 12.4098 16.4802 12.3298 16.2902L9.6298 10.2302L14.1298 4.23018L8.1298 8.73018L2.0848 6.72018Z" fill="white"/>
+						<path d="M2.625 2.25H16.125C16.335 2.25 16.5125 2.3225 16.6575 2.4675C16.8025 2.6125 16.875 2.79 16.875 3V15C16.875 15.21 16.8025 15.3875 16.6575 15.5325C16.5125 15.6775 16.335 15.75 16.125 15.75H2.625C2.415 15.75 2.2375 15.6775 2.0925 15.5325C1.9475 15.3875 1.875 15.21 1.875 15V3C1.875 2.79 1.9475 2.6125 2.0925 2.4675C2.2375 2.3225 2.415 2.25 2.625 2.25ZM15.375 5.43L9.435 10.755L3.375 5.415V14.25H15.375V5.43ZM3.765 3.75L9.42 8.745L15 3.75H3.765Z" fill="#F43F5E"/>
 					</svg>
+					البريد الإلكتروني
+				</label>
+				{{ form_widget(form.email, {'attr': {'class': 'w-full px-6 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-right', 'placeholder': 'you@example.com'}}) }}
+				{{ form_errors(form.email) }}
+			</div>
 
-					إرسال الرسالة
-				</button>
-			</form>
+			<div>
+				<label for="{{ form.subject.vars.id }}" class="flex items-center gap-2 text-[#1F2937] font-bold mb-3 text-lg">
+					<svg width="19" height="18" viewbox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M1.875 6.75C1.875 5.93 2.08 5.17 2.49 4.47C2.89 3.8 3.425 3.265 4.095 2.865C4.795 2.455 5.555 2.25 6.375 2.25H12.375C13.185 2.25 13.94 2.455 14.64 2.865C15.32 3.265 15.86 3.805 16.26 4.485C16.67 5.185 16.875 5.94 16.875 6.75V15.75H6.375C5.565 15.75 4.81 15.545 4.11 15.135C3.43 14.735 2.89 14.195 2.49 13.515C2.08 12.815 1.875 12.06 1.875 11.25V6.75ZM15.375 14.25V6.75C15.375 6.21 15.24 5.71 14.97 5.25C14.7 4.79 14.335 4.425 13.875 4.155C13.415 3.885 12.915 3.75 12.375 3.75H6.375C5.835 3.75 5.335 3.885 4.875 4.155C4.415 4.425 4.05 4.7875 3.78 5.2425C3.51 5.6975 3.375 6.2 3.375 6.75V11.25C3.375 11.79 3.51 12.29 3.78 12.75C4.05 13.21 4.415 13.575 4.875 13.845C5.335 14.115 5.835 14.25 6.375 14.25H15.375ZM10.875 8.25H12.375V9.75H10.875V8.25ZM6.375 8.25H7.875V9.75H6.375V8.25Z" fill="#F43F5E"/>
+					</svg>
+					الموضوع
+				</label>
+				{{ form_widget(form.subject, {'attr': {'class': 'w-full px-6 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-right', 'placeholder': 'الموضوع'}}) }}
+				{{ form_errors(form.subject) }}
+			</div>
+
+			<div>
+				<label for="{{ form.message.vars.id }}" class="flex items-center gap-2 text-[#1F2937] font-bold mb-3 text-lg">
+					<svg width="19" height="18" viewbox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M1.875 6.75C1.875 5.93 2.08 5.17 2.49 4.47C2.89 3.8 3.425 3.265 4.095 2.865C4.795 2.455 5.555 2.25 6.375 2.25H12.375C13.185 2.25 13.94 2.455 14.64 2.865C15.32 3.265 15.86 3.805 16.26 4.485C16.67 5.185 16.875 5.94 16.875 6.75V15.75H6.375C5.565 15.75 4.81 15.545 4.11 15.135C3.43 14.735 2.89 14.195 2.49 13.515C2.08 12.815 1.875 12.06 1.875 11.25V6.75ZM15.375 14.25V6.75C15.375 6.21 15.24 5.71 14.97 5.25C14.7 4.79 14.335 4.425 13.875 4.155C13.415 3.885 12.915 3.75 12.375 3.75H6.375C5.835 3.75 5.335 3.885 4.875 4.155C4.415 4.425 4.05 4.7875 3.78 5.2425C3.51 5.6975 3.375 6.2 3.375 6.75V11.25C3.375 11.79 3.51 12.29 3.78 12.75C4.05 13.21 4.415 13.575 4.875 13.845C5.335 14.115 5.835 14.25 6.375 14.25H15.375ZM10.875 8.25H12.375V9.75H10.875V8.25ZM6.375 8.25H7.875V9.75H6.375V8.25Z" fill="#F43F5E"/>
+					</svg>
+					الرسالة
+				</label>
+				{{ form_widget(form.message, {'attr': {'class': 'w-full px-6 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-right resize-none', 'rows': '6', 'placeholder': 'الرسالة'}}) }}
+				{{ form_errors(form.message) }}
+				<div class="flex justify-between items-center mt-2 text-sm text-gray-500">
+					<span>حروف</span>
+					<span id="char-count">0</span>
+				</div>
+			</div>
+
+			<button type="submit" class="w-full bg-rose-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-rose-600 transition flex items-center justify-center gap-3">
+				<svg width="19" height="18" viewbox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M2.0848 6.72018C1.8948 6.65018 1.7998 6.57018 1.7998 6.48018C1.7998 6.39018 1.8998 6.31018 2.0998 6.24018L16.4098 1.47018C16.6098 1.40018 16.7598 1.41268 16.8598 1.50768C16.9598 1.60268 16.9798 1.75018 16.9198 1.95018L12.8398 16.2602C12.7798 16.4602 12.6998 16.5627 12.5998 16.5677C12.4998 16.5727 12.4098 16.4802 12.3298 16.2902L9.6298 10.2302L14.1298 4.23018L8.1298 8.73018L2.0848 6.72018Z" fill="white"/>
+				</svg>
+				إرسال الرسالة
+			</button>
+			{{ form_end(form) }}
 		</div>
 	</div>
 </section>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+const messageInput = document.getElementById('{{ form.message.vars.id }}');
+const charCount = document.getElementById('char-count');
+
+if (messageInput && charCount) {
+messageInput.addEventListener('input', function () {
+charCount.textContent = this.value.length;
+});
+}
+});
+</script>
