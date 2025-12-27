@@ -52,7 +52,25 @@
 					</div>
 				</div>
 
-				<div class="mb-6 bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border border-[#FECDD3] rounded-2xl p-6 flex items-center gap-4 justify-between">
+				{% if contenuDiscussion is defined and contenuDiscussion is not empty %}
+					<div class="bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border border-[#FECDD3] rounded-2xl p-6 flex items-center gap-4 justify-between">
+						<a href="{{ path('app_contenu_discussion_show', {'id': contenuDiscussion.id}) }}" class="text-right flex-1 block group">
+							<div class="text-right flex-1">
+								<h3 class="text-2xl font-bold mb-2 group-hover:text-rose-600 transition-colors">{{ contenuDiscussion.title }}</h3>
+								<p class="text-gray-600">
+									{{ contenuDiscussion.subTitle }}
+								</p>
+							</div>
+						</a>
+						<div class="flex-shrink-0 w-10 h-10 flex items-center justify-center">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-rose-500 w-6 h-6">
+								<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+							</svg>
+						</div>
+					</div>
+				{% endif %}
+
+				<div class={% if contenuDiscussion is defined and contenuDiscussion is not empty %} "bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border border-[#E5E7EB] p-6 rounded-2xl flex items-center gap-4 justify-between border-gray-100" {%else%} "bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border border-[#FECDD3] rounded-2xl p-6 flex items-center gap-4 justify-between" {%endif%}>
 					<div class="text-right flex-1">
 						<h3 class="text-2xl font-bold mb-2">نصوص أوال فيمينا</h3>
 						<p class="text-gray-600">
@@ -68,10 +86,14 @@
 				</div>
 
 				{% for text in textes %}
-					<a href="{{ path('app_texte_show_front', {'id': text.id}) }}">
-						<div class="mt-4 border rounded-2xl p-6 flex items-center gap-4 justify-between shadow-custom hover:opacity-90 transition-all {{ loop.index is not even ? 'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]' : 'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]' }}">
+					<a href="{{ path('app_texte_show_front', {'id': text.id}) }}" class="group">
+						<div class="mt-4 border rounded-2xl p-6 flex items-center gap-4 justify-between shadow-custom hover:opacity-90 transition-all
+																																																																																 {{ loop.index is not even ?
+																																																																																 'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]':
+																																																																																 'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]'
+																																																																																 }}">
 							<div class="text-right flex-1">
-								<h3 class="text-2xl font-bold mb-2">{{ text.title }}</h3>
+								<h3 class="text-2xl font-bold mb-2 group-hover:text-rose-600 transition-colors">{{ text.title }}</h3>
 								<p class="text-gray-600">
 									{{ text.subTitle }}
 								</p>
@@ -83,7 +105,7 @@
 
 
 				<a href="#writers" class="block group mt-4">
-					<div class="{{ textes|length is even ? 'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]' : 'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]' }} rounded-2xl p-6 shadow-custom flex items-center gap-4 justify-between border hover:opacity-90 transition-all cursor-pointer">
+					<div class="{{ textes|length is even ? 'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]' : 'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]' }} rounded-2xl p-6 shadow-custom flex items-center gap-4 justify-between border hover:opacity-95 transition-all duration-300 cursor-pointer">
 						<div class="text-right flex-1">
 							<h3 class="text-2xl font-bold mb-2 group-hover:text-rose-600 transition-colors">تقارير أوال فيمينا</h3>
 							<p class="text-gray-600">

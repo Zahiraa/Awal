@@ -41,9 +41,16 @@ class Contenu
     #[ORM\OneToMany(targetEntity: ContenuNumero::class, mappedBy: 'contenu')]
     private Collection $contenuNumeros;
 
+    /**
+     * @var Collection<int, ContenuDiscussion>
+     */
+    #[ORM\OneToMany(targetEntity: ContenuDiscussion::class, mappedBy: 'contenu')]
+    private Collection $contenuDiscussions;
+
     public function __construct()
     {
         $this->contenuNumeros = new ArrayCollection();
+        $this->contenuDiscussions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,6 +106,36 @@ class Contenu
             // set the owning side to null (unless already changed)
             if ($contenuNumero->getContenu() === $this) {
                 $contenuNumero->setContenu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ContenuDiscussion>
+     */
+    public function getContenuDiscussions(): Collection
+    {
+        return $this->contenuDiscussions;
+    }
+
+    public function addContenuDiscussion(ContenuDiscussion $contenuDiscussion): static
+    {
+        if (!$this->contenuDiscussions->contains($contenuDiscussion)) {
+            $this->contenuDiscussions->add($contenuDiscussion);
+            $contenuDiscussion->setContenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContenuDiscussion(ContenuDiscussion $contenuDiscussion): static
+    {
+        if ($this->contenuDiscussions->removeElement($contenuDiscussion)) {
+            // set the owning side to null (unless already changed)
+            if ($contenuDiscussion->getContenu() === $this) {
+                $contenuDiscussion->setContenu(null);
             }
         }
 

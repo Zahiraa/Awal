@@ -8,6 +8,7 @@ use App\Manager\Mailler;
 use App\Repository\ArticleRepository;
 use App\Repository\AboutRepository;
 use App\Repository\ContenuRepository;
+use App\Repository\ContenuDiscussionRepository;
 use App\Repository\TexteRepository;
 use App\Repository\OpinionRepository;
 use App\Repository\AuthorRepository;
@@ -32,13 +33,15 @@ class HomeController extends DefaultController
     }
 
     #[Route(path: '/', name: 'home')]
-    public function home(ArticleRepository $articleRepository, ContenuRepository $contenuRepository, TexteRepository $texteRepository, OpinionRepository $opinionRepository, AboutRepository $aboutRepository, AuthorRepository $authorRepository,Mailler $mailler,Request $request): Response
+    public function home(ArticleRepository $articleRepository, ContenuRepository $contenuRepository, ContenuDiscussionRepository $contenuDiscussionRepository, TexteRepository $texteRepository, OpinionRepository $opinionRepository, AboutRepository $aboutRepository, AuthorRepository $authorRepository,Mailler $mailler,Request $request): Response
     {
         $contenu = $contenuRepository->findContentCurrentOrPreviousMonth();
         // archive contenu all published contenu different than current month
         $contenuArchive = [];
+        $contenuDiscussion = [];
         if($contenu){
             $contenuArchive = $contenuRepository->findContentArchive($contenu);
+            $contenuDiscussion = $contenuDiscussionRepository->findLatestPublishedByContenu($contenu);
         }
         $textes = $texteRepository->findTexteCurrentOrPreviousMonth();
         $opinion = $opinionRepository->findLastOpinion();
@@ -63,6 +66,7 @@ class HomeController extends DefaultController
         return $this->render('home/index.html.twig', [
             'contenu' => $contenu,
             'contenuArchive' => $contenuArchive,
+            'contenuDiscussion' => $contenuDiscussion,
             'textes' => $textes,
             'opinion' => $opinion,
             'about' => $about,

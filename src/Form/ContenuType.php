@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Contenu;
 use App\Entity\ContenuNumero;
+use App\Entity\ContenuDiscussion;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,10 +18,27 @@ class ContenuType extends AbstractType
     {
         $builder
             ->add('title')
-   ->add('contenuNumeros', EntityType::class, [
-    'class' => ContenuNumero::class,
-    'choice_label' => function($cn) {
-        return $cn->getTitle(); // titre unique
+    ->add('contenuNumeros', EntityType::class, [
+     'class' => ContenuNumero::class,
+     'choice_label' => function($cn) {
+         return $cn->getTitle(); // titre unique
+     },
+     'multiple' => true,
+     'expanded' => false,
+     'by_reference' => false,
+     'required' => false,
+     'attr' => [
+         'class' => 'js-select2 w-full rounded-lg border-gray-300 focus:border-teal-500 focus:ring-teal-500',
+     ],
+     'query_builder' => function (EntityRepository $er) {
+         return $er->createQueryBuilder('c')
+                   ->orderBy('c.title', 'ASC');
+     },
+ ])
+ ->add('contenuDiscussions', EntityType::class, [
+    'class' => ContenuDiscussion::class,
+    'choice_label' => function($cd) {
+        return $cd->getTitle();
     },
     'multiple' => true,
     'expanded' => false,

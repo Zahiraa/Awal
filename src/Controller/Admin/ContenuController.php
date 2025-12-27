@@ -90,8 +90,11 @@ final class ContenuController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$contenu->getId(), $request->getPayload()->getString('_token'))) {
             foreach ($contenu->getContenuNumeros() as $cn) {
-    $cn->setContenu(null); // casse la relation
-}
+                $cn->setContenu(null); // casse la relation
+            }
+            foreach ($contenu->getContenuDiscussions() as $cd) {
+                $cd->setContenu(null); // casse la relation
+            }
             $entityManager->remove($contenu);
             $entityManager->flush();
         }

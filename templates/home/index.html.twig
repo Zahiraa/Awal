@@ -6,7 +6,7 @@
 {% block content %}
 	{% include 'home/sections/hero.html.twig' %}
 
-	{% include 'home/sections/numero.html.twig' with { 'contenu': contenu, 'textes': textes, 'opinion': opinion } %}
+	{% include 'home/sections/numero.html.twig' with { 'contenu': contenu, 'textes': textes, 'opinion': opinion, 'contenuDiscussion': contenuDiscussion } %}
 
 	{% include 'home/sections/authors.html.twig' with { 'authors': authors } %}
 

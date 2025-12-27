@@ -28,7 +28,11 @@
 	</div>
 
 	<div class="relative">
-		{{ form_widget(form.contenuNumeros) }}
+		{{ form_widget(form.contenuNumeros, {
+                attr: {
+                    class: 'js-select2 w-full rounded-2xl border-2 border-gray-100 bg-white shadow-sm p-3 text-gray-700 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 min-h-[120px]'
+                }
+            }) }}
 	</div>
 
 	<p class="mt-3 text-sm text-gray-500 italic px-2">
@@ -36,6 +40,31 @@
 	</p>
 	<div class="mt-2 px-2">
 		{{ form_errors(form.contenuNumeros) }}
+	</div>
+</div>
+
+{# 🔹 DISCUSSIONS SELECTION SECTION #}
+<div class="mb-12 group">
+	<div class="flex items-center justify-between mb-4">
+		{{ form_label(form.contenuDiscussions, 'حوارات العدد', {
+                label_attr: { class: 'block text-xl font-extrabold text-[#1F2937] transition-colors group-focus-within:text-teal-600' }
+            }) }}
+		<span class="text-xs font-bold uppercase tracking-wider text-gray-400 bg-gray-100 px-3 py-1 rounded-full">اختياري</span>
+	</div>
+
+	<div class="relative">
+		{{ form_widget(form.contenuDiscussions, {
+                attr: {
+                    class: 'js-select2 w-full rounded-2xl border-2 border-gray-100 bg-white shadow-sm p-3 text-gray-700 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 min-h-[120px]'
+                }
+            }) }}
+	</div>
+
+	<p class="mt-3 text-sm text-gray-500 italic px-2">
+		💡 نصيحة: حدد الحوارات التي تريد ربطها بهذا العدد.
+	</p>
+	<div class="mt-2 px-2">
+		{{ form_errors(form.contenuDiscussions) }}
 	</div>
 </div>
 
@@ -61,4 +90,13 @@
 </div>
 {% do form.draft_button.setRendered %}
 {% do form.publish_button.setRendered %}
+
+<script>
+	$(document).ready(function () {
+if ($.fn.select2) {
+$('.js-select2').select2({width: '100%', placeholder: 'Sélectionnez une option', allowClear: true});
+}
+});
+</script>
+
 {{ form_end(form) }}
