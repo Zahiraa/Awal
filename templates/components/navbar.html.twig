@@ -12,10 +12,10 @@
 
 				<!-- Desktop Links (Hidden on Mobile) -->
 				<div class="hidden md:flex flex-1 justify-center items-center gap-12 text-gray-700">
-					<a href="#contact" class="hover:text-rose-500 transition">اتصل بنا</a>
-					<a href="#who" class="hover:text-rose-500 transition">من نحن؟</a>
-					<a href="#archive" class="hover:text-rose-500 transition">أرشيف أوال فيمينا</a>
-					<a href="#current" class="hover:text-rose-500 transition">العدد الحالي</a>
+					<a href="{{ path('home') }}#contact" class="hover:text-rose-500 transition">اتصل بنا</a>
+					<a href="{{ path('home') }}#who" class="hover:text-rose-500 transition">من نحن؟</a>
+					<a href="{{ path('home') }}#archive" class="hover:text-rose-500 transition">أرشيف أوال فيمينا</a>
+					<a href="{{ path('home') }}#current" class="hover:text-rose-500 transition">العدد الحالي</a>
 					<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
 				</div>
 
@@ -59,10 +59,10 @@
 			<div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-100 pt-4">
 				<div class="flex flex-col gap-4 text-gray-700 text-right">
 					<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
-					<a href="#current" class="hover:text-rose-500 transition py-2">العدد الحالي</a>
-					<a href="#archive" class="hover:text-rose-500 transition py-2">أرشيف أوال فيمينا</a>
-					<a href="#who" class="hover:text-rose-500 transition py-2">من نحن؟</a>
-					<a href="#contact" class="hover:text-rose-500 transition py-2">اتصل بنا</a>
+					<a href="{{ path('home') }}#current" class="hover:text-rose-500 transition py-2">العدد الحالي</a>
+					<a href="{{ path('home') }}#archive" class="hover:text-rose-500 transition py-2">أرشيف أوال فيمينا</a>
+					<a href="{{ path('home') }}#who" class="hover:text-rose-500 transition py-2">من نحن؟</a>
+					<a href="{{ path('home') }}#contact" class="hover:text-rose-500 transition py-2">اتصل بنا</a>
 
 					<!-- Admin Links for Mobile -->
 					{% if app.user and is_granted('ROLE_ADMIN') %}
@@ -86,3 +86,36 @@
 
 
 </header>
+
+<script>
+	function handleSmoothScroll(e) {
+const href = this.getAttribute('href');
+const hashIndex = href.indexOf('#');
+
+if (hashIndex !== -1) {
+const hash = href.substring(hashIndex);
+const targetElement = document.querySelector(hash);
+
+if (targetElement) {
+e.preventDefault();
+targetElement.scrollIntoView({behavior: 'smooth'});
+
+const mobileMenu = document.getElementById('mobile-menu');
+if (mobileMenu && ! mobileMenu.classList.contains('hidden')) {
+mobileMenu.classList.add('hidden');
+}
+}
+}
+}
+
+function initializeSmoothScroll() {
+const navbarLinks = document.querySelectorAll('header nav a[href*="#"]');
+navbarLinks.forEach(link => {
+link.removeEventListener('click', handleSmoothScroll);
+link.addEventListener('click', handleSmoothScroll);
+});
+}
+
+document.addEventListener('DOMContentLoaded', initializeSmoothScroll);
+document.addEventListener('turbo:load', initializeSmoothScroll);
+</script>

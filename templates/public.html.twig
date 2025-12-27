@@ -1,16 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<main class="min-h-screen bg-white">
+	<main class="min-h-screen bg-white">
 
-    {% include 'components/navbar.html.twig' %}
-        {% block content %}
-            <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6">
-                {% block page_content %}
+		{% include 'components/navbar.html.twig' %}
+		{% block content %}
+			<div
+				class="relative overflow-hidden">
+				<!-- Background Pattern -->
+				<div class="absolute inset-0 opacity-[0.03] pointer-events-none">
+					<div class="absolute inset-0" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, #c71e3aff 35px, #c71e3aff 36px);"></div>
+					<div class="absolute inset-0" style="background-image: repeating-linear-gradient(-45deg, transparent, transparent 50px, #c71e3aff 50px, #c71e3aff 51px);"></div>
+				</div>
 
-                {% endblock %}
-            </div>
-        {% endblock %}
-    {% include 'components/footer.html.twig' %}
-</main>
+				<!-- Random Decorative Lines -->
+				<div class="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
+					<div class="absolute w-px h-64 bg-rose-800 rotate-[30deg] -top-12 left-[5%]"></div>
+					<div class="absolute w-px h-96 bg-rose-800 rotate-[60deg] -bottom-24 left-[15%]"></div>
+					<div class="absolute w-px h-64 bg-rose-800 rotate-[-45deg] top-1/2 right-[5%]"></div>
+					<div class="absolute w-px h-48 bg-rose-800 rotate-[15deg] bottom-10 right-[15%]"></div>
+				</div>
+
+				<div class="relative z-10 max-w-7xl mx-auto px-4 py-8 sm:px-4">
+					{% block page_content %}{% endblock %}
+				</div>
+			</div>
+		{% endblock %}
+		{% include 'components/footer.html.twig' %}
+	</main>
 {% endblock %}

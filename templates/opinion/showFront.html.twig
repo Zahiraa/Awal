@@ -3,28 +3,25 @@
 	{{ opinion.title }}
 {% endblock %}
 
-{% block content %}
+{% block page_content %}
+	<div
+		class="max-w-4xl mx-auto py-12">
+		<!-- Image -->
+		<div class="rounded-3xl overflow-hidden shadow-custom-lg mb-12">
+			<img src="{{ asset('uploads/' ~ opinion.image.name) }}" alt="{{ opinion.title }}" class="w-full h-auto object-cover object-top max-h-[600px] hover:scale-105 transition-transform duration-700"/>
+		</div>
 
-	<section class="py-24 bg-white">
-		<div
-			class="max-w-4xl mx-auto px-6">
-			<!-- Image -->
-			<div class="rounded-3xl overflow-hidden shadow-custom-lg mb-12">
-				<img src="{{ asset('uploads/' ~ opinion.image.name) }}" alt="{{ opinion.title }}" class="w-full h-auto object-cover max-h-[600px] hover:scale-105 transition-transform duration-700"/>
-			</div>
+		<!-- Header -->
+		<div class="text-center mb-12">
+			<h1 class="text-4xl md:text-5xl font-bold text-rose-600 mb-6 leading-tight">{{ opinion.title }}</h1>
+			<p class="text-xl text-gray-500 font-medium">{{ opinion.subTitle }}</p>
+		</div>
 
-			<!-- Header -->
-			<div class="text-center mb-12">
-				<h1 class="text-4xl md:text-5xl font-bold text-rose-600 mb-6 leading-tight">{{ opinion.title }}</h1>
-				<p class="text-xl text-gray-500 font-medium">{{ opinion.subTitle }}</p>
-			</div>
-
-			<!-- Content -->
-			<div class="bg-pink-50 rounded-3xl p-6 md:p-12 shadow-sm border border-[#FECDD3]">
-				<div class="prose prose-lg prose-rose max-w-none mx-auto text-gray-700 leading-relaxed text-justify">
-					{{ opinion.content|raw }}
-				</div>
+		<!-- Content -->
+		<div class="bg-pink-50 rounded-3xl p-6 md:p-12 shadow-sm border border-[#FECDD3]">
+			<div class="prose prose-lg prose-rose max-w-none mx-auto text-gray-700 leading-relaxed text-justify">
+				{{ opinion.content|raw }}
 			</div>
 		</div>
-	</section>
+	</div>
 {% endblock %}

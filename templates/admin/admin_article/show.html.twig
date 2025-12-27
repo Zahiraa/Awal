@@ -9,9 +9,9 @@
 {% block content %}
 
 	<div
-		class="flex-1 flex flex-col  px-4 bg-white">
+		class="flex-1 flex flex-col px-4 md:px-12 bg-white rounded-lg shadow-sm">
 		<!-- Header -->
-		<header class=" py-6 border-b border-gray-200">
+		<header class="py-6 border-b border-gray-200">
 			<div class="flex flex-wrap justify-between items-center gap-4">
 				<div>
 					<h1 class="text-2xl font-semibold text-gray-900">
@@ -19,19 +19,19 @@
 					</h1>
 				</div>
 				<div class="flex items-center space-x-3">
-					<a href="{{ path('app_admin_article_index') }}" class="flex  items-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+					<a href="{{ path('app_admin_article_index') }}" class="flex items-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
 						Retour
 					</a>
-
-
 				</div>
 			</div>
 			<hr class="text-gray-300 mt-4 mb-2">
 		</header>
-	</div>
 
-	<!-- Content de l article -->
-	{% include 'common/article_content.html.twig' with {'article': article} %}
+		<!-- Content de l article -->
+		<div class="py-8">
+			{% include 'common/article_content.html.twig' with {'article': article} %}
+		</div>
+	</div>
 
 	<!-- Action Modal -->
 	<div id="publishedModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">

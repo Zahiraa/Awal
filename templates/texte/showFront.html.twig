@@ -4,7 +4,7 @@
 	{{ texte.title }}
 {% endblock %}
 
-{% block content %}
+{% block page_content %}
 	<section class="py-24 bg-white" dir="rtl">
 		<div class="max-w-4xl mx-auto px-6">
 			{% if texte.image %}
@@ -54,7 +54,7 @@
 			{% endif %}
 
 			<!-- Content -->
-			<div class="bg-pink-50 rounded-3xl p-6 md:p-12 shadow-sm border border-[#FECDD3]">
+			<div class="bg-pink-50 rounded-3xl p-4 md:p-12 shadow-sm border border-[#FECDD3]">
 				<div class="prose prose-lg prose-rose max-w-none mx-auto text-gray-700 leading-relaxed text-justify mb-8 [&_*]:!bg-transparent">
 					{{ texte.content|raw }}
 				</div>
