@@ -52,7 +52,7 @@ class Mailler
         } catch (TransportExceptionInterface $e) {
             $response = [
                 'status' => 'error',
-                'message' => $this->translator->trans('common.flash.error.contact'),
+                'message' => 'حدث خطأ أثناء إرسال البريد الإلكتروني، يرجى المحاولة مرة أخرى لاحقًا.',
             ];
         }
         return $response;
