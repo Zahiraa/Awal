@@ -1,0 +1,73 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}
+	{{ contenu_discussion.title }}
+{% endblock %}
+
+{% block page_content %}
+	<section class="py-24 bg-white" dir="rtl">
+		<div class="max-w-4xl mx-auto px-6">
+
+			{% if contenu_discussion.image %}
+				<!-- Image -->
+				<div class="rounded-3xl overflow-hidden shadow-custom-lg mb-12">
+					<img src="{{ asset('uploads/' ~ contenu_discussion.image.name) }}" alt="{{ contenu_discussion.title }}" class="w-full h-auto object-cover max-h-[600px] hover:scale-105 transition-transform duration-700"/>
+				</div>
+			{% endif %}
+
+			<!-- Header -->
+			<div class="text-center mb-12">
+				<h1 class="text-4xl md:text-5xl font-bold text-rose-600 mb-6 leading-tight">{{ contenu_discussion.title }}</h1>
+				<p class="text-xl text-gray-500 font-medium">{{ contenu_discussion.subTitle }}</p>
+			</div>
+
+			{% if contenu_discussion.media %}
+				{% set extension = contenu_discussion.media.name|split('.')|last|lower %}
+				<!-- Media Player -->
+				<div class="mb-12 flex justify-center w-full">
+					{% if extension in ['mp4', 'webm', 'ogg'] %}
+						<div class="w-full rounded-3xl overflow-hidden shadow-custom-lg bg-black">
+							<video controls class="w-full h-auto max-h-[500px]">
+								<source src="{{ asset('uploads/' ~ contenu_discussion.media.name) }}" type="video/{{ extension == 'mp4' ? 'mp4' : (extension == 'ogg' ? 'ogg' : 'webm') }}">
+								votre navigateur ne prend pas en charge la lecture de vidéos.
+							</video>
+						</div>
+					{% elseif extension in ['mp3', 'wav', 'ogg'] %}
+						<div class="w-full bg-rose-50 p-6 rounded-2xl border border-rose-200 flex flex-col items-center gap-4">
+							<div class="flex items-center gap-3 text-rose-600 mb-2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+									<path d="M9 18V5l12-2v13"></path>
+									<circle cx="6" cy="18" r="3"></circle>
+									<circle cx="18" cy="16" r="3"></circle>
+								</svg>
+								<span class="font-bold text-lg">استمع إلى الحوار</span>
+							</div>
+							<audio controls class="w-full custom-audio-player">
+								<source src="{{ asset('uploads/' ~ contenu_discussion.media.name) }}" type="audio/{{ extension == 'mp3' ? 'mpeg' : (extension == 'wav' ? 'wav' : 'ogg') }}">
+								votre navigateur ne prend pas en charge la lecture audio.
+							</audio>
+						</div>
+					{% else %}
+						<a href="{{ asset('uploads/' ~ contenu_discussion.media.name) }}" target="_blank" class="flex items-center gap-3 px-8 py-4 bg-rose-600 text-white rounded-2xl font-bold hover:bg-rose-700 transition-all shadow-lg hover:shadow-rose-200">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+								<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+								<polyline points="7 10 12 15 17 10"></polyline>
+								<line x1="12" y1="15" x2="12" y2="3"></line>
+							</svg>
+							<span>تحميل أو استعراض الملف المرفق</span>
+						</a>
+					{% endif %}
+				</div>
+			{% endif %}
+
+			{% if contenu_discussion.content %}
+				<!-- Content -->
+				<div class="bg-pink-50 rounded-3xl p-4 md:p-12 shadow-sm border border-[#FECDD3]">
+					<div class="prose prose-lg prose-rose max-w-none mx-auto text-gray-700 leading-relaxed text-justify">
+						{{ contenu_discussion.content|raw }}
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	</section>
+{% endblock %}

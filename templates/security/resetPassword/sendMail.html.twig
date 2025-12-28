@@ -1,24 +1,25 @@
 {% extends 'auth.html.twig' %}
 
 {% block title %}
-	{{ 'resetPassword.title'|trans }}
+	استعادة كلمة المرور
 {% endblock %}
 
 {% block content %}
-	<div id="loginForm" class="form-container max-w-md mx-auto w-full">
+	<div id="loginForm" class="form-container max-w-md mx-auto w-full" dir="rtl">
 
-		<h1 class="text-2xl text-center md:text-3xl font-bold text-midnight mb-3">
-			{{ 'resetPassword.messageAfterSubmit.title'|trans }}
+		<h1 class="text-2xl text-center md:text-3xl font-bold text-midnight mb-4">
+			تم إرسال البريد الإلكتروني
 		</h1>
-		<p class="text-steel mb-6 md:mb-8 text-sm md:text-base text-center">
-			{{ 'resetPassword.messageAfterSubmit.message'|trans }}
-			{{ 'resetPassword.messageAfterSubmit.expirationLink'|trans }}
+		<p class="text-steel mb-6 md:mb-8 text-sm md:text-base text-center leading-relaxed">
+			إذا كان هناك حساب مرتبط بهذا العنوان، فقد تم إرسال بريد إلكتروني يحتوي على رابط لإعادة تعيين كلمة المرور الخاصة بك.
+			<br><br>
+			يرجى ملاحظة أن هذا الرابط سينتهي مفعوله في غضون
 			{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
 		</p>
-		<p class="mt-6 text-center text-steel text-sm md:text-base">
-			<a href="{{ path('app_login') }}" class="text-grey-600 hover:text-primary-700 font-medium flex items-center justify-center gap-2">
-				<img src="{{ asset('build/images/auth/icons/password.svg') }}" alt="reset-password" class="inline-block"/>
-				{{ 'resetPassword.backToLogin'|trans }}
+		<p class="mt-6 text-center text-steel text-sm md:text-base border-t pt-6">
+			<a href="{{ path('app_login') }}" class="text-grey-600 hover:text-[#A81B60] font-medium flex items-center justify-center gap-2">
+				<img src="{{ asset('build/images/auth/icons/password.svg') }}" alt="reset-password" class="inline-block scale-x-[-1]"/>
+				العودة إلى تسجيل الدخول
 			</a>
 		</p>
 	</div>

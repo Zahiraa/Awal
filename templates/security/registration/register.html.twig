@@ -1,65 +1,67 @@
 {% extends 'auth.html.twig' %}
 
-{% block title %} {{ 'register.title'|trans }}{% endblock %}
+{% block title %}
+	إنشاء حساب جديد
+{% endblock %}
 
 {% block content %}
-<div id="loginForm" class="form-container max-w-md mx-auto w-full">
+	<div id="loginForm" class="form-container max-w-md mx-auto w-full" dir="rtl">
 
 
-    <h1 class="text-center text-2xl md:text-3xl font-semibold text-midnight mb-4">
-       {{ 'register.title'|trans }}
-    </h1>
+		<h1 class="text-center text-2xl md:text-3xl font-semibold text-midnight mb-4">
+			إنشاء حساب جديد
+		</h1>
 
-    {{ form_errors(registrationForm) }}
+		{{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm, {'attr': {'class': 'space-y-4 md:space-y-5 __web-inspector-hide-shortcut__'}}) }}
+		{{ form_start(registrationForm, {'attr': {'class': 'space-y-4 md:space-y-5 __web-inspector-hide-shortcut__'}}) }}
 
-    <div class="space-y-2">
+		<div class="space-y-2">
+			{{ form_label(registrationForm.nom, 'الاسم العائلي', {'attr': {'class': 'block text-sm text-gray-700 required text-right'}}) }}
+			{{ form_widget(registrationForm.nom, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
+			{{ form_errors(registrationForm.nom) }}
+		</div>
 
-        {{ form_label(registrationForm.nom, null, {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
-        {{ form_widget(registrationForm.nom, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
-         {{ form_errors(registrationForm.nom) }}
-    </div>
+		<div class="space-y-2">
+			{{ form_label(registrationForm.prenom, 'الاسم الشخصي', {'attr': {'class': 'block text-sm text-gray-700 required text-right'}}) }}
+			{{ form_widget(registrationForm.prenom, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
+			{{ form_errors(registrationForm.prenom) }}
 
-<div class="space-y-2">
-    {{ form_label(registrationForm.prenom, null, {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
-    {{ form_widget(registrationForm.prenom, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
-    {{ form_errors(registrationForm.prenom) }}
+		</div>
+		<div class="space-y-2 text-right">
+			{{ form_row(registrationForm.email, {'label': 'البريد الإلكتروني'}) }}
+			{{ form_errors(registrationForm.email) }}
+		</div>
+		<div class="space-y-2">
+			{{ form_label(registrationForm.plainPassword.first, 'كلمة المرور', {'attr': {'class': 'block text-sm text-gray-700 required text-right'}}) }}
+			{{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
+			{{ form_errors(registrationForm.plainPassword.first) }}
+			<p class=" text-[13px]  font-medium text-steel text-right">يجب أن تتكون كلمة المرور من 6 أحرف على الأقل</p>
+		</div>
 
-</div>
-    <div class="space-y-2">
-        {{ form_row(registrationForm.email) }}
-        {{ form_errors(registrationForm.email) }}
-    </div>
-<div class="space-y-2">
-    {{ form_label(registrationForm.plainPassword.first, null, {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
-    {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
-    {{ form_errors(registrationForm.plainPassword.first) }}
-    <p class=" text-[13px]  font-medium text-steel"> {{ 'register.password.remarque'|trans }}</p>
-</div>
+		<div class="space-y-2 mt-2">
+			{{ form_label(registrationForm.plainPassword.second, 'تأكيد كلمة المرور', {'attr': {'class': 'block text-sm text-gray-700 required text-right'}}) }}
+			{{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
+			{{ form_errors(registrationForm.plainPassword.second) }}
+			<p class=" text-[13px]  font-medium text-steel text-right">يرجى تأكيد كلمة المرور</p>
+		</div>
+		<div class="flex items-center justify-start gap-2 py-2">
+			{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'h-4 w-4 text-pink-600 focus:ring-primary-500 border-gray-300 rounded'}}) }}
+			<label class="text-sm text-gray-600">أوافق على الشروط والأحكام</label>
+		</div>
 
-    <div class="space-y-2 mt-2">
-        {{ form_label(registrationForm.plainPassword.second, null, {'attr': {'class': 'block text-sm text-gray-700 required'}}) }}
-        {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent text-sm md:text-base placeholder-gray-500'}}) }}
-        {{ form_errors(registrationForm.plainPassword.second) }}
-        <p class=" text-[13px]  font-medium text-steel">{{ 'register.password.remarque'|trans }}</p>
-    </div>
-    <div class="flex items-center space-x-2">
-        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'h-4 w-4 text-pink-600 focus:ring-primary-500 border-gray-300 rounded'}}) }}
-    </div>
+		<button class="w-full cursor-pointer bg-[#A81B60] text-white py-2.5 px-4 rounded-lg font-medium hover:bg-primary-700 active:bg-primary-700 transition duration-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2" type="submit">
+			إنشاء حساب
+		</button>
+		{{ form_end(registrationForm) }}
 
-    <button class="w-full cursor-pointer bg-[#A81B60] text-white py-2.5 px-4 rounded-lg font-medium hover:bg-primary-700 active:bg-primary-700 transition duration-200 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2" type="submit">
-         {{ 'register.button'|trans }}
-    </button>
-    {{ form_end(registrationForm) }}
-
-    <div class="mt-4 md:mt-6 text-center">
-        <p class="text-steel text-sm md:text-base">
-            {{ 'register.haveAccount'|trans }}
-            <a href="{{ path('app_login') }}" class="text-[#A81B60] hover:text-[#A81B60] font-medium">
-                  {{ 'register.login'|trans }}
-            </a>
-        </p>
-    </div>
-</div>
+		<div class="mt-4 md:mt-6 text-center">
+			<p class="text-steel text-sm md:text-base">
+				لديك حساب بالفعل؟
+				<a href="{{ path('app_login') }}" class="text-[#A81B60] hover:text-[#A81B60] font-medium">
+					تسجيل الدخول
+				</a>
+			</p>
+		</div>
+	</div>
 {% endblock %}

@@ -1,0 +1,342 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}حوار العدد
+{% endblock %}
+
+{% block content %}
+	<!-- Main Content -->
+	<div
+		class="flex-1 flex flex-col bg-gray-50 px-4">
+		<!-- Header -->
+		<header class="bg-white py-6 border-b border-gray-200">
+			<div class="flex flex-wrap justify-between items-center gap-4">
+				<div>
+					<h1 class="text-2xl font-semibold text-gray-900">
+						حوار العدد
+					</h1>
+				</div>
+				<a href="{{ path('app_admin_contenu_discussion_new') }}" class="bg-[#A81B60] text-white px-4 py-2 rounded-lg flex items-center hover:bg-teal-700 transition duration-200">
+					<svg class="w-5 h-5 mr-2" fill="currentColor" viewbox="0 0 20 20">
+						<path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+					</svg>
+					اضافة حوار جديد
+				</a>
+			</div>
+			<hr class="text-gray-300 mt-4 mb-2">
+		</header>
+
+		<!-- Search Bar -->
+		<div class="pt-2 pb-4 rounded-t-lg flex justify-end bg-white mb-[-8px] container-table-box-shadow">
+			<div class="relative md:min-w-sm md:max-w-sm">
+				<form method="GET" action="{{ path('app_admin_contenu_discussion_index') }}" class="flex ">
+					<div class="relative w-full">
+						<svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewbox="0 0 20 20">
+							<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+						</svg>
+						<input type="text" name="search" value="{{ app.request.get('search') }}" placeholder="Rechercher" class="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"/>
+						{% if app.request.get('search') %}
+							<a href="{{ path('app_admin_contenu_discussion_index') }}" class="absolute hover:filter hover:brightness-125 right-3 top-1/2 transform -translate-y-1/2">
+								<img src="{{ asset('build/images/icons/x-close.svg') }}" alt="Effacer" class="w-5 h-5">
+							</a>
+						{% endif %}
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Table -->
+		<div class="pb-8">
+			<div class="bg-white rounded-lg table-box-shadow overflow-hidden">
+				{% if contenu_discussions %}
+					<!-- Responsive Table with Horizontal Scroll -->
+					<div class="overflow-x-auto">
+						<table class="w-full min-w-[800px]">
+							<thead class="bg-light-gray-300 border-b border-t border-light-gray-200 rounded-t-lg">
+								<tr>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+										العنوان
+									</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+										الصورة
+									</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+										العنوان الفرعي
+									</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+										تاريخ الإنشاء
+									</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+										تاريخ التحديث
+									</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+										الحالة
+									</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-600 tracking-wider whitespace-nowrap">
+										الإجراءات
+									</th>
+								</tr>
+							</thead>
+							<tbody class="bg-white divide-y divide-gray-200">
+								{% for contenu_discussion in contenu_discussions %}
+									<tr class="hover:bg-gray-50 transition duration-150 border-b border-light-gray-200">
+										<td class="px-6 py-4 whitespace-nowrap">
+											<div class="text-sm text-gray-900 max-w-[200px] truncate">
+												{{ contenu_discussion.title }}
+											</div>
+										</td>
+										<td class="px-6 py-4 whitespace-nowrap">
+											{% if contenu_discussion.image %}
+												<img src="{{ '/uploads/' ~ contenu_discussion.image.name }}" alt="{{ contenu_discussion.title }}" class="w-8 h-8 rounded-full object-cover">
+											{% else %}
+												<div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+													<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+													</svg>
+												</div>
+											{% endif %}
+										</td>
+										<td class="px-6 py-4 whitespace-nowrap">
+											<div class="text-sm text-gray-900 max-w-[200px] truncate">
+												{{ contenu_discussion.subTitle }}
+											</div>
+										</td>
+										<td class="px-6 py-4 whitespace-nowrap">
+											<div class="text-sm text-gray-900 max-w-[200px] truncate">
+												{{ contenu_discussion.createdAt ? contenu_discussion.createdAt|date('d/m/Y à H:i') : 'Non définie' }}
+											</div>
+										</td>
+										<td class="px-6 py-4 whitespace-nowrap">
+											<div class="text-sm text-gray-900 max-w-[200px] truncate">
+												{{ contenu_discussion.updatedAt ? contenu_discussion.updatedAt|date('d/m/Y à H:i') : 'Non définie' }}
+											</div>
+										</td>
+										<td class="px-6 py-4 whitespace-nowrap">
+											{% if contenu_discussion.statut == 'published' %}
+												<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+													<svg class="w-3 h-3 mr-1" fill="currentColor" viewbox="0 0 8 8">
+														<circle cx="4" cy="4" r="3"/>
+													</svg>
+													Publié
+												</span>
+											{% elseif contenu_discussion.statut == 'draft' %}
+												<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+													<svg class="w-3 h-3 mr-1" fill="currentColor" viewbox="0 0 8 8">
+														<circle cx="4" cy="4" r="3"/>
+													</svg>
+													Brouillon
+												</span>
+											{% else %}
+												<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+													{{ contenu_discussion.statut }}
+												</span>
+											{% endif %}
+										</td>
+										<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+											<div
+												class="flex items-center space-x-4">
+												<!-- View Button -->
+												<a href="{{ path('app_admin_contenu_discussion_show', {'id': contenu_discussion.id}) }}" class="text-gray-400 hover:text-gray-600 transition duration-150" title="Voir">
+													<img src="{{ asset('build/images/icons/eye.svg') }}" alt="Voir" class="w-5 h-5 min-w-4 min-h-4">
+												</a>
+												<!-- Edit Button -->
+												<a href="{{ path('app_admin_contenu_discussion_edit', {'id': contenu_discussion.id}) }}" class="text-gray-400 hover:text-gray-600 transition duration-150" title="Modifier">
+													<img src="{{ asset('build/images/icons/edit.svg') }}" alt="Modifier" class="w-5 h-5 min-w-4 min-h-4">
+												</a>
+												<button class="delete-btn text-gray-400 hover:text-red-600 transition duration-150 cursor-pointer" title="Supprimer" data-contenu-discussion-id="{{ contenu_discussion.id }}" data-csrf-token="{{ csrf_token('delete' ~ contenu_discussion.id) }}">
+													<img src="{{ asset('build/images/icons/trash.svg') }}" alt="Supprimer" class="w-5 h-5 min-w-4 min-h-4">
+												</button>
+											</div>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<!-- KnpPaginatorBundle Pagination -->
+					{% if contenu_discussions %}
+						<div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+							{{ knp_pagination_render(contenu_discussions, 'components/pagination.html.twig') }}
+						</div>
+					{% endif %}
+				{% else %}
+					<!-- Empty State -->
+					<div class="text-center py-12">
+						<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+						</svg>
+						<h3 class="mt-2 text-sm font-medium text-gray-900">
+							{% if app.request.get('search') %}
+								Aucun résultat trouvé
+							{% else %}
+								Aucun حوار trouvé
+							{% endif %}
+						</h3>
+						<p class="mt-1 text-sm text-gray-600">
+							{% if app.request.get('search') %}
+								Aucun حوار ne correspond à "{{ app.request.get('search') }}"
+							{% else %}
+								Créer un nouveau حوار.
+							{% endif %}
+						</p>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Modal -->
+	<div id="deleteModal" class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop">
+		<div id="modalContent" class="relative top-1/4 mx-auto p-4 md:p-5 modal-box-shadow w-11/12 max-w-sm md:w-96 rounded-md bg-white modal-content">
+			<div class="flex justify-between items-start">
+				<img src="{{ asset('build/images/icons/delete.svg') }}" alt="Supprimer" class="w-10 h-10 md:w-12 md:h-12">
+				<button id="closeModalBtn" class="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+					<svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewbox="0 0 20 20">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+					</svg>
+				</button>
+			</div>
+			<div class="mt-3">
+				<h3 class="text-base md:text-lg font-medium text-gray-900">Supprimer le حوار</h3>
+				<p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">Êtes-vous sûr de vouloir supprimer ce حوار ؟ Cette action ne peut pas être annulée.</p>
+				<div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+					<button id="cancelDeleteBtn" class="px-4 py-2 flex-1 border border-light-gray-100 text-gray-800 text-sm md:text-base font-medium rounded-md hover:bg-gray-50 transition duration-150 cursor-pointer">
+						Annuler
+					</button>
+					<button id="confirmDeleteBtn" class="px-4 py-2 flex-1 bg-red-600 text-white text-sm md:text-base font-medium rounded-md hover:bg-red-700 transition duration-150 cursor-pointer">
+						Supprimer
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		function initializeDeleteModal() {
+let contenuDiscussionToDelete = null;
+let csrfTokenForDelete = null;
+let isModalAnimating = false;
+
+const existingDeleteBtns = document.querySelectorAll('.delete-btn');
+existingDeleteBtns.forEach(btn => {
+btn.replaceWith(btn.cloneNode(true));
+});
+
+function showDeleteModal(contenuDiscussionId) {
+if (isModalAnimating) 
+return;
+
+contenuDiscussionToDelete = contenuDiscussionId;
+const deleteButton = document.querySelector (`[data-contenu-discussion-id="${contenuDiscussionId}"]`);
+csrfTokenForDelete = deleteButton ? deleteButton.dataset.csrfToken : null;
+const modal = document.getElementById('deleteModal');
+const modalContent = document.getElementById('modalContent');
+if (! modal || ! modalContent) 
+return;
+
+modal.classList.remove('hidden');
+modal.classList.add('modal-entering');
+modalContent.classList.add('modal-entering');
+isModalAnimating = true;
+requestAnimationFrame(() => {
+modal.classList.remove('modal-entering');
+modal.classList.add('modal-entered');
+modalContent.classList.remove('modal-entering');
+modalContent.classList.add('modal-entered');
+setTimeout(() => {
+isModalAnimating = false;
+}, 300);
+});
+}
+
+function hideDeleteModal() {
+if (isModalAnimating) 
+return;
+
+const modal = document.getElementById('deleteModal');
+const modalContent = document.getElementById('modalContent');
+if (! modal || ! modalContent) 
+return;
+
+isModalAnimating = true;
+modal.classList.remove('modal-entered');
+modal.classList.add('modal-exiting');
+modalContent.classList.remove('modal-entered');
+modalContent.classList.add('modal-exiting');
+requestAnimationFrame(() => {
+modal.classList.remove('modal-exiting');
+modal.classList.add('modal-exited');
+modalContent.classList.remove('modal-exiting');
+modalContent.classList.add('modal-exited');
+setTimeout(() => {
+modal.classList.add('hidden');
+modal.classList.remove('modal-exited');
+modalContent.classList.remove('modal-exited');
+contenuDiscussionToDelete = null;
+csrfTokenForDelete = null;
+isModalAnimating = false;
+}, 300);
+});
+}
+
+function deleteItem() {
+if (contenuDiscussionToDelete && csrfTokenForDelete) {
+const form = document.createElement('form');
+form.method = 'POST';
+form.action = `{{ path('app_admin_contenu_discussion_delete', {'id': '__ID__'}) }}`.replace('__ID__', contenuDiscussionToDelete);
+const csrfToken = document.createElement('input');
+csrfToken.type = 'hidden';
+csrfToken.name = '_token';
+csrfToken.value = csrfTokenForDelete;
+form.appendChild(csrfToken);
+document.body.appendChild(form);
+form.submit();
+}
+hideDeleteModal();
+}
+
+document.querySelectorAll('.delete-btn').forEach(button => {
+button.addEventListener('click', function () {
+showDeleteModal(this.dataset.contenuDiscussionId);
+});
+});
+
+const closeBtn = document.getElementById('closeModalBtn');
+const cancelBtn = document.getElementById('cancelDeleteBtn');
+const confirmBtn = document.getElementById('confirmDeleteBtn');
+const modal = document.getElementById('deleteModal');
+if (closeBtn) 
+closeBtn.addEventListener('click', hideDeleteModal);
+
+if (cancelBtn) 
+cancelBtn.addEventListener('click', hideDeleteModal);
+
+if (confirmBtn) 
+confirmBtn.addEventListener('click', deleteItem);
+
+if (modal) {
+modal.addEventListener('click', function (e) {
+if (e.target === this && ! isModalAnimating) 
+hideDeleteModal();
+
+});
+}
+
+const handleEscape = function (e) {
+if (e.key === 'Escape' && ! isModalAnimating) {
+const modal = document.getElementById('deleteModal');
+if (modal && ! modal.classList.contains('hidden')) 
+hideDeleteModal();
+
+}
+};
+document.removeEventListener('keydown', handleEscape);
+document.addEventListener('keydown', handleEscape);
+}
+
+document.addEventListener('DOMContentLoaded', initializeDeleteModal);
+document.addEventListener('turbo:load', initializeDeleteModal);
+	</script>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}تفاصيل الحوار
+{% endblock %}
+
+{% block content %}
+	<div
+		class="flex-1 flex flex-col bg-gray-50 px-4">
+		<!-- Header -->
+		<header class="bg-white py-6 border-b border-gray-200">
+			<div class="flex flex-wrap justify-between items-center gap-4">
+				<div>
+					<h1 class="text-2xl font-semibold text-gray-900">
+						تفاصيل الحوار
+					</h1>
+				</div>
+				<div class="flex gap-2">
+					<a href="{{ path('app_admin_contenu_discussion_index') }}" class="flex items-center cursor-pointer px-4 py-2 bg-white border border-light-gray-100 text-gray-700 rounded-lg hover:bg-gray-100">
+						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+						</svg>
+						الرجوع للقائمة
+					</a>
+					<a href="{{ path('app_admin_contenu_discussion_edit', {'id': contenu_discussion.id}) }}" class="flex items-center cursor-pointer px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+						<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+						</svg>
+						تعديل
+					</a>
+				</div>
+			</div>
+			<hr class="text-gray-300 mt-4 mb-2">
+		</header>
+
+		<!-- Content -->
+		<div class="flex-1 p-6">
+			<div
+				class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+				<!-- Hero Image if exists -->
+				{% if contenu_discussion.image %}
+					<div class="w-full h-64 overflow-hidden">
+						<img src="{{ '/uploads/' ~ contenu_discussion.image.name }}" alt="{{ contenu_discussion.title }}" class="w-full h-full object-cover">
+					</div>
+				{% endif %}
+
+				<div class="p-8">
+					<div class="flex justify-between items-start mb-6">
+						<div>
+							<h2 class="text-3xl font-bold text-gray-900 mb-2">{{ contenu_discussion.title }}</h2>
+							<p class="text-xl text-gray-500 font-medium">{{ contenu_discussion.subTitle }}</p>
+						</div>
+						{% if contenu_discussion.statut == 'published' %}
+							<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+								Publié
+							</span>
+						{% else %}
+							<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800">
+								Brouillon
+							</span>
+						{% endif %}
+					</div>
+
+					<!-- Metadata -->
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 py-4 border-y border-gray-100">
+						<div class="flex flex-col">
+							<span class="text-xs text-gray-400 uppercase tracking-wider">Créé le</span>
+							<span class="font-medium text-gray-700">{{ contenu_discussion.createdAt ? contenu_discussion.createdAt|date('d/m/Y') : '-' }}</span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-xs text-gray-400 uppercase tracking-wider">Mis à jour</span>
+							<span class="font-medium text-gray-700">{{ contenu_discussion.updatedAt ? contenu_discussion.updatedAt|date('d/m/Y') : '-' }}</span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-xs text-gray-400 uppercase tracking-wider">Contenu Parent</span>
+							<span class="font-medium text-teal-600">{{ contenu_discussion.contenu ? contenu_discussion.contenu.title : 'Aucun' }}</span>
+						</div>
+					</div>
+
+					<!-- Media Link if exists -->
+					{% if contenu_discussion.media %}
+						<div class="mb-8 p-4 bg-blue-50 rounded-lg flex items-center justify-between border border-blue-100">
+							<div class="flex items-center gap-3">
+								<div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+									<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+									</svg>
+								</div>
+								<div>
+									<p class="text-sm font-bold text-blue-900">Fichier Media attaché</p>
+									<p class="text-xs text-blue-700">{{ contenu_discussion.media.name }}</p>
+								</div>
+							</div>
+							<a href="{{ '/uploads/' ~ contenu_discussion.media.name }}" target="_blank" class="px-3 py-1 bg-white border border-blue-200 text-blue-600 rounded-md text-sm font-bold hover:bg-blue-100 transition">
+								Ouvrir
+							</a>
+						</div>
+					{% endif %}
+
+					<!-- Content Body -->
+					<div class="prose prose-teal max-w-none text-gray-800 leading-relaxed">
+						{{ contenu_discussion.content|raw }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
