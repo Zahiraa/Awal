@@ -43,7 +43,9 @@ class HomeController extends DefaultController
             $contenuArchive = $contenuRepository->findContentArchive($contenu);
             $contenuDiscussion = $contenuDiscussionRepository->findLatestPublishedByContenu($contenu);
         }
-        $textes = $texteRepository->findTexteCurrentOrPreviousMonth();
+        $textesList = $texteRepository->findTexteCurrentOrPreviousMonth();
+        $textesOnly = array_filter($textesList, fn($t) => $t->getType() === 'texte');
+        $audiosOnly = array_filter($textesList, fn($t) => $t->getType() === 'audio');
         $opinion = $opinionRepository->findLastOpinion();
         $about = $aboutRepository->findLastAbout();
         $authors= $authorRepository->findAll();
@@ -67,7 +69,8 @@ class HomeController extends DefaultController
             'contenu' => $contenu,
             'contenuArchive' => $contenuArchive,
             'contenuDiscussion' => $contenuDiscussion,
-            'textes' => $textes,
+            'textes' => $textesOnly,
+            'audios' => $audiosOnly,
             'opinion' => $opinion,
             'about' => $about,
             'authors' => $authors,

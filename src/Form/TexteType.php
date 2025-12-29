@@ -7,6 +7,7 @@ use App\Entity\Texte;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,12 +18,36 @@ class TexteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('subTitle')
+            ->add('title', null, [
+                'label' => 'العنوان',
+                'label_attr' => ['class' => 'text-lg text-gray-700 font-semibold'],
+                'attr' => ['class' => 'w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none']
+            ])
+            ->add('subTitle', null, [
+                'label' => 'العنوان الفرعي',
+                'label_attr' => ['class' => 'text-lg text-gray-700 font-semibold'],
+                'attr' => ['class' => 'w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none']
+            ])
                ->add('content', TextareaType::class, [
-                'label' => 'Contenu',
+                'label' => 'النص',
                 'label_attr' => [
-                    'class' => 'text-lg text-gray-700'
+                    'class' => 'text-lg text-gray-700 font-semibold'
+                ],
+                'attr' => [
+                    'class' => 'w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none min-h-[200px]'
+                ]
+            ])
+            ->add('type', ChoiceType::class, [
+                'label' => 'الصنف',
+                'choices' => [
+                    'نص' => 'texte',
+                    'تسجيل صوتي' => 'audio',
+                ],
+                'label_attr' => [
+                    'class' => 'text-lg text-gray-700 font-semibold'
+                ],
+                'attr' => [
+                    'class' => 'w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 outline-none'
                 ],
             ])
 
