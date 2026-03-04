@@ -1,0 +1,9 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}
+	أرشيف الأعداد - أوال فيمينا
+{% endblock %}
+
+{% block content %}
+	{% include 'home/sections/archive.html.twig' with {'contenuArchive': contenuArchive} %}
+{% endblock %}

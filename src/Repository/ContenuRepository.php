@@ -87,4 +87,18 @@ class ContenuRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    public function findAllArchive(): array
+    {
+        $now = new \DateTime();
+        $startOfMonth = (clone $now)->modify('first day of this month')->setTime(0, 0, 0);
+
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.statut = :status')
+            ->andWhere('c.createdAt < :startOfMonth')
+            ->setParameter('status', Contenu::STATUT_PUBLISHED)
+            ->setParameter('startOfMonth', $startOfMonth)
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

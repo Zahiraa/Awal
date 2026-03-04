@@ -12,9 +12,9 @@
 
 				<!-- Desktop Links (Hidden on Mobile) -->
 				<div class="hidden md:flex flex-1 justify-center items-center gap-12 text-gray-700">
-					<a href="{{ path('home') }}#contact" class="hover:text-rose-500 transition">اتصل بنا</a>
-					<a href="{{ path('home') }}#who" class="hover:text-rose-500 transition">من نحن؟</a>
-					<a href="{{ path('home') }}#archive" class="hover:text-rose-500 transition">أرشيف أوال فيمينا</a>
+					<a href="{{ path('contact') }}" class="hover:text-rose-500 transition">اتصل بنا</a>
+					<a href="{{ path('about') }}" class="hover:text-rose-500 transition">من نحن؟</a>
+					<a href="{{ path('archive') }}" class="hover:text-rose-500 transition">أرشيف أوال فيمينا</a>
 					<a href="{{ path('home') }}#current" class="hover:text-rose-500 transition">العدد الحالي</a>
 					<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
 				</div>
@@ -60,9 +60,9 @@
 				<div class="flex flex-col gap-4 text-gray-700 text-right">
 					<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
 					<a href="{{ path('home') }}#current" class="hover:text-rose-500 transition py-2">العدد الحالي</a>
-					<a href="{{ path('home') }}#archive" class="hover:text-rose-500 transition py-2">أرشيف أوال فيمينا</a>
-					<a href="{{ path('home') }}#who" class="hover:text-rose-500 transition py-2">من نحن؟</a>
-					<a href="{{ path('home') }}#contact" class="hover:text-rose-500 transition py-2">اتصل بنا</a>
+					<a href="{{ path('archive') }}" class="hover:text-rose-500 transition py-2">أرشيف أوال فيمينا</a>
+					<a href="{{ path('about') }}" class="hover:text-rose-500 transition py-2">من نحن؟</a>
+					<a href="{{ path('contact') }}" class="hover:text-rose-500 transition py-2">اتصل بنا</a>
 
 					<!-- Admin Links for Mobile -->
 					{% if app.user and is_granted('ROLE_ADMIN') %}
