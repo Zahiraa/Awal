@@ -84,4 +84,19 @@ class TexteRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findAllArchive(): array
+    {
+        $now = new \DateTime();
+        $startOfMonth = (clone $now)->modify('first day of this month')->setTime(0, 0, 0);
+
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.statut = :status')
+            ->andWhere('t.createdAt < :startOfMonth')
+            ->setParameter('status', Texte::STATUT_PUBLISHED)
+            ->setParameter('startOfMonth', $startOfMonth)
+            ->orderBy('t.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

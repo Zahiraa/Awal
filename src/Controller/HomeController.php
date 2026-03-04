@@ -33,23 +33,71 @@ class HomeController extends DefaultController
     }
 
     #[Route(path: '/', name: 'home')]
-    public function home(ArticleRepository $articleRepository, ContenuRepository $contenuRepository, ContenuDiscussionRepository $contenuDiscussionRepository, TexteRepository $texteRepository, OpinionRepository $opinionRepository, AboutRepository $aboutRepository, AuthorRepository $authorRepository,Mailler $mailler,Request $request): Response
+    public function home(ArticleRepository $articleRepository, ContenuRepository $contenuRepository, ContenuDiscussionRepository $contenuDiscussionRepository, TexteRepository $texteRepository, OpinionRepository $opinionRepository, AuthorRepository $authorRepository): Response
     {
         $contenu = $contenuRepository->findContentCurrentOrPreviousMonth();
-        // archive contenu all published contenu different than current month
-        $contenuArchive = [];
+        
         $contenuDiscussion = [];
         if($contenu){
-            $contenuArchive = $contenuRepository->findContentArchive($contenu);
             $contenuDiscussion = $contenuDiscussionRepository->findLatestPublishedByContenu($contenu);
         }
         $textesList = $texteRepository->findTexteCurrentOrPreviousMonth();
         $textesOnly = array_filter($textesList, fn($t) => $t->getType() === 'texte');
         $audiosOnly = array_filter($textesList, fn($t) => $t->getType() === 'audio');
         $opinion = $opinionRepository->findLastOpinion();
-        $about = $aboutRepository->findLastAbout();
         $authors= $authorRepository->findAll();
 
+        return $this->render('home/index.html.twig', [
+            'contenu' => $contenu,
+            'contenuDiscussion' => $contenuDiscussion,
+            'textes' => $textesOnly,
+            'audios' => $audiosOnly,
+            'opinion' => $opinion,
+            'authors' => $authors,
+        ]);
+    }
+
+    #[Route(path: '/archive', name: 'archive', methods: ['GET'])]
+    public function archive(): Response
+    {
+        return $this->render('archive/index.html.twig');
+    }
+
+    #[Route(path: '/archive/numeros', name: 'archive_numeros', methods: ['GET'])]
+    public function archiveNumeros(ContenuRepository $contenuRepository): Response
+    {
+        $contenuArchive = $contenuRepository->findAllArchive();
+
+        return $this->render('archive/numeros.html.twig', [
+            'contenuArchive' => $contenuArchive,
+        ]);
+    }
+
+    #[Route(path: '/archive/discussions', name: 'archive_discussions', methods: ['GET'])]
+    public function archiveDiscussions(ContenuDiscussionRepository $contenuDiscussionRepository): Response
+    {
+        $discussionArchive = $contenuDiscussionRepository->findAllArchive();
+
+        return $this->render('archive/discussions.html.twig', [
+            'discussionArchive' => $discussionArchive,
+        ]);
+    }
+
+    #[Route(path: '/archive/textes', name: 'archive_textes', methods: ['GET'])]
+    public function archiveTextes(TexteRepository $texteRepository): Response
+    {
+        $textesArchive = $texteRepository->findAllArchive();
+
+        // Separate texts and audios if needed on the twig side, but let's pass them all.
+        // We will pass the whole result.
+        return $this->render('archive/textes.html.twig', [
+            'textesArchive' => $textesArchive,
+        ]);
+    }
+
+    #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
+    public function contact(Request $request, Mailler $mailler): Response
+    {
         $contact = new ContactDTO();
         $form = $this->createForm(ContactForm::class, $contact);
         $form->handleRequest($request);
@@ -62,18 +110,10 @@ class HomeController extends DefaultController
                 $this->addErrorMessage($response['message']);
             }
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('contact');
         }
 
-        return $this->render('home/index.html.twig', [
-            'contenu' => $contenu,
-            'contenuArchive' => $contenuArchive,
-            'contenuDiscussion' => $contenuDiscussion,
-            'textes' => $textesOnly,
-            'audios' => $audiosOnly,
-            'opinion' => $opinion,
-            'about' => $about,
-            'authors' => $authors,
+        return $this->render('contact/index.html.twig', [
             'form' => $form,
         ]);
     }
@@ -90,17 +130,6 @@ class HomeController extends DefaultController
             'about' => $about,
         ]);
     }
- #[Route(path: '/whoAre', name: 'whoAre', methods: ['GET'])]
-    public function whoAre(AboutRepository $aboutRepository): Response
-    {
-        $about = $aboutRepository->findOneBy([], ['created_at' => 'DESC']);
-        if(!$about) {
-            $this->addInfoMessage('La page about n\'est pas encore disponible.');
-            return $this->redirectToRoute('home');
-        }
-        return $this->render('about/index.html.twig', [
-            'about' => $about,
-        ]);
-    }
+
 
 }
