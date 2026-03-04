@@ -121,7 +121,7 @@ class HomeController extends DefaultController
     #[Route(path: '/about', name: 'about', methods: ['GET'])]
     public function about(AboutRepository $aboutRepository): Response
     {
-        $about = $aboutRepository->findOneBy([], ['id' => 'DESC']);
+        $about = $aboutRepository->findOneBy([], ['createdAt' => 'DESC']);
         if(!$about) {
             $this->addInfoMessage('La page about n\'est pas encore disponible.');
             return $this->redirectToRoute('home');
