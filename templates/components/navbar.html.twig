@@ -1,5 +1,5 @@
-<header class="bg-gray-50">
-	<nav class="bg-white shadow-sm sticky top-0 z-50">
+<header class="sticky top-0 z-50">
+	<nav class="bg-white shadow-sm transition-all duration-300">
 		<div class="max-w-7xl mx-auto px-6 py-4">
 			<div
 				class="flex justify-between items-center">
@@ -108,14 +108,34 @@ mobileMenu.classList.add('hidden');
 }
 }
 
-function initializeSmoothScroll() {
-const navbarLinks = document.querySelectorAll('header nav a[href*="#"]');
-navbarLinks.forEach(link => {
-link.removeEventListener('click', handleSmoothScroll);
-link.addEventListener('click', handleSmoothScroll);
-});
+function handleNavbarScroll() {
+	const nav = document.querySelector('header nav');
+	if (!nav) return;
+
+	if (window.scrollY > 20) {
+		nav.classList.add('bg-white/80', 'backdrop-blur-md');
+		nav.classList.remove('bg-white');
+	} else {
+		nav.classList.add('bg-white');
+		nav.classList.remove('bg-white/80', 'backdrop-blur-md');
+	}
 }
 
-document.addEventListener('DOMContentLoaded', initializeSmoothScroll);
-document.addEventListener('turbo:load', initializeSmoothScroll);
+function initializeSmoothScroll() {
+	const navbarLinks = document.querySelectorAll('header nav a[href*="#"]');
+	navbarLinks.forEach(link => {
+		link.removeEventListener('click', handleSmoothScroll);
+		link.addEventListener('click', handleSmoothScroll);
+	});
+}
+
+function initializeNavbar() {
+	initializeSmoothScroll();
+	handleNavbarScroll();
+	window.removeEventListener('scroll', handleNavbarScroll);
+	window.addEventListener('scroll', handleNavbarScroll);
+}
+
+document.addEventListener('DOMContentLoaded', initializeNavbar);
+document.addEventListener('turbo:load', initializeNavbar);
 </script>

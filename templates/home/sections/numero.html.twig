@@ -13,10 +13,6 @@
 						<img src="{{ asset('uploads/' ~ opinion.image.name) }}" alt="nawal" class="w-full h-[50vh] md:h-[70vh] object-cover object-top"/>
 					</div>
 				</a>
-				<div class="rounded-3xl overflow-hidden shadow-custom-lg">
-
-					<img src="{{ asset('build/images/home/awal.jpeg') }}" alt="Magazine" class="w-full h-[50vh] md:h-[75vh] object-cover"/>
-				</div>
 			</div>
 
 			<!-- Content List -->
@@ -70,29 +66,38 @@
 						</div>
 					</div>
 				{% endif %}
+				{% if textes is defined and textes is not empty %}
+					<div
+						class="relative py-8 my-8">
+						<!-- Ligne -->
+						<div class="absolute inset-0 flex items-center">
+							<div class="w-full border-t border-rose-200"></div>
+						</div>
 
-				<div class={% if contenuDiscussion is defined and contenuDiscussion is not empty %} "bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border border-[#E5E7EB] p-6 rounded-2xl flex items-center gap-4 justify-between border-gray-100" {%else%} "bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border border-[#FECDD3] rounded-2xl p-6 flex items-center gap-4 justify-between" {%endif%}>
-					<div class="text-right flex-1">
-						<h3 class="text-2xl font-bold mb-2">نصوص أوال فيمينا</h3>
-						<p class="text-gray-600">
-							مجموعة من النصوص الأدبية والإبداعية المميزة
-						</p>
+						<!-- Titre -->
+						<div class="relative flex justify-center">
+							<div class="bg-white px-8" dir="rtl">
+
+
+								<h3 class="mt-2 text-2xl font-bold text-rose-600">
+									نصوص أوال فيمينا
+								</h3>
+
+								<p class="mt-2 max-w-xl text-gray-500 text-base">
+									نترككم الآن مع مختارات من النصوص الأدبية والإبداعية التي يضمها هذا العدد.
+								</p>
+							</div>
+						</div>
 					</div>
-					<div class="flex-shrink-0 w-10 h-10 flex items-center justify-center">
-						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-rose-500 w-6 h-6">
-							<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-							<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-						</svg>
-					</div>
-				</div>
+				{% endif %}
 
 				{% for text in textes %}
 					<a href="{{ path('app_texte_show_front', {'id': text.id}) }}" class="group">
 						<div class="mt-4 border rounded-2xl p-6 flex items-center gap-4 justify-between shadow-custom hover:opacity-90 transition-all
-																																																																																															 {{ loop.index is not even ?
-																																																																																																'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]':
-																																																																																																'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]'
-																																																																																															 }}">
+																																																																																																																																																																																																																																							 {{ loop.index is not even ?
+																																																																																																																																																																																																																																								'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]':
+																																																																																																																																																																																																																																								'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]'
+																																																																																																																																																																																																																																							 }}">
 							<div class="text-right flex-1">
 								<h3 class="text-2xl font-bold mb-2 group-hover:text-rose-600 transition-colors">{{ text.title }}</h3>
 								<p class="text-gray-600">
@@ -107,10 +112,10 @@
 				{% for audio in audios %}
 					<a href="{{ path('app_texte_show_front', {'id': audio.id}) }}" class="group">
 						<div class="mt-8 border rounded-2xl p-6 flex items-center gap-4 justify-between shadow-custom hover:opacity-90 transition-all
-																																																																							 {{ loop.index is not even ?
-																																																																								'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]':
-																																																																								'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]'
-																																																																							 }}">
+																																																																																																																																																																																																															 {{ loop.index is not even ?
+																																																																																																																																																																																																																'bg-[linear-gradient(135deg,#FFF1F2_0%,rgba(255,228,230,0.5)_100%)] border-[#FECDD3]':
+																																																																																																																																																																																																																'bg-[linear-gradient(135deg,#F9FAFB_0%,#FFFFFF_100%)] border-[#E5E7EB]'
+																																																																																																																																																																																																															 }}">
 							<div class="text-right flex-1">
 								<div class="flex items-center justify-end gap-2 mb-2">
 									<h3 class="text-2xl font-bold group-hover:text-rose-600 transition-colors">{{ audio.title }}</h3>

@@ -17,6 +17,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AuthorController extends AbstractController
 {
    
+    #[Route('/list', name: 'app_author_list_front', methods: ['GET'])]
+    public function listFront(AuthorRepository $authorRepository): Response
+    {
+        return $this->render('author/listFront.html.twig', [
+            'authors' => $authorRepository->findAll(),
+        ]);
+    }
+
    #[Route('/{id}', name: 'app_author_show_front', methods: ['GET'])]
     public function show(Author $author): Response
     {
