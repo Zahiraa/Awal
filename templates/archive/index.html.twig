@@ -11,48 +11,28 @@
 				<span class="pink-underline">أرشيف أوال فيمينا</span>
 			</h2>
 			<p class="text-center text-gray-600 text-xl mb-16">
-				اختر القسم الذي تود تصفح أرشيفه
+				استكشف أعدادنا السابقة وتصفح مواضيعنا المتنوعة
 			</p>
 
-			<div
-				class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-				<!-- Numeros Archive Card -->
-				<a href="{{ path('archive_numeros') }}" class="group">
-					<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-custom-lg p-10 hover:shadow-xl hover:-translate-y-2 transition duration-300 relative text-center">
-						<div class="w-20 h-20 mx-auto bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-6 group-hover:bg-rose-500 group-hover:text-white transition duration-300">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-							</svg>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+				{% for contenuArchive in contenuArchive|default([]) %}
+					<a href="{{ path('app_contenu_numero_archive_list', {'id': contenuArchive.id}) }}">
+						<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-custom-lg p-8 hover:shadow-xl transition relative">
+							<div class="absolute top-4 left-4  bg-rose-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
+								{{ contenuArchive.createdAt | date('m') }}
+							</div>
+							<div class="text-center">
+								<h3 class="text-rose-500 text-2xl font-bold mb-4 px-4 py-2">{{ contenuArchive.title }}</h3>
+								<div class="flex justify-center items-center gap-4 text-gray-400 mb-6">
+									<span>●</span>
+									<span>{{ contenuArchive.createdAt | date('Y') }}</span>
+									<span>●</span>
+								</div>
+								<hr class="border-rose-200 mb-6"/>
+							</div>
 						</div>
-						<h3 class="text-rose-500 text-3xl font-bold mb-4">أرشيف الأعداد</h3>
-						<p class="text-gray-600 text-lg">تصفح جميع الأعداد والمحتويات السابقة للمجلة.</p>
-					</div>
-				</a>
-
-				<!-- Discussions Archive Card -->
-				<a href="{{ path('archive_discussions') }}" class="group">
-					<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-custom-lg p-10 hover:shadow-xl hover:-translate-y-2 transition duration-300 relative text-center">
-						<div class="w-20 h-20 mx-auto bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-6 group-hover:bg-rose-500 group-hover:text-white transition duration-300">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
-							</svg>
-						</div>
-						<h3 class="text-rose-500 text-3xl font-bold mb-4">أرشيف حوار العدد</h3>
-						<p class="text-gray-600 text-lg">اطلع على أرشيف حوار العدد السابقة.</p>
-					</div>
-				</a>
-				<!-- Textes Archive Card -->
-				<a href="{{ path('archive_textes') }}" class="group">
-					<div class="bg-white rounded-2xl border border-[#FFE4E6] shadow-custom-lg p-10 hover:shadow-xl hover:-translate-y-2 transition duration-300 relative text-center h-full">
-						<div class="w-20 h-20 mx-auto bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-6 group-hover:bg-rose-500 group-hover:text-white transition duration-300">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-							</svg>
-						</div>
-						<h3 class="text-rose-500 text-3xl font-bold mb-4">أرشيف النصوص</h3>
-						<p class="text-gray-600 text-lg">استكشف  النصوص السابقة.</p>
-					</div>
-				</a>
+					</a>
+				{% endfor %}
 			</div>
 		</div>
 	</section>

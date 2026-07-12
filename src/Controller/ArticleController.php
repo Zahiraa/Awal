@@ -36,7 +36,7 @@ final class ArticleController extends AbstractController
     public function show(int $id,ArticleRepository $articleRepository): Response
     {
         $article = $articleRepository->find($id);
-        if (!$article || $article->getStatus() !== Article::STATUS_PUBLISHED) {
+        if (!$article || $article->getStatut() !== Article::STATUT_PUBLISHED) {
             return $this->redirectToRoute('article_index');
         }
         return $this->render('article/show.html.twig', [

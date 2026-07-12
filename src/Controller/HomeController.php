@@ -45,8 +45,7 @@ class HomeController extends DefaultController
         $textesOnly = array_filter($textesList, fn($t) => $t->getType() === 'texte');
         $audiosOnly = array_filter($textesList, fn($t) => $t->getType() === 'audio');
         $opinion = $opinionRepository->findLastOpinion();
-        $authors= $authorRepository->findAll();
-
+        $authors = $authorRepository->findAuthorsWithPublishedArticlesInCurrentMonth();
         return $this->render('home/index.html.twig', [
             'contenu' => $contenu,
             'contenuDiscussion' => $contenuDiscussion,
@@ -58,9 +57,13 @@ class HomeController extends DefaultController
     }
 
     #[Route(path: '/archive', name: 'archive', methods: ['GET'])]
-    public function archive(): Response
+    public function archive(ContenuRepository $contenuRepository): Response
     {
-        return $this->render('archive/index.html.twig');
+        $contenuArchive = $contenuRepository->findAllArchive();
+
+        return $this->render('archive/index.html.twig', [
+            'contenuArchive' => $contenuArchive,
+        ]);
     }
 
     #[Route(path: '/archive/numeros', name: 'archive_numeros', methods: ['GET'])]
