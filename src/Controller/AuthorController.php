@@ -25,6 +25,14 @@ final class AuthorController extends AbstractController
         ]);
     }
 
+     #[Route('/list-contributors', name: 'app_author_list_contributors', methods: ['GET'])]
+    public function listContributors(AuthorRepository $authorRepository): Response
+    {
+        return $this->render('author/listContributors.html.twig', [
+            'authors' => $authorRepository->findAllContributors(),
+        ]);
+    }
+
    #[Route('/{id}', name: 'app_author_show_front', methods: ['GET'])]
     public function show(Author $author): Response
     {

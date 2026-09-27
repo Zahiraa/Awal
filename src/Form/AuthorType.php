@@ -19,6 +19,7 @@ class AuthorType extends AbstractType
             ->add('name')
             ->add('nameFr')
             ->add('country')
+            ->add('isContribitor')
             ->add('image', FileType::class, [
                 'label' => false,
                 'mapped' => false,

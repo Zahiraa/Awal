@@ -72,4 +72,14 @@ class AuthorRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllContributors(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.isContribitor = :true')
+            ->setParameter('true', true)
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -1,0 +1,50 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}
+	{{ podcast.title }}
+{% endblock %}
+
+{% block page_content %}
+	<div
+		class="max-w-4xl mx-auto py-12">
+		<!-- Image -->
+		{% if podcast.image %}
+			<div class="rounded-2xl overflow-hidden shadow-custom-lg mb-12 max-w-2xl mx-auto aspect-video">
+				<img src="{{ asset('uploads/' ~ podcast.image.name) }}" alt="{{ podcast.title }}" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"/>
+			</div>
+		{% endif %}
+		<!-- Header -->
+		<div class="text-center mb-10">
+			<h1 class="text-4xl md:text-5xl font-bold text-rose-600 mb-6 leading-tight">{{ podcast.title }}</h1>
+			<p class="text-xl text-gray-500 font-medium">{{ podcast.subTitle }}</p>
+		</div>
+
+		<!-- Media / Lecteur Audio ou Vidéo -->
+		{% if podcast.media %}
+			<div class="mb-12 flex justify-center">
+				{% set media_name = podcast.media.name|lower %}
+				{% if media_name ends with '.mp4' or media_name ends with '.webm' or media_name ends with '.mov' %}
+					<video controls class="w-full max-w-2xl rounded-2xl shadow-md bg-black aspect-video">
+						<source src="{{ asset('uploads/' ~ podcast.media.name) }}">
+						Votre navigateur ne supporte pas l'élément vidéo.
+					</video>
+				{% else %}
+					<audio controls class="w-full max-w-2xl shadow-sm outline-none">
+						<source src="{{ asset('uploads/' ~ podcast.media.name) }}">
+						Votre navigateur ne supporte pas l'élément audio.
+					</audio>
+				{% endif %}
+			</div>
+		{% endif %}
+
+
+		<!-- Content -->
+		{% if podcast.content %}
+			<div class="bg-pink-50 rounded-3xl p-6 md:p-12 shadow-sm border border-[#FECDD3]">
+				<div class="prose prose-lg prose-rose max-w-none mx-auto text-gray-700 leading-relaxed text-justify">
+					{{ podcast.content|raw }}
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
