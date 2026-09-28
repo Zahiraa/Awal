@@ -1,0 +1,13 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Modifier Podcast
+{% endblock %}
+
+{% block content %}
+	<div class="mb-6">
+		<h1 class="text-2xl font-bold text-gray-800">Modifier le podcast</h1>
+		<hr class="text-gray-300 my-2">
+	</div>
+
+	{{ include('podcast/admin/_form.html.twig') }}
+{% endblock %}

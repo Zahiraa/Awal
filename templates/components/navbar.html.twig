@@ -1,8 +1,9 @@
-<header class="bg-gray-50">
-	<nav class="bg-white shadow-sm sticky top-0 z-50">
+<header class="sticky top-0 z-50">
+	<nav class="bg-white shadow-sm transition-all duration-300">
 		<div class="max-w-7xl mx-auto px-6 py-4">
 			<div
-				class="flex justify-between items-center">
+				class="flex justify-between items-center"
+			>
 				<!-- Mobile Menu Button -->
 				<button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-rose-500 transition focus:outline-none">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
@@ -12,10 +13,11 @@
 
 				<!-- Desktop Links (Hidden on Mobile) -->
 				<div class="hidden md:flex flex-1 justify-center items-center gap-12 text-gray-700">
-					<a href="{{ path('contact') }}" class="hover:text-rose-500 transition">اتصل بنا</a>
-					<a href="{{ path('about') }}" class="hover:text-rose-500 transition">من نحن؟</a>
+					<a href="{{ path('contact') }}" class="hover:text-rose-500 transition">هيئة التحرير</a>
 					<a href="{{ path('archive') }}" class="hover:text-rose-500 transition">أرشيف أوال فيمينا</a>
+					<a href="{{ path('app_author_list_contributors') }}" class="hover:text-rose-500 transition">كتاب العدد</a>
 					<a href="{{ path('home') }}#current" class="hover:text-rose-500 transition">العدد الحالي</a>
+					<a href="{{ path('about') }}" class="hover:text-rose-500 transition">من نحن؟</a>
 					<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
 				</div>
 
@@ -59,10 +61,11 @@
 			<div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-100 pt-4">
 				<div class="flex flex-col gap-4 text-gray-700 text-right">
 					<a href="{{ path('home') }}" class="hover:text-rose-500 transition">الرئيسية</a>
-					<a href="{{ path('home') }}#current" class="hover:text-rose-500 transition py-2">العدد الحالي</a>
-					<a href="{{ path('archive') }}" class="hover:text-rose-500 transition py-2">أرشيف أوال فيمينا</a>
 					<a href="{{ path('about') }}" class="hover:text-rose-500 transition py-2">من نحن؟</a>
-					<a href="{{ path('contact') }}" class="hover:text-rose-500 transition py-2">اتصل بنا</a>
+					<a href="{{ path('home') }}#current" class="hover:text-rose-500 transition py-2">العدد الحالي</a>
+					<a href="{{ path('app_author_list_contributors') }}" class="hover:text-rose-500 transition">كتاب العدد</a>
+					<a href="{{ path('archive') }}" class="hover:text-rose-500 transition py-2">أرشيف أوال فيمينا</a>
+					<a href="{{ path('contact') }}" class="hover:text-rose-500 transition py-2">هيئة التحرير</a>
 
 					<!-- Admin Links for Mobile -->
 					{% if app.user and is_granted('ROLE_ADMIN') %}
@@ -89,33 +92,53 @@
 
 <script>
 	function handleSmoothScroll(e) {
-const href = this.getAttribute('href');
-const hashIndex = href.indexOf('#');
+		const href = this.getAttribute("href");
+		const hashIndex = href.indexOf("#");
 
-if (hashIndex !== -1) {
-const hash = href.substring(hashIndex);
-const targetElement = document.querySelector(hash);
+		if (hashIndex !== -1) {
+			const hash = href.substring(hashIndex);
+			const targetElement = document.querySelector(hash);
 
-if (targetElement) {
-e.preventDefault();
-targetElement.scrollIntoView({behavior: 'smooth'});
+			if (targetElement) {
+				e.preventDefault();
+				targetElement.scrollIntoView({ behavior: "smooth" });
 
-const mobileMenu = document.getElementById('mobile-menu');
-if (mobileMenu && ! mobileMenu.classList.contains('hidden')) {
-mobileMenu.classList.add('hidden');
-}
-}
-}
-}
+				const mobileMenu = document.getElementById("mobile-menu");
+				if (mobileMenu && !mobileMenu.classList.contains("hidden")) {
+					mobileMenu.classList.add("hidden");
+				}
+			}
+		}
+	}
 
-function initializeSmoothScroll() {
-const navbarLinks = document.querySelectorAll('header nav a[href*="#"]');
-navbarLinks.forEach(link => {
-link.removeEventListener('click', handleSmoothScroll);
-link.addEventListener('click', handleSmoothScroll);
-});
-}
+	function handleNavbarScroll() {
+		const nav = document.querySelector("header nav");
+		if (!nav) return;
 
-document.addEventListener('DOMContentLoaded', initializeSmoothScroll);
-document.addEventListener('turbo:load', initializeSmoothScroll);
+		if (window.scrollY > 20) {
+			nav.classList.add("bg-white/80", "backdrop-blur-md");
+			nav.classList.remove("bg-white");
+		} else {
+			nav.classList.add("bg-white");
+			nav.classList.remove("bg-white/80", "backdrop-blur-md");
+		}
+	}
+
+	function initializeSmoothScroll() {
+		const navbarLinks = document.querySelectorAll('header nav a[href*="#"]');
+		navbarLinks.forEach((link) => {
+			link.removeEventListener("click", handleSmoothScroll);
+			link.addEventListener("click", handleSmoothScroll);
+		});
+	}
+
+	function initializeNavbar() {
+		initializeSmoothScroll();
+		handleNavbarScroll();
+		window.removeEventListener("scroll", handleNavbarScroll);
+		window.addEventListener("scroll", handleNavbarScroll);
+	}
+
+	document.addEventListener("DOMContentLoaded", initializeNavbar);
+	document.addEventListener("turbo:load", initializeNavbar);
 </script>

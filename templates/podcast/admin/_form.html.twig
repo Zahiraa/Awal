@@ -1,0 +1,789 @@
+{{ form_start(form, {'attr': {'class': 'mx-auto p-6 bg-white rounded-lg shadow-sm'}}) }}
+
+{% block head_scripts %}
+	
+
+	{# jQuery #}
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	{# Summernote #}
+	<link
+		href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css"
+		rel="stylesheet"
+	>
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+
+	{# Police Amiri pour l'arabe #}
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap"
+		rel="stylesheet"
+	>
+
+	<style>
+		.note-editor {
+			width: 100%;
+		}
+
+		.note-editable {
+			font-family: "Amiri", serif !important;
+			font-size: 22px !important;
+			line-height: 1.8 !important;
+		}
+
+		.note-editable p,
+		.note-editable div,
+		.note-editable span {
+			font-family: "Amiri", serif;
+		}
+
+		.note-editable[dir="rtl"] {
+			direction: rtl;
+			text-align: right;
+		}
+	</style>
+
+	<script>
+		function initSummernote() {
+			if (typeof $ === "undefined") {
+				setTimeout(initSummernote, 100);
+				return;
+			}
+
+			/*
+			 * IMPORTANT :
+			 * Le champ Symfony est podcast_content.
+			 * L'ancien code cherchait opinion_content.
+			 */
+			const element = $("#podcast_content");
+
+			if (element.length === 0) {
+				setTimeout(initSummernote, 100);
+				return;
+			}
+
+			/*
+			 * Avec Turbo, la fonction peut être appelée plusieurs fois.
+			 * On évite donc de créer plusieurs éditeurs.
+			 */
+			if (element.next(".note-editor").length > 0) {
+				return;
+			}
+
+			element.summernote({
+				height: 300,
+				tabsize: 2,
+
+				/*
+				 * Liste des polices disponibles
+				 */
+				fontNames: [
+					"Amiri",
+					"Arial",
+					"Helvetica",
+					"Times New Roman",
+					"Courier New",
+				],
+
+				/*
+				 * Summernote peut ne pas trouver Amiri localement.
+				 * On ignore donc cette vérification.
+				 */
+				fontNamesIgnoreCheck: ["Amiri"],
+
+				toolbar: [
+					["font", ["bold", "underline", "clear", "italic", "strikethrough"]],
+
+					["fontname", ["fontname"]],
+
+					["style", ["style"]],
+
+					["color", ["color"]],
+
+					["para", ["ul", "ol", "paragraph"]],
+
+					["table", ["table"]],
+
+					["insert", ["link", "picture", "video"]],
+
+					["view", ["codeview", "help"]],
+				],
+
+				callbacks: {
+					/*
+					 * Initialisation de l'éditeur
+					 */
+					onInit: function () {
+						const editor = $(this).next(".note-editor");
+						const editable = editor.find(".note-editable");
+
+						editable.css({
+							"font-family": "'Amiri', serif",
+							"font-size": "22px",
+							"line-height": "1.8",
+							direction: "rtl",
+							"text-align": "right",
+						});
+					},
+
+					/*
+					 * Synchronisation avec le textarea Symfony
+					 */
+					onChange: function () {
+						$(this).val($(this).summernote("code"));
+					},
+				},
+			});
+		}
+
+		/*
+		 * Chargement normal de la page
+		 */
+		document.addEventListener("DOMContentLoaded", function () {
+			initSummernote();
+		});
+
+		/*
+		 * Navigation avec Turbo
+		 */
+		document.addEventListener("turbo:load", function () {
+			initSummernote();
+		});
+	</script>
+{% endblock %}
+
+
+{% set maxTaille = "50Mo" %}
+{% set maxTailleImage = "5Mo" %}
+
+
+<!-- ========================================================= -->
+<!-- SECTION UPLOAD IMAGE -->
+<!-- ========================================================= -->
+
+<div class="flex flex-col md:flex-row gap-4 mb-6 mt-4 items-stretch">
+
+	<!-- Zone Upload Image -->
+	<label
+		for="{{ form.image.vars.id }}"
+		class="flex-1 flex flex-col items-center justify-center cursor-pointer p-4 rounded-lg"
+		style="border: 1px solid #E3EDF2"
+	>
+		<img
+			src="{{ asset('build/images/icons/upload.svg') }}"
+			alt="Upload Image"
+			width="40"
+			height="40"
+			class="rounded-full"
+		>
+
+		<p class="text-gray-600 text-center mt-2 font-bold text-sm md:text-base">
+			<span class="text-pink-600">
+				Cliquez pour télécharger l'Image du Podcast
+			</span>
+			<br>
+
+			SVG, PNG, JPG ou GIF (max. 800x400px)
+			<br>
+
+			La taille de l'image ne doit pas dépasser
+			{{ maxTailleImage }}
+		</p>
+
+		{{ form_widget(form.image, {
+            'attr': {
+                'class': 'absolute opacity-0 w-0 h-0'
+            }
+        }) }}
+	</label>
+
+
+	<!-- Aperçu Image -->
+	<div class="flex-1 flex items-center">
+
+		<div
+			class="rounded-2xl flex gap-4 justify-between p-2 w-full h-full"
+			style="border: 1px solid #008780"
+		>
+
+			<img
+				id="image-preview"
+				src="{{ podcast.image ? '/uploads/' ~ podcast.image.name : asset('build/images/icons/upload.svg') }}"
+				class="w-20 h-20 min-w-20 min-h-20 max-w-20 max-h-20 rounded-xl object-contain self-center"
+				alt="Preview Image"
+			>
+
+			<div class="flex flex-col items-start justify-center flex-1">
+
+				<p
+					id="image-file-name"
+					class="text-gray-600 font-bold text-xs break-all"
+				>
+					{{ podcast.image ? podcast.image.name : 'Aucun fichier sélectionné' }}
+				</p>
+
+				<p
+					id="image-file-size"
+					class="text-gray-600 font-bold text-xs mt-1"
+				>
+					Size:
+					{{ podcast.image ? 'Précédent' : '0 KB' }}
+				</p>
+
+			</div>
+
+			<img
+				id="image-img-valid"
+				style="{{ podcast.image ? 'display: block' : 'display: none' }}"
+				src="{{ asset('build/images/icons/valid.svg') }}"
+				class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover self-center"
+				alt="Valid"
+			>
+
+		</div>
+	</div>
+
+</div>
+
+
+<div class="text-red-500 text-sm mb-4 text-center">
+	{{ form_errors(form.image) }}
+</div>
+
+
+<!-- ========================================================= -->
+<!-- SECTION UPLOAD MEDIA AUDIO / VIDEO -->
+<!-- ========================================================= -->
+
+<div class="flex flex-col md:flex-row gap-4 mb-8 mt-4 items-stretch">
+
+	<!-- Zone Upload Media -->
+	<label
+		for="{{ form.media.vars.id }}"
+		class="flex-1 flex flex-col items-center justify-center cursor-pointer p-4 rounded-lg"
+		style="border: 1px solid #E3EDF2"
+	>
+
+		<img
+			src="{{ asset('build/images/icons/upload.svg') }}"
+			alt="Upload Media"
+			width="40"
+			height="40"
+			class="rounded-full"
+		>
+
+		<p class="text-gray-600 text-center mt-2 font-bold text-sm md:text-base">
+
+			<span class="text-pink-600">
+				Cliquez pour télécharger le fichier Audio/Vidéo
+			</span>
+
+			<br>
+
+			MP3, WAV, MP4 ou WebM
+
+			<br>
+
+			La taille du fichier ne doit pas dépasser
+			{{ maxTaille }}
+
+		</p>
+
+		{{ form_widget(form.media, {
+            'attr': {
+                'class': 'absolute opacity-0 w-0 h-0'
+            }
+        }) }}
+
+	</label>
+
+
+	<!-- Aperçu Media -->
+	<div class="flex-1 flex items-center">
+
+		<div
+			class="rounded-2xl flex gap-4 justify-between p-2 w-full h-full"
+			style="border: 1px solid #008780"
+		>
+
+			<!-- Icône Audio / Vidéo -->
+			<div
+				class="w-20 h-20 min-w-20 min-h-20 bg-gray-100 rounded-xl flex items-center justify-center self-center"
+			>
+
+				<svg
+					class="w-8 h-8 text-gray-400"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+					></path>
+
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+					></path>
+				</svg>
+
+			</div>
+
+
+			<div class="flex flex-col items-start justify-center flex-1 ml-2">
+
+				<p
+					id="media-file-name"
+					class="text-gray-600 font-bold text-xs break-all"
+				>
+					{{ podcast.media ? podcast.media.name : 'Aucun fichier sélectionné' }}
+				</p>
+
+				<p
+					id="media-file-size"
+					class="text-gray-600 font-bold text-xs mt-1"
+				>
+					Size:
+					{{ podcast.media ? 'Précédent' : '0 KB' }}
+				</p>
+
+			</div>
+
+
+			<img
+				id="media-img-valid"
+				style="{{ podcast.media ? 'display: block' : 'display: none' }}"
+				src="{{ asset('build/images/icons/valid.svg') }}"
+				class="w-5 h-5 rounded-2xl min-w-5 min-h-5 object-cover self-center"
+				alt="Valid"
+			>
+
+		</div>
+	</div>
+
+</div>
+
+
+<div class="text-red-500 text-sm mb-4 text-center">
+	{{ form_errors(form.media) }}
+</div>
+
+
+<!-- ========================================================= -->
+<!-- TITRE / SOUS-TITRE -->
+<!-- ========================================================= -->
+
+<div class="flex flex-col md:flex-row md:space-x-4 mb-6">
+
+	<!-- Titre -->
+	<div class="mb-4 md:mb-0 w-full md:w-1/2">
+
+		{{ form_label(
+            form.title,
+            'Titre',
+            {
+                'label_attr': {
+                    'class': 'block text-sm font-medium text-gray-700 mb-1'
+                }
+            }
+        ) }}
+
+		{{ form_widget(form.title, {
+            'attr': {
+                'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500'
+            }
+        }) }}
+
+		<div class="text-red-500 text-sm mt-1">
+			{{ form_errors(form.title) }}
+		</div>
+
+	</div>
+
+
+	<!-- Sous-titre -->
+	<div class="w-full md:w-1/2">
+
+		{{ form_label(
+            form.subTitle,
+            'Sous-titre',
+            {
+                'label_attr': {
+                    'class': 'block text-sm font-medium text-gray-700 mb-1'
+                }
+            }
+        ) }}
+
+		{{ form_widget(form.subTitle, {
+            'attr': {
+                'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500'
+            }
+        }) }}
+
+		<div class="text-red-500 text-sm mt-1">
+			{{ form_errors(form.subTitle) }}
+		</div>
+
+	</div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- STATUT -->
+<!-- ========================================================= -->
+
+<div class="mb-6">
+
+	{{ form_label(
+        form.statut,
+        'Statut',
+        {
+            'label_attr': {
+                'class': 'block text-sm font-medium text-gray-700 mb-1'
+            }
+        }
+    ) }}
+
+	{{ form_widget(form.statut, {
+        'attr': {
+            'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500'
+        }
+    }) }}
+
+	<div class="text-red-500 text-sm mt-1">
+		{{ form_errors(form.statut) }}
+	</div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- CONTENU SUMMERNOTE -->
+<!-- ========================================================= -->
+
+<div class="mb-6">
+
+	{{ form_label(
+        form.content,
+        'Contenu',
+        {
+            'label_attr': {
+                'class': 'block text-sm font-medium text-gray-700 mb-1'
+            }
+        }
+    ) }}
+
+	{#
+        IMPORTANT :
+        On force l'ID du textarea à podcast_content
+        afin que Summernote puisse le trouver.
+    #}
+	{{ form_widget(form.content, {
+        'attr': {
+            'id': 'podcast_content'
+        }
+    }) }}
+
+	<div class="text-red-500 text-sm mt-1">
+		{{ form_errors(form.content) }}
+	</div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- BOUTONS -->
+<!-- ========================================================= -->
+
+<div class="flex justify-end gap-4 mt-8 pt-4 border-t border-gray-200">
+
+	<a
+		href="{{ path('app_admin_podcast_index') }}"
+		class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition duration-200"
+	>
+		Annuler
+	</a>
+
+	<button
+		type="submit"
+		class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition duration-200"
+	>
+		{{ button_label|default('Enregistrer') }}
+	</button>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- MODAL LIMITE DE TAILLE -->
+<!-- ========================================================= -->
+
+<div
+	id="fileModal"
+	class="fixed inset-0 bg-modal overflow-y-auto h-full w-full hidden z-50 modal-backdrop"
+>
+
+	<div
+		id="modalContent"
+		class="relative top-1/4 mx-auto p-4 md:p-5 modal-box-shadow w-11/12 max-w-sm md:w-96 rounded-md bg-white modal-content"
+	>
+
+		<div class="flex justify-between items-start">
+
+			<img
+				src="{{ asset('build/images/icons/danger.svg') }}"
+				alt="Erreur"
+				class="w-10 h-10 md:w-12 md:h-12"
+			>
+
+			<button
+				id="close-modal-btn"
+				type="button"
+				class="text-gray-400 hover:text-gray-600 hover:cursor-pointer"
+			>
+
+				<svg
+					class="w-5 h-5 md:w-6 md:h-6"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+						clip-rule="evenodd"
+					></path>
+				</svg>
+
+			</button>
+
+		</div>
+
+
+		<div class="mt-3">
+
+			<h3
+				class="text-base md:text-lg font-medium text-gray-900"
+				id="modal-title"
+			>
+				Le fichier dépasse la taille limite
+			</h3>
+
+			<p class="text-xs md:text-sm text-gray-600 mb-4 md:mb-6">
+				Le fichier que vous avez choisi est trop grand.
+				Veuillez choisir un fichier plus petit.
+			</p>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT UPLOAD IMAGE / MEDIA -->
+<!-- ========================================================= -->
+
+<script>
+	(function () {
+		const imageInput = document.getElementById("{{ form.image.vars.id }}");
+		const mediaInput = document.getElementById("{{ form.media.vars.id }}");
+
+		const fileModal = document.getElementById("fileModal");
+		const modalTitle = document.getElementById("modal-title");
+		const closeBtn = document.getElementById("close-modal-btn");
+
+		/*
+		 * Fermeture du modal
+		 */
+		if (closeBtn && fileModal) {
+			closeBtn.addEventListener("click", function () {
+				fileModal.style.display = "none";
+				fileModal.classList.add("hidden");
+			});
+		}
+
+		/*
+		 * Fermeture du modal en cliquant à l'extérieur
+		 */
+		if (fileModal) {
+			fileModal.addEventListener("click", function (event) {
+				if (event.target === fileModal) {
+					fileModal.style.display = "none";
+					fileModal.classList.add("hidden");
+				}
+			});
+		}
+
+		/*
+		 * =========================================================
+		 * IMAGE
+		 * =========================================================
+		 */
+
+		if (imageInput) {
+			imageInput.addEventListener("change", function (event) {
+				const file = event.target.files[0];
+
+				if (!file) {
+					return;
+				}
+
+				if (!file.type.startsWith("image/")) {
+					return;
+				}
+
+				const fileSizeMB = file.size / (1024 * 1024);
+
+				/*
+				 * Limite : 5 MB
+				 */
+				if (fileSizeMB >= 5) {
+					const validIcon = document.getElementById("image-img-valid");
+
+					if (validIcon) {
+						validIcon.style.display = "none";
+					}
+
+					if (modalTitle) {
+						modalTitle.textContent =
+							"L'image dépasse la taille limite de 5Mo";
+					}
+
+					if (fileModal) {
+						fileModal.style.display = "block";
+						fileModal.classList.remove("hidden");
+					}
+
+					imageInput.value = "";
+
+					return;
+				}
+
+				/*
+				 * Aperçu de l'image
+				 */
+				const reader = new FileReader();
+
+				reader.onload = function (e) {
+					const preview = document.getElementById("image-preview");
+
+					if (preview) {
+						preview.src = e.target.result;
+					}
+				};
+
+				reader.readAsDataURL(file);
+
+				/*
+				 * Nom du fichier
+				 */
+				const fileName = document.getElementById("image-file-name");
+
+				if (fileName) {
+					fileName.textContent = file.name;
+				}
+
+				/*
+				 * Taille du fichier
+				 */
+				const fileSize = document.getElementById("image-file-size");
+
+				if (fileSize) {
+					fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`;
+				}
+
+				/*
+				 * Icône validation
+				 */
+				const validIcon = document.getElementById("image-img-valid");
+
+				if (validIcon) {
+					validIcon.style.display = "block";
+				}
+			});
+		}
+
+		/*
+		 * =========================================================
+		 * MEDIA AUDIO / VIDEO
+		 * =========================================================
+		 */
+
+		if (mediaInput) {
+			mediaInput.addEventListener("change", function (event) {
+				const file = event.target.files[0];
+
+				if (!file) {
+					return;
+				}
+
+				const fileSizeMB = file.size / (1024 * 1024);
+
+				/*
+				 * Limite : 50 MB
+				 */
+				if (fileSizeMB >= 50) {
+					const validIcon = document.getElementById("media-img-valid");
+
+					if (validIcon) {
+						validIcon.style.display = "none";
+					}
+
+					if (modalTitle) {
+						modalTitle.textContent =
+							"Le média dépasse la taille limite de 50Mo";
+					}
+
+					if (fileModal) {
+						fileModal.style.display = "block";
+						fileModal.classList.remove("hidden");
+					}
+
+					mediaInput.value = "";
+
+					return;
+				}
+
+				/*
+				 * Nom du fichier
+				 */
+				const fileName = document.getElementById("media-file-name");
+
+				if (fileName) {
+					fileName.textContent = file.name;
+				}
+
+				/*
+				 * Taille du fichier
+				 */
+				const fileSize = document.getElementById("media-file-size");
+
+				if (fileSize) {
+					fileSize.textContent = `Size: ${fileSizeMB.toFixed(2)} MB`;
+				}
+
+				/*
+				 * Icône validation
+				 */
+				const validIcon = document.getElementById("media-img-valid");
+
+				if (validIcon) {
+					validIcon.style.display = "block";
+				}
+			});
+		}
+	})();
+</script>
+
+
+{{ form_row(form._token) }}
+
+{{ form_end(form, {'render_rest': false}) }}

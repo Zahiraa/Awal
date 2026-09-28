@@ -40,6 +40,9 @@ class Author
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biography = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isContribitor = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -137,6 +140,18 @@ class Author
     public function setBiography(?string $biography): static
     {
         $this->biography = $biography;
+
+        return $this;
+    }
+
+    public function isContribitor(): ?bool
+    {
+        return $this->isContribitor;
+    }
+
+    public function setIsContribitor(?bool $isContribitor): static
+    {
+        $this->isContribitor = $isContribitor;
 
         return $this;
     }

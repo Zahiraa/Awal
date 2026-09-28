@@ -1,0 +1,80 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Podcast
+{% endblock %}
+
+{% block content %}
+	<div class="px-4 md:px-0">
+		<div class="mb-6">
+			<h1 class="text-2xl font-bold text-gray-800">{{ podcast.title }}</h1>
+			<hr class="text-gray-300 my-2">
+		</div>
+
+		<div
+			class="bg-white rounded-lg shadow-sm overflow-hidden">
+			<!-- Image Section -->
+			{% if podcast.image %}
+				<div class="p-6 border-b border-gray-200">
+					<h2 class="text-lg font-semibold text-gray-900 mb-4">Image</h2>
+					<div class="flex justify-center">
+						<img src="{{ '/uploads/' ~ podcast.image.name }}" alt="{{ podcast.title }}" class="max-w-md h-auto rounded-lg shadow-sm">
+					</div>
+				</div>
+			{% endif %}
+
+			<!-- Content Section -->
+			<div class="p-6">
+				<h2 class="text-lg font-semibold text-gray-900 mb-4">Détails du podcast</h2>
+
+				<dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div>
+						<dt class="text-sm font-medium text-gray-500">Titre</dt>
+						<dd class="mt-1 text-sm text-gray-900">{{ podcast.title }}</dd>
+					</div>
+
+					<div>
+						<dt class="text-sm font-medium text-gray-500">Sous-titre</dt>
+						<dd class="mt-1 text-sm text-gray-900">{{ podcast.subTitle }}</dd>
+					</div>
+
+					<div>
+						<dt class="text-sm font-medium text-gray-500">Statut</dt>
+						<dd class="mt-1 text-sm text-gray-900">
+							{% if podcast.statut == 'published' %}
+								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Publié</span>
+							{% elseif podcast.statut == 'draft' %}
+								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Brouillon</span>
+							{% elseif podcast.statut == 'waiting_approval' %}
+								<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">En attente</span>
+							{% else %}
+								<span class="inline-flex px-2.5 py-0.5 rounded-full text-xs bg-gray-100 text-gray-800">{{ podcast.statut }}</span>
+							{% endif %}
+						</dd>
+					</div>
+
+					<div class="md:col-span-2">
+						<dt class="text-sm font-medium text-gray-500">Contenu</dt>
+						<dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{{ podcast.content|raw }}</dd>
+					</div>
+
+					<div>
+						<dt class="text-sm font-medium text-gray-500">Date de création</dt>
+						<dd class="mt-1 text-sm text-gray-900">{{ podcast.createdAt is defined and podcast.createdAt ? podcast.createdAt|date('d/m/Y à H:i') : 'Non définie' }}</dd>
+					</div>
+				</dl>
+			</div>
+
+			<!-- Actions -->
+			<div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+				<div class="flex justify-end gap-4">
+					<a href="{{ path('app_admin_podcast_index') }}" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition duration-200">
+						Retour à la liste
+					</a>
+					<a href="{{ path('app_admin_podcast_edit', {'id': podcast.id}) }}" class="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition duration-200">
+						Modifier
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

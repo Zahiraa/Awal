@@ -54,4 +54,32 @@ class AuthorRepository extends ServiceEntityRepository
 
         return $queryBuilder;
     }
+
+    public function findAuthorsWithPublishedArticlesInCurrentMonth(): array
+    {
+        $now = new \DateTime();
+        $startOfMonth = (clone $now)->modify('first day of this month')->setTime(0, 0, 0);
+        $endOfMonth = (clone $now)->modify('last day of this month')->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('a')
+            ->join('a.articles', 'art')
+            ->where('art.statut = :status')
+            ->andWhere('art.createdAt BETWEEN :start AND :end')
+            ->setParameter('status', \App\Entity\Article::STATUT_PUBLISHED)
+            ->setParameter('start', $startOfMonth)
+            ->setParameter('end', $endOfMonth)
+            ->groupBy('a.id')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllContributors(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.isContribitor = :true')
+            ->setParameter('true', true)
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -228,7 +228,7 @@
 
 body {
   background-color: white;
-  font-family: "Inter", sans-serif;
+  font-family: "Amiri", sans-serif;
 }
 
 .hero-image {
@@ -503,7 +503,7 @@ body {
   color: #e11d48;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
+  font-family: "Amiri", "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
   font-size: 0.875rem;
   font-weight: 500;
 }
